@@ -1,0 +1,16 @@
+workspace:
+  base: /go
+  path: src/github.com/brianfoshee/cli
+
+pipeline:
+  test:
+    image: golang:1.10.3-alpine
+    environment:
+    secrets:
+    commands:
+      - go test ./...
+    when:
+      event: [push, pull_request]
+
+# Only trigger push events on master branch
+branches: master
