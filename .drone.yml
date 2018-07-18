@@ -8,6 +8,7 @@ pipeline:
     environment:
     secrets:
     commands:
+      - go get ./...
       - go test ./...
     when:
       event: [push, pull_request]
