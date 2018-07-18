@@ -1,6 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"log"
+	"path/filepath"
+)
 
 func main() {
 	fmt.Println("publishing")
@@ -25,10 +29,26 @@ func main() {
 	//		separate frontmatter (yaml) & markdown
 	//		validate frontmatter contains all required fields
 	//		convert markdown into html
-	//		if draft is set to true, add to drafts array
-	//		otherwise add to published array
+	// if drafts flag is true, put draft posts in the feeds
 	// generate main feed of latest 10 posts
+	// generate page 2 etc feed from other groups of 10
 	// generate archive feeds eg 2018/feb 2018/march etc
 	// push to B2
 	// bust cloudflare cache
+
+	postsCh := make(chan cli.Post)
+
+	go func() {
+		for p := range postsCh {
+			log.Printf("%s", p.Title)
+		}
+	}()
+
+	if err := filepath.Walk("./", cli.postWalker(postsCh)); err != nil {
+		log.Println("error walking path: ", err)
+		return
+	}
+
+	// this works as long as file processing isn't happening in goroutines
+	close(postsCh)
 }
