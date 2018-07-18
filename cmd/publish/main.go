@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"log"
 	"path/filepath"
+
+	"github.com/brianfoshee/cli"
 )
 
 func main() {
@@ -44,7 +46,7 @@ func main() {
 		}
 	}()
 
-	if err := filepath.Walk("./", cli.postWalker(postsCh)); err != nil {
+	if err := filepath.Walk("./", cli.PostWalker(postsCh)); err != nil {
 		log.Println("error walking path: ", err)
 		return
 	}

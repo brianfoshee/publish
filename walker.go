@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func postWalker(ch chan Post) filepath.WalkFunc {
+func PostWalker(ch chan Post) filepath.WalkFunc {
 	return func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			log.Printf("error accessing path %s: %v\n", info.Name(), err)
