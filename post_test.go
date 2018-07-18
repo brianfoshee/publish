@@ -34,3 +34,53 @@ draft: true`
 		t.Errorf("draft expected %v got %v", true, p.Draft)
 	}
 }
+
+// TODO read this in from files
+func TestPostParseMarkdown(t *testing.T) {
+	t.Parallel()
+
+	md := `
+Today is my last day at The New York Times. Working here for the last two years
+has been the most incredible experience of my career up to this point. I have
+learned so much, I have grown as a person and as an engineer, and I have worked
+with the best damn team that I could have asked for. I will miss you all
+greatly.
+
+Tomorrow I get to start an adventure that I have wanted to go on for many years.
+I've waited for this, preparing financially and professionally for the day that
+I would feel comfortable leaving a steady income and jumping into a big unknown.
+I will be traveling for most of the year with few concrete plans, which is
+exciting and scary and I can't wait.
+
+If you want to follow along I will be posting regular updated here and on my
+[Instagram][ig] and [YouTube][yt] accounts!
+
+[ig]: https://www.instagram.com/brianfoshee/
+[yt]: https://www.youtube.com/channel/UCCnxocnbh74guQll8yqWGUA
+	`
+
+	expected := `<p>Today is my last day at The New York Times. Working here for the last two years
+has been the most incredible experience of my career up to this point. I have
+learned so much, I have grown as a person and as an engineer, and I have worked
+with the best damn team that I could have asked for. I will miss you all
+greatly.</p>
+
+<p>Tomorrow I get to start an adventure that I have wanted to go on for many years.
+I&rsquo;ve waited for this, preparing financially and professionally for the day that
+I would feel comfortable leaving a steady income and jumping into a big unknown.
+I will be traveling for most of the year with few concrete plans, which is
+exciting and scary and I can&rsquo;t wait.</p>
+
+<p>If you want to follow along I will be posting regular updated here and on my
+<a href="https://www.instagram.com/brianfoshee/">Instagram</a> and <a href="https://www.youtube.com/channel/UCCnxocnbh74guQll8yqWGUA">YouTube</a> accounts!</p>
+`
+
+	var p Post
+	if err := p.ParseMarkdown([]byte(md)); err != nil {
+		t.Fatal("error parsing markdown", err)
+	}
+
+	if p.Body != expected {
+		t.Fatalf("body expected %q\ngot %q", expected, p.Body)
+	}
+}

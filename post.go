@@ -3,6 +3,7 @@ package cli
 import (
 	"time"
 
+	blackfriday "gopkg.in/russross/blackfriday.v2"
 	yaml "gopkg.in/yaml.v2"
 )
 
@@ -16,9 +17,11 @@ type Post struct {
 }
 
 func (p *Post) ParseYAML(b []byte) error {
-	err := yaml.Unmarshal(b, p)
-	if err != nil {
-		return err
-	}
+	return yaml.Unmarshal(b, p)
+}
+
+func (p *Post) ParseMarkdown(b []byte) error {
+	output := blackfriday.Run(b)
+	p.Body = string(output)
 	return nil
 }
