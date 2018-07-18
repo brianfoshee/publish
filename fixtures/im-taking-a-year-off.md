@@ -16,7 +16,8 @@ I would feel comfortable leaving a steady income and jumping into a big unknown.
 I will be traveling for most of the year with few concrete plans, which is
 exciting and scary and I can't wait.
 
-If you want to follow along I will be posting regular updates here and on my <a
-href='https://www.instagram.com/brianfoshee/'>Instagram</a> and <a
-href='https://www.youtube.com/channel/UCCnxocnbh74guQll8yqWGUA'>YouTube</a>
-accounts!
+If you want to follow along I will be posting regular updated here and on my
+[Instagram][ig] and [YouTube][yt] accounts!
+
+[ig]: https://www.instagram.com/brianfoshee/
+[yt]: https://www.youtube.com/channel/UCCnxocnbh74guQll8yqWGUA
