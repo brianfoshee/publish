@@ -1,6 +1,8 @@
 package cli
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestPostYAMLParse(t *testing.T) {
 	t.Parallel()
@@ -82,5 +84,16 @@ exciting and scary and I can&rsquo;t wait.</p>
 
 	if p.Body != expected {
 		t.Fatalf("body expected %q\ngot %q", expected, p.Body)
+	}
+}
+
+func TestPostParseFile(t *testing.T) {
+	var p Post
+	if err := p.processFile("fixtures/im-taking-a-year-off.md"); err != nil {
+		t.Fatal("error processing file", err)
+	}
+
+	if p.Title != "I'm Taking a Year Off" {
+		t.Fatalf("title expected %q, got %q", "I'm Taking a Year Off", p.Title)
 	}
 }
