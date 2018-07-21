@@ -13,9 +13,6 @@ import (
 
 // output directory format
 // dist -|
-//		drafts.json
-//		drafts -|
-//			   one-week-off-grid.json
 //		posts.json
 //		posts -|
 //			   im-taking-a-year-off.json
@@ -25,6 +22,8 @@ import (
 //					    2018 -|
 //							 february.json
 //							 march.json
+//			   page -|
+//						2.json
 
 // check for dist folder, create it if it doesn't exist
 // read all md files in current folder (recursive)
@@ -33,6 +32,7 @@ import (
 //		convert markdown into html
 // if drafts flag is true, put draft posts in the feeds
 // generate main feed of latest 10 posts
+// generate individual post files
 // generate page 2 etc feed from other groups of 10
 // generate archive feeds eg 2018/feb 2018/march etc
 // push to B2
@@ -84,32 +84,31 @@ func main() {
 		return
 	}
 	defer f.Close()
-	if err := json.NewEncoder(f).Encode(base{posts}); err != nil {
+	if err := json.NewEncoder(f).Encode(base{posts[:10]}); err != nil {
 		log.Println("error encoding posts", err)
 		return
 	}
 }
 
+// to satisfy JSONAPI
 type dataPost struct {
 	Type       string   `json:"type"`
 	ID         string   `json:"id"`
 	Attributes cli.Post `json:"attributes"`
 }
 
+// base is the base JSONAPI for either arrays or individual structs
 type base struct {
 	Data interface{} `json:"data"`
 }
 
+// dataPosts is a type to use with sort.Sort etc
 type dataPosts []dataPost
 
-func (d dataPosts) Len() int {
-	return len(d)
-}
+func (d dataPosts) Len() int { return len(d) }
 
 func (d dataPosts) Less(i, j int) bool {
 	return d[i].Attributes.PublishedAt.Before(d[j].Attributes.PublishedAt)
 }
 
-func (d dataPosts) Swap(i, j int) {
-	d[i], d[j] = d[j], d[i]
-}
+func (d dataPosts) Swap(i, j int) { d[i], d[j] = d[j], d[i] }
