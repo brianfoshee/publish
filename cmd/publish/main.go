@@ -1,10 +1,12 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
-	"fmt"
 	"log"
+	"os"
 	"path/filepath"
+	"sort"
 
 	"github.com/brianfoshee/cli"
 )
@@ -38,25 +40,76 @@ import (
 
 func main() {
 	path := flag.String("path", "./", "Path with blog post markdown files")
+	// drafts := flag.Bool("drafts", false, "Include drafts in generated feeds")
 	flag.Parse()
-
-	fmt.Println("publishing")
 
 	postsCh := make(chan cli.Post)
 
 	go func() {
-		for p := range postsCh {
-			if !p.Draft {
-				log.Printf("%s", p.Title)
-			}
+		if err := filepath.Walk(*path, cli.PostWalker(postsCh)); err != nil {
+			log.Println("error walking path: ", err)
+			return
 		}
+		// this works as long as file processing isn't happening in goroutines
+		close(postsCh)
 	}()
 
-	if err := filepath.Walk(*path, cli.PostWalker(postsCh)); err != nil {
-		log.Println("error walking path: ", err)
-		return
+	var posts dataPosts
+	for p := range postsCh {
+		if !p.Draft {
+			d := dataPost{
+				Type:       "posts",
+				ID:         p.Slug,
+				Attributes: p,
+			}
+			posts = append(posts, d)
+			f, err := os.Create("dist/posts/" + p.Slug + ".json")
+			if err != nil {
+				log.Printf("could not open file for post %q: %s", p.Slug, err)
+			}
+			defer f.Close()
+			if err := json.NewEncoder(f).Encode(base{d}); err != nil {
+				log.Printf("error encoding post to json %s: %s", p.Slug, err)
+			}
+		}
 	}
 
-	// this works as long as file processing isn't happening in goroutines
-	close(postsCh)
+	sort.Sort(sort.Reverse(posts))
+
+	// write out posts.json feed
+	// TODO only 10 latest posts
+	f, err := os.Create("dist/posts.json")
+	if err != nil {
+		log.Println("could not open posts.json", err)
+		return
+	}
+	defer f.Close()
+	if err := json.NewEncoder(f).Encode(base{posts}); err != nil {
+		log.Println("error encoding posts", err)
+		return
+	}
+}
+
+type dataPost struct {
+	Type       string   `json:"type"`
+	ID         string   `json:"id"`
+	Attributes cli.Post `json:"attributes"`
+}
+
+type base struct {
+	Data interface{} `json:"data"`
+}
+
+type dataPosts []dataPost
+
+func (d dataPosts) Len() int {
+	return len(d)
+}
+
+func (d dataPosts) Less(i, j int) bool {
+	return d[i].Attributes.PublishedAt.Before(d[j].Attributes.PublishedAt)
+}
+
+func (d dataPosts) Swap(i, j int) {
+	d[i], d[j] = d[j], d[i]
 }

@@ -12,12 +12,12 @@ import (
 )
 
 type Post struct {
-	Title       string
-	Slug        string
-	Description string
-	Draft       bool
-	PublishedAt time.Time `yaml:"published-at"`
-	Body        string    `yaml:"-"` // should this be byte?
+	Title       string    `json:"title"`
+	Slug        string    `json:"id"`
+	Description string    `json:"description"`
+	Draft       bool      `json:"draft"`
+	PublishedAt time.Time `json:"published-at" yaml:"published-at"`
+	Body        string    `json:"body", yaml:"-"` // should this be byte?
 }
 
 // TODO validate
