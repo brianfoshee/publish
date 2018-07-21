@@ -10,22 +10,24 @@ import (
 func PostWalker(ch chan Post) filepath.WalkFunc {
 	return func(path string, info os.FileInfo, err error) error {
 		if err != nil {
-			log.Printf("error accessing path %s: %v\n", info.Name(), err)
+			log.Printf("error accessing path %s: %v\n", path, err)
 			return err
 		}
 
-		// nothing needs to happen with directories
-		if info.IsDir() {
+		// nothing needs to happen with directories or hidden things
+		if info.IsDir() ||
+			strings.Contains(path, ".git") ||
+			info.Name() == ".DS_Store" ||
+			info.Name() == "README.md" {
 			return nil
 		}
 
-		if strings.HasSuffix(".md", info.Name()) {
-			log.Printf("opening file %s\n", info.Name())
+		if strings.HasSuffix(info.Name(), ".md") {
 			var p Post
 			err := p.processFile(path)
 			if err != nil {
 				log.Printf("error processing file %s: %v", path, err)
-				return err
+				return nil
 			}
 			ch <- p
 		}
