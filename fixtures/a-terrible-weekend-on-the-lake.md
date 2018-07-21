@@ -1,16 +1,15 @@
-slug: a-terrible-day-on-the-lake
+slug: a-terrible-weekend-on-the-lake
 title: A Terrible Weekend On The Lake
 published-at: 2018-06-15
 description: A man drowned near my family's lake house and I was there to experience the event and the recovery effort.
 draft: true
 ---
-
 A quick preface/disclaimer/warning: I put this post together from a few of my
 journal entries. They were written in near real-time while I was experiencing
 the death of a man who I didn't know. He died near my family's lake house last
 weekend, where I've been spending this summer.
 
-<h3>Saturday, 9 June 2018</h3>
+### Saturday, 9 June 2018
 Saturday started out like any other day. I woke up around 9:30A.M., took a
 shower, ate breakfast, and read in my hammock on the dock. After eating a late
 lunch I went back down to the dock to shave my head. When I got there I noticed
@@ -98,7 +97,7 @@ when they got to our dock.
 I met Zach, he went kayaking with him three weeks ago.
 
 I met her cousin. She was thankful we let the family sit on our porch, which was
-out of eyesight of the local media who had arrived.
+out of eyesight of the [local media][walb] who had arrived.
 
 Police tape was strung across our yard and into Melinda's yard, on the side of
 our house facing the road. The Sheriff's Command Center RV was parked in our
@@ -116,7 +115,7 @@ be there all night. The rental pontoon boat was tied up to the end of our dock.
 I didn't sleep well that night. I was mostly up thinking through too many what-if
 scenarios.
 
-<h3>Sunday, 10 June 2018 </h3>
+### Sunday, 10 June 2018
 
 Price and I went for a walk, maybe around 10A.M. When we were out we heard and
 then saw a helicopter flying up and down the shoreline of the lake and then back
@@ -150,7 +149,7 @@ day. Price and I went back up to the house, and to take our minds off things we
 watched a Tig Notaro standup on Netflix. I barely made it through without
 falling asleep. I slept like a rock that night.
 
-<h3>Monday, 11 June 2018 </h3>
+### Monday, 11 June 2018
 
 On Monday morning around 8A.M. Price and I were sitting on the porch swing. The
 emergency personnel were just getting started for the day. The helicopter was

@@ -25,6 +25,14 @@ func TestPostParseFile(t *testing.T) {
 			PublishedAt: time.Date(2018, 5, 4, 0, 0, 0, 0, time.UTC),
 			Draft:       false,
 		},
+		{
+			File:        "fixtures/a-terrible-weekend-on-the-lake",
+			Title:       "A Terrible Weekend On The Lake",
+			Slug:        "a-terrible-weekend-on-the-lake",
+			Description: "A man drowned near my family's lake house and I was there to experience the event and the recovery effort.",
+			PublishedAt: time.Date(2018, 6, 15, 0, 0, 0, 0, time.UTC),
+			Draft:       true,
+		},
 	}
 
 	for _, c := range cases {
@@ -67,5 +75,4 @@ func TestPostParseFile(t *testing.T) {
 			}
 		})
 	}
-
 }
