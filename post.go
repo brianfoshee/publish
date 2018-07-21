@@ -17,7 +17,7 @@ type Post struct {
 	Description string    `json:"description"`
 	Draft       bool      `json:"draft"`
 	PublishedAt time.Time `json:"published-at" yaml:"published-at"`
-	Body        string    `json:"body", yaml:"-"` // should this be byte?
+	Body        string    `json:"body", yaml:"-"`
 }
 
 // TODO validate
