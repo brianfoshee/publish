@@ -20,11 +20,12 @@ type Post struct {
 	Body        string    `yaml:"-"` // should this be byte?
 }
 
-func (p *Post) ParseYAML(b []byte) error {
+// TODO validate
+func (p *Post) parseYAML(b []byte) error {
 	return yaml.Unmarshal(b, p)
 }
 
-func (p *Post) ParseMarkdown(b []byte) error {
+func (p *Post) parseMarkdown(b []byte) error {
 	output := blackfriday.Run(b)
 	p.Body = string(output)
 	return nil
@@ -51,11 +52,11 @@ func (p *Post) processFile(name string) error {
 	md := arr[1]
 
 	// validate frontmatter contains all required fields
-	if err := p.ParseYAML([]byte(fm)); err != nil {
+	if err := p.parseYAML([]byte(fm)); err != nil {
 		return err
 	}
 	// convert markdown into html
-	if err := p.ParseMarkdown([]byte(md)); err != nil {
+	if err := p.parseMarkdown([]byte(md)); err != nil {
 		return err
 	}
 
