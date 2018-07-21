@@ -1,7 +1,7 @@
 slug: im-taking-a-year-off
 title: I'm Taking a Year Off
-description: I left my job at The New York Times to travel for a year.
-published-at: 2018-05-04T17:00:00Z
+description: I left my job writing software at The New York Times to travel for a year.
+published-at: 2018-05-04
 draft: false
 ---
 Today is my last day at The New York Times. Working here for the last two years

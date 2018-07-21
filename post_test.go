@@ -1,99 +1,71 @@
 package cli
 
 import (
+	"io/ioutil"
+	"os"
 	"testing"
+	"time"
 )
 
-func TestPostYAMLParse(t *testing.T) {
-	t.Parallel()
-
-	y := `
-slug: one-week-off-grid
-title: One Week Off-Grid
-published-at: 2018-06-12
-description: I turned off my computer and phone for a week to reboot my technology habits.
-draft: true`
-
-	var p Post
-	if err := p.ParseYAML([]byte(y)); err != nil {
-		t.Fatal("error parsing yaml:", err)
-	}
-	if p.Slug != "one-week-off-grid" {
-		t.Errorf("slug expected %q, got %q", "one-week-off-grid", p.Slug)
-	}
-	if p.Title != "One Week Off-Grid" {
-		t.Errorf("title expected %q, got %q", "One Week Off-Grid", p.Title)
-	}
-	ed := "I turned off my computer and phone for a week to reboot my technology habits."
-	if p.Description != ed {
-		t.Errorf("description expected %q, got %q", ed, p.Description)
-	}
-	if p.PublishedAt.Year() != 2018 || p.PublishedAt.Month() != 6 ||
-		p.PublishedAt.Day() != 12 {
-		t.Errorf("publishedAt expected 2018-06-12 got %s", p.PublishedAt.Format("2006-01-02"))
-	}
-	if p.Draft != true {
-		t.Errorf("draft expected %v got %v", true, p.Draft)
-	}
-}
-
-// TODO read this in from files
-func TestPostParseMarkdown(t *testing.T) {
-	t.Parallel()
-
-	md := `
-Today is my last day at The New York Times. Working here for the last two years
-has been the most incredible experience of my career up to this point. I have
-learned so much, I have grown as a person and as an engineer, and I have worked
-with the best damn team that I could have asked for. I will miss you all
-greatly.
-
-Tomorrow I get to start an adventure that I have wanted to go on for many years.
-I've waited for this, preparing financially and professionally for the day that
-I would feel comfortable leaving a steady income and jumping into a big unknown.
-I will be traveling for most of the year with few concrete plans, which is
-exciting and scary and I can't wait.
-
-If you want to follow along I will be posting regular updated here and on my
-[Instagram][ig] and [YouTube][yt] accounts!
-
-[ig]: https://www.instagram.com/brianfoshee/
-[yt]: https://www.youtube.com/channel/UCCnxocnbh74guQll8yqWGUA
-	`
-
-	expected := `<p>Today is my last day at The New York Times. Working here for the last two years
-has been the most incredible experience of my career up to this point. I have
-learned so much, I have grown as a person and as an engineer, and I have worked
-with the best damn team that I could have asked for. I will miss you all
-greatly.</p>
-
-<p>Tomorrow I get to start an adventure that I have wanted to go on for many years.
-I&rsquo;ve waited for this, preparing financially and professionally for the day that
-I would feel comfortable leaving a steady income and jumping into a big unknown.
-I will be traveling for most of the year with few concrete plans, which is
-exciting and scary and I can&rsquo;t wait.</p>
-
-<p>If you want to follow along I will be posting regular updated here and on my
-<a href="https://www.instagram.com/brianfoshee/">Instagram</a> and <a href="https://www.youtube.com/channel/UCCnxocnbh74guQll8yqWGUA">YouTube</a> accounts!</p>
-`
-
-	var p Post
-	if err := p.ParseMarkdown([]byte(md)); err != nil {
-		t.Fatal("error parsing markdown", err)
-	}
-
-	if p.Body != expected {
-		t.Fatalf("body expected %q\ngot %q", expected, p.Body)
-	}
-}
-
 func TestPostParseFile(t *testing.T) {
-	var p Post
-	if err := p.processFile("fixtures/im-taking-a-year-off.md"); err != nil {
-		t.Fatal("error processing file", err)
+	var cases = []struct {
+		File        string
+		Title       string
+		Slug        string
+		Description string
+		PublishedAt time.Time
+		Draft       bool
+		Body        string
+	}{
+		{
+			File:        "fixtures/im-taking-a-year-off",
+			Title:       "I'm Taking a Year Off",
+			Slug:        "im-taking-a-year-off",
+			Description: "I left my job writing software at The New York Times to travel for a year.",
+			PublishedAt: time.Date(2018, 5, 4, 0, 0, 0, 0, time.UTC),
+			Draft:       false,
+		},
 	}
 
-	if p.Title != "I'm Taking a Year Off" {
-		t.Fatalf("title expected %q, got %q", "I'm Taking a Year Off", p.Title)
+	for _, c := range cases {
+		c := c
+		t.Run(c.File, func(t *testing.T) {
+			var p Post
+			if err := p.processFile(c.File + ".md"); err != nil {
+				t.Fatal("error processing md file", err)
+			}
+
+			if p.Title != c.Title {
+				t.Fatalf("title expected %q, got %q", c.Title, p.Title)
+			}
+			if p.Slug != c.Slug {
+				t.Errorf("slug expected %q, got %q", c.Slug, p.Slug)
+			}
+			if p.Description != c.Description {
+				t.Errorf("description expected %q, got %q", c.Description, p.Description)
+			}
+			if !p.PublishedAt.Equal(c.PublishedAt) {
+				t.Errorf("publishedAt expected %q got %q", c.PublishedAt.Format("2006-01-02"), p.PublishedAt.Format("2006-01-02"))
+			}
+			if p.Draft != c.Draft {
+				t.Errorf("draft expected %v got %v", c.Draft, p.Draft)
+			}
+
+			f, err := os.Open(c.File + ".html")
+			if err != nil {
+				t.Fatal("error opening html file", err)
+			}
+			defer f.Close()
+
+			b, err := ioutil.ReadAll(f)
+			if err != nil {
+				t.Fatal("error reading all of html file", err)
+			}
+
+			if p.Body != string(b) {
+				t.Fatalf("body expected %q\ngot %q", string(b), p.Body)
+			}
+		})
 	}
+
 }
