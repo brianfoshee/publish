@@ -36,7 +36,6 @@ func TestPostParseFile(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		c := c
 		t.Run(c.File, func(t *testing.T) {
 			var p Post
 			if err := p.processFile(c.File + ".md"); err != nil {
