@@ -24,6 +24,7 @@ func main() {
 	path := flag.String("path", "./", "Path with blog post markdown files")
 	drafts := flag.Bool("drafts", false, "Include drafts in generated feeds")
 	clean := flag.Bool("clean", false, "Remove generated files")
+	build := flag.Bool("build", false, "Only generate files locally. No uploading.")
 	flag.Parse()
 
 	if *clean {
@@ -110,19 +111,43 @@ func main() {
 		f.Close()
 	}
 
-	// create archives
-	// TODO make archives of each year
-	archives := map[string]dataPosts{}
+	// create archives. Feed for each year, and feed for each month of each year.
+	monthArchives := map[string]dataPosts{}
+	yearArchives := map[string]dataPosts{}
 	for _, p := range posts {
-		bucket := p.Attributes.PublishedAt.Format("2006-01")
-		if a, ok := archives[bucket]; ok {
-			archives[bucket] = append(a, p)
+		months := p.Attributes.PublishedAt.Format("2006-01")
+		if a, ok := monthArchives[months]; ok {
+			monthArchives[months] = append(a, p)
 		} else {
-			archives[bucket] = dataPosts{p}
+			monthArchives[months] = dataPosts{p}
+		}
+
+		years := p.Attributes.PublishedAt.Format("2006")
+		if a, ok := yearArchives[years]; ok {
+			yearArchives[years] = append(a, p)
+		} else {
+			yearArchives[years] = dataPosts{p}
 		}
 	}
 
-	for _, v := range archives {
+	for _, v := range yearArchives {
+		// no bounds check required, if there's a value for this map it means
+		// there's at least one element in it.
+		year := v[0].Attributes.PublishedAt.Year()
+		fname := fmt.Sprintf("dist/posts/archives/%d.json", year)
+
+		f, err := os.Create(fname)
+		if err != nil {
+			log.Printf("could not open %s: %s", fname, err)
+			continue
+		}
+		if err := json.NewEncoder(f).Encode(base{v}); err != nil {
+			log.Printf("error encoding archives %s: %s", fname, err)
+		}
+		f.Close()
+	}
+
+	for _, v := range monthArchives {
 		// no bounds check required, if there's a value for this map it means
 		// there's at least one element in it.
 		year := v[0].Attributes.PublishedAt.Year()
@@ -143,6 +168,11 @@ func main() {
 			log.Printf("error encoding archives %s: %s", fname, err)
 		}
 		f.Close()
+	}
+
+	// Only building, not uploading
+	if *build {
+		return
 	}
 
 	account := os.Getenv("B2_KEY_ID")
