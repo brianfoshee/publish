@@ -40,8 +40,24 @@ import (
 
 func main() {
 	path := flag.String("path", "./", "Path with blog post markdown files")
-	// drafts := flag.Bool("drafts", false, "Include drafts in generated feeds")
+	drafts := flag.Bool("drafts", false, "Include drafts in generated feeds")
+	clean := flag.Bool("clean", false, "Remove generated files")
 	flag.Parse()
+
+	if *clean {
+		if err := os.RemoveAll("./dist"); err != nil {
+			log.Println("error deleting dist directory", err)
+			os.Exit(1)
+		}
+		os.Exit(0)
+	}
+
+	if _, err := os.Stat("dist"); os.IsNotExist(err) {
+		os.Mkdir("dist", os.ModeDir|os.ModePerm)
+		os.Mkdir("dist/posts", os.ModeDir|os.ModePerm)
+		os.Mkdir("dist/posts/page", os.ModeDir|os.ModePerm)
+		os.Mkdir("dist/posts/archives", os.ModeDir|os.ModePerm)
+	}
 
 	postsCh := make(chan cli.Post)
 
@@ -56,7 +72,9 @@ func main() {
 
 	var posts dataPosts
 	for p := range postsCh {
-		if !p.Draft {
+		// add to feed if post has a Slug. If drafts flag is true, include
+		// drafts.
+		if p.Slug != "" && (*drafts || !p.Draft) {
 			d := dataPost{
 				Type:       "posts",
 				ID:         p.Slug,
@@ -77,17 +95,22 @@ func main() {
 	sort.Sort(sort.Reverse(posts))
 
 	// write out posts.json feed
-	// TODO only 10 latest posts
 	f, err := os.Create("dist/posts.json")
 	if err != nil {
 		log.Println("could not open posts.json", err)
 		return
 	}
 	defer f.Close()
-	if err := json.NewEncoder(f).Encode(base{posts[:10]}); err != nil {
+
+	mainFeed := posts
+	if len(posts) > 10 {
+		mainFeed = posts[:10]
+	}
+	if err := json.NewEncoder(f).Encode(base{mainFeed}); err != nil {
 		log.Println("error encoding posts", err)
 		return
 	}
+	// TODO make pages of > 10 posts
 }
 
 // to satisfy JSONAPI
