@@ -14,15 +14,12 @@ func PostWalker(ch chan Post) filepath.WalkFunc {
 			return err
 		}
 
-		// nothing needs to happen with directories or hidden things
-		if info.IsDir() ||
-			strings.Contains(path, ".git") ||
-			info.Name() == ".DS_Store" ||
-			info.Name() == "README.md" {
-			return nil
+		// skip git dir
+		if info.IsDir() && info.Name() == ".git" {
+			return filepath.SkipDir
 		}
 
-		if strings.HasSuffix(info.Name(), ".md") {
+		if strings.HasSuffix(info.Name(), ".md") && info.Name() != "README.md" {
 			var p Post
 			err := p.processFile(path)
 			if err != nil {
