@@ -3,7 +3,9 @@ package main
 import (
 	"encoding/json"
 	"flag"
+	"fmt"
 	"log"
+	"math"
 	"os"
 	"path/filepath"
 	"sort"
@@ -74,6 +76,7 @@ func main() {
 	for p := range postsCh {
 		// add to feed if post has a Slug. If drafts flag is true, include
 		// drafts.
+		// TODO when parsing yaml does validation, slug check won't be necessary
 		if p.Slug != "" && (*drafts || !p.Draft) {
 			d := dataPost{
 				Type:       "posts",
@@ -81,36 +84,50 @@ func main() {
 				Attributes: p,
 			}
 			posts = append(posts, d)
+
+			// create individual post file
 			f, err := os.Create("dist/posts/" + p.Slug + ".json")
 			if err != nil {
-				log.Printf("could not open file for post %q: %s", p.Slug, err)
+				log.Printf("could not create file for post %q: %s", p.Slug, err)
 			}
-			defer f.Close()
 			if err := json.NewEncoder(f).Encode(base{d}); err != nil {
+				// don't return here, keep going with the logged error.
 				log.Printf("error encoding post to json %s: %s", p.Slug, err)
 			}
+			f.Close()
 		}
 	}
 
+	// Sort posts in reverse-chron
 	sort.Sort(sort.Reverse(posts))
 
-	// write out posts.json feed
-	f, err := os.Create("dist/posts.json")
-	if err != nil {
-		log.Println("could not open posts.json", err)
-		return
-	}
-	defer f.Close()
+	// main feed is index 0-9. next page should be 10-19
+	total := len(posts)
+	pages := math.Ceil(float64(total) / 10.0)
+	log.Printf("total: %d pages: %f", total, pages)
+	for i := 1; i <= int(pages); i += 1 {
+		fname := fmt.Sprintf("dist/posts/page/%d.json", i)
+		if i == 1 {
+			fname = "dist/posts.json"
+		}
 
-	mainFeed := posts
-	if len(posts) > 10 {
-		mainFeed = posts[:10]
+		f, err := os.Create(fname)
+		if err != nil {
+			log.Printf("could not open %s", fname, err)
+			return
+		}
+
+		low := 10*i - 10
+		high := 10 * i
+		if high > total {
+			high = total
+		}
+
+		if err := json.NewEncoder(f).Encode(base{posts[low:high]}); err != nil {
+			log.Printf("error encoding posts page %d: %s", i, err)
+		}
+		f.Close()
 	}
-	if err := json.NewEncoder(f).Encode(base{mainFeed}); err != nil {
-		log.Println("error encoding posts", err)
-		return
-	}
-	// TODO make pages of > 10 posts
 }
 
 // to satisfy JSONAPI
