@@ -13,30 +13,6 @@ import (
 	"github.com/brianfoshee/cli"
 )
 
-// output directory format
-// dist -|
-//		posts.json
-//		posts -|
-//			   im-taking-a-year-off.json
-//			   archives.json
-//			   archives -|
-//						2018.json
-//					    2018 -|
-//							 february.json
-//							 march.json
-//			   page -|
-//						2.json
-
-// check for dist folder, create it if it doesn't exist
-// read all md files in current folder (recursive)
-//		separate frontmatter (yaml) & markdown
-//		validate frontmatter contains all required fields
-//		convert markdown into html
-// if drafts flag is true, put draft posts in the feeds
-// generate main feed of latest 10 posts
-// generate individual post files
-// generate page 2 etc feed from other groups of 10
-// generate archive feeds eg 2018/feb 2018/march etc
 // push to B2
 // bust cloudflare cache
 
