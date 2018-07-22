@@ -1,16 +1,20 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"flag"
 	"fmt"
+	"io"
 	"log"
 	"math"
 	"os"
 	"path/filepath"
 	"sort"
+	"strings"
 
 	"github.com/brianfoshee/cli"
+	"github.com/kurin/blazer/b2"
 )
 
 // push to B2
@@ -90,7 +94,7 @@ func main() {
 
 		f, err := os.Create(fname)
 		if err != nil {
-			log.Printf("could not open %s", fname, err)
+			log.Printf("could not open %s: %s", fname, err)
 			continue
 		}
 
@@ -139,6 +143,69 @@ func main() {
 		}
 		f.Close()
 	}
+
+	account := os.Getenv("B2_KEY_ID")
+	key := os.Getenv("B2_APPLICATION_KEY")
+
+	ctx := context.TODO()
+	c, err := b2.NewClient(ctx, account, key, b2.UserAgent("brianfoshee"))
+	if err != nil {
+		log.Println("error creating new b2 client", err)
+		os.Exit(1)
+	}
+
+	_, err = c.Bucket(ctx, "brianfoshee-cdn")
+	if err != nil {
+		log.Println("error getting brianfoshee-cdn bucket from b2 client", err)
+		os.Exit(1)
+	}
+
+	if err := filepath.Walk("dist/", func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+
+		if strings.HasSuffix(info.Name(), ".json") {
+			// get rid of everything before dist/ in path
+			parts := strings.Split(path, "dist/")
+			// destination should not have .json extension
+			cleanPath := strings.TrimSuffix(parts[1], ".json")
+			dst := fmt.Sprintf("www/v1/%s", cleanPath)
+
+			log.Printf("would have copied %q to %q", path, dst)
+
+			/*
+				if err := copyFile(ctx, bucket, path, dst); err != nil {
+					return err
+				}
+			*/
+		}
+
+		return nil
+	}); err != nil {
+		log.Println("error walking dist path:", err)
+		os.Exit(1)
+	}
+}
+
+func copyFile(ctx context.Context, bucket *b2.Bucket, src, dst string) error {
+	f, err := os.Open(src)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	obj := bucket.Object(dst)
+	w := obj.NewWriter(ctx)
+	ct := &b2.Attrs{
+		ContentType: "application/vnd.api+json",
+	}
+	b2.WithAttrsOption(ct)(w)
+	if _, err := io.Copy(w, f); err != nil {
+		w.Close()
+		return err
+	}
+	return w.Close()
 }
 
 // to satisfy JSONAPI
