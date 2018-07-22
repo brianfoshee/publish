@@ -111,6 +111,7 @@ func main() {
 	}
 
 	// create archives
+	// TODO make archives of each year
 	archives := map[string]dataPosts{}
 	for _, p := range posts {
 		bucket := p.Attributes.PublishedAt.Format("2006-01")
@@ -154,7 +155,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	_, err = c.Bucket(ctx, "brianfoshee-cdn")
+	bucket, err := c.Bucket(ctx, "brianfoshee-cdn")
 	if err != nil {
 		log.Println("error getting brianfoshee-cdn bucket from b2 client", err)
 		os.Exit(1)
@@ -172,13 +173,11 @@ func main() {
 			cleanPath := strings.TrimSuffix(parts[1], ".json")
 			dst := fmt.Sprintf("www/v1/%s", cleanPath)
 
-			log.Printf("would have copied %q to %q", path, dst)
+			log.Printf("copying %q to b2 %q", path, dst)
 
-			/*
-				if err := copyFile(ctx, bucket, path, dst); err != nil {
-					return err
-				}
-			*/
+			if err := copyFile(ctx, bucket, path, dst); err != nil {
+				return err
+			}
 		}
 
 		return nil
