@@ -8,6 +8,7 @@ import (
 	"io"
 	"log"
 	"math"
+	"net/http"
 	"os"
 	"path/filepath"
 	"sort"
@@ -17,14 +18,26 @@ import (
 	"github.com/kurin/blazer/b2"
 )
 
-// push to B2
-// bust cloudflare cache
+/*
+dist -|
+	  posts.json
+	  posts -|
+			 im-taking-a-year-off.json
+			 page -|
+				   2.json
+	  archives.json
+	  archives -|
+				2018.json
+				2018 -|
+					  february.json
+*/
 
 func main() {
 	path := flag.String("path", "./", "Path with blog post markdown files")
 	drafts := flag.Bool("drafts", false, "Include drafts in generated feeds")
 	clean := flag.Bool("clean", false, "Remove generated files")
 	build := flag.Bool("build", false, "Only generate files locally. No uploading.")
+	serve := flag.Bool("serve", false, "Serve files in dist dir.")
 	flag.Parse()
 
 	if *clean {
@@ -35,11 +48,32 @@ func main() {
 		os.Exit(0)
 	}
 
+	if *serve {
+		mw := func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Set("Access-Control-Allow-Origin", "http://localhost:4200")
+			w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
+			w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+			if r.Method == http.MethodOptions {
+				return
+			}
+
+			w.Header().Set("Content-Type", "application/vnd.api+json")
+			r.URL.Path = r.URL.Path + ".json"
+
+			http.
+				StripPrefix("/www/v1/", http.FileServer(http.Dir("dist/"))).
+				ServeHTTP(w, r)
+		}
+
+		http.HandleFunc("/www/v1/", mw)
+		http.ListenAndServe("localhost:8080", nil)
+	}
+
 	if _, err := os.Stat("dist"); os.IsNotExist(err) {
 		os.Mkdir("dist", os.ModeDir|os.ModePerm)
 		os.Mkdir("dist/posts", os.ModeDir|os.ModePerm)
 		os.Mkdir("dist/posts/page", os.ModeDir|os.ModePerm)
-		os.Mkdir("dist/posts/archives", os.ModeDir|os.ModePerm)
+		os.Mkdir("dist/archives", os.ModeDir|os.ModePerm)
 	}
 
 	postsCh := make(chan cli.Post)
@@ -72,7 +106,7 @@ func main() {
 				log.Printf("could not create file for post %q: %s", p.Slug, err)
 				continue
 			}
-			if err := json.NewEncoder(f).Encode(base{d}); err != nil {
+			if err := json.NewEncoder(f).Encode(base{Data: d}); err != nil {
 				// don't return here, keep going with the logged error.
 				log.Printf("error encoding post to json %s: %s", p.Slug, err)
 			}
@@ -105,7 +139,27 @@ func main() {
 			high = total
 		}
 
-		if err := json.NewEncoder(f).Encode(base{posts[low:high]}); err != nil {
+		next, prev := "", ""
+		if i == 1 && int(pages) > i {
+			next = fmt.Sprintf("http://localhost:4200/blog/page/2")
+		}
+		if i > 1 {
+			prev = "http://localhost:4200/blog"
+			if int(pages) > i {
+				next = fmt.Sprintf("http://localhost:4200/blog/page/%d", i)
+			}
+		}
+
+		b := base{
+			Data: posts[low:high],
+			Links: &links{
+				First: "http://localhost:4200/blog",
+				Last:  fmt.Sprintf("http://localhost:4200/blog/page/%d", int(pages)),
+				Next:  next,
+				Prev:  prev,
+			},
+		}
+		if err := json.NewEncoder(f).Encode(b); err != nil {
 			log.Printf("error encoding posts page %d: %s", i, err)
 		}
 		f.Close()
@@ -130,29 +184,13 @@ func main() {
 		}
 	}
 
-	for _, v := range yearArchives {
-		// no bounds check required, if there's a value for this map it means
-		// there's at least one element in it.
-		year := v[0].Attributes.PublishedAt.Year()
-		fname := fmt.Sprintf("dist/posts/archives/%d.json", year)
-
-		f, err := os.Create(fname)
-		if err != nil {
-			log.Printf("could not open %s: %s", fname, err)
-			continue
-		}
-		if err := json.NewEncoder(f).Encode(base{v}); err != nil {
-			log.Printf("error encoding archives %s: %s", fname, err)
-		}
-		f.Close()
-	}
-
 	for _, v := range monthArchives {
 		// no bounds check required, if there's a value for this map it means
 		// there's at least one element in it.
 		year := v[0].Attributes.PublishedAt.Year()
-		month := v[0].Attributes.PublishedAt.Month().String()
-		dir := fmt.Sprintf("dist/posts/archives/%d", year)
+		month := strings.ToLower(v[0].Attributes.PublishedAt.Month().String())
+
+		dir := fmt.Sprintf("dist/archives/%d", year)
 		fname := fmt.Sprintf("%s/%s.json", dir, month)
 
 		if _, err := os.Stat(dir); os.IsNotExist(err) {
@@ -164,7 +202,27 @@ func main() {
 			log.Printf("could not open %s: %s", fname, err)
 			continue
 		}
-		if err := json.NewEncoder(f).Encode(base{v}); err != nil {
+		if err := json.NewEncoder(f).Encode(base{Data: v}); err != nil {
+			log.Printf("error encoding archives %s: %s", fname, err)
+		}
+		f.Close()
+	}
+
+	// TODO this is wrong. It should be a list of all months in each year with posts
+	// TODO make posts/archives.json
+	// TODO make posts/archives/2018.json
+	for _, v := range yearArchives {
+		// no bounds check required, if there's a value for this map it means
+		// there's at least one element in it.
+		year := v[0].Attributes.PublishedAt.Year()
+		fname := fmt.Sprintf("dist/archives/%d.json", year)
+
+		f, err := os.Create(fname)
+		if err != nil {
+			log.Printf("could not open %s: %s", fname, err)
+			continue
+		}
+		if err := json.NewEncoder(f).Encode(base{Data: v}); err != nil {
 			log.Printf("error encoding archives %s: %s", fname, err)
 		}
 		f.Close()
@@ -196,6 +254,7 @@ func main() {
 			return err
 		}
 
+		// TODO do this concurrently
 		if strings.HasSuffix(info.Name(), ".json") {
 			// get rid of everything before dist/ in path
 			parts := strings.Split(path, "dist/")
@@ -246,7 +305,15 @@ type dataPost struct {
 
 // base is the base JSONAPI for either arrays or individual structs
 type base struct {
-	Data interface{} `json:"data"`
+	Data  interface{} `json:"data"`
+	Links *links      `json:"links,omitempty"`
+}
+
+type links struct {
+	First string `json:"first"`
+	Last  string `json:"last"`
+	Next  string `json:"next,omitempty"`
+	Prev  string `json:"prev,omitempty"`
 }
 
 // dataPosts is a type to use with sort.Sort etc
