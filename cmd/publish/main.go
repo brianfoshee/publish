@@ -141,20 +141,20 @@ func main() {
 
 		next, prev := "", ""
 		if i == 1 && int(pages) > i {
-			next = fmt.Sprintf("http://localhost:4200/blog/page/2")
+			prev = fmt.Sprintf("https://www.brianfoshee.com/blog/page/2")
 		}
 		if i > 1 {
-			prev = "http://localhost:4200/blog"
+			next = "https://www.brianfoshee.com/blog"
 			if int(pages) > i {
-				next = fmt.Sprintf("http://localhost:4200/blog/page/%d", i)
+				next = fmt.Sprintf("https://www.brianfoshee.com/blog/page/%d", i-1)
 			}
 		}
 
 		b := base{
 			Data: posts[low:high],
 			Links: &links{
-				First: "http://localhost:4200/blog",
-				Last:  fmt.Sprintf("http://localhost:4200/blog/page/%d", int(pages)),
+				First: "https://www.brianfoshee.com/blog",
+				Last:  fmt.Sprintf("https://www.brianfoshee.com/blog/page/%d", int(pages)),
 				Next:  next,
 				Prev:  prev,
 			},
