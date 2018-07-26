@@ -119,8 +119,9 @@ func main() {
 
 	// write out main feed and pages if more than 10 posts
 	// main feed is index 0-9. next page should be 10-19
+	const postsPerPage = 5
 	total := len(posts)
-	pages := math.Ceil(float64(total) / 10.0)
+	pages := math.Ceil(float64(total) / postsPerPage)
 	for i := 1; i <= int(pages); i += 1 {
 		fname := fmt.Sprintf("dist/posts/page/%d.json", i)
 		if i == 1 {
@@ -133,8 +134,8 @@ func main() {
 			continue
 		}
 
-		low := 10*i - 10
-		high := 10 * i
+		low := postsPerPage*i - postsPerPage
+		high := postsPerPage * i
 		if high > total {
 			high = total
 		}
@@ -144,16 +145,16 @@ func main() {
 			prev = fmt.Sprintf("https://www.brianfoshee.com/blog/page/2")
 		}
 		if i > 1 {
-			next = "https://www.brianfoshee.com/blog"
+			next = fmt.Sprintf("https://www.brianfoshee.com/blog/page/%d", i-1)
 			if int(pages) > i {
-				next = fmt.Sprintf("https://www.brianfoshee.com/blog/page/%d", i-1)
+				prev = fmt.Sprintf("https://www.brianfoshee.com/blog/page/%d", i+1)
 			}
 		}
 
 		b := base{
 			Data: posts[low:high],
 			Links: &links{
-				First: "https://www.brianfoshee.com/blog",
+				First: "https://www.brianfoshee.com/blog/page/1",
 				Last:  fmt.Sprintf("https://www.brianfoshee.com/blog/page/%d", int(pages)),
 				Next:  next,
 				Prev:  prev,
