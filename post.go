@@ -11,6 +11,7 @@ import (
 	yaml "gopkg.in/yaml.v2"
 )
 
+// Post is a blog post
 type Post struct {
 	Title       string    `json:"title"`
 	Slug        string    `json:"id"`
