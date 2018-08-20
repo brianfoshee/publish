@@ -24,16 +24,26 @@ dist -|
 	  posts -|
 			 im-taking-a-year-off.json
 			 page -|
+				   1.json
 				   2.json
-	  archives.json
-	  archives -|
-				2018.json
-				2018 -|
-					  february.json
+			 archives.json
+			 archives -|
+					2018.json
+					2018 -|
+						  february.json
+	  galleries.json
+	  galleries -|
+			 iceland.json
+			 page -|
+				   1.json
+				   2.json
+	  photos -|
+			 abc123.json
 */
 
 func main() {
-	path := flag.String("path", "./", "Path with blog post markdown files")
+	blogPath := flag.String("blogPath", "./", "Path with blog post markdown files")
+	//picsPath := flag.String("picPath", "./", "Path with photo gallery markdown files and images")
 	drafts := flag.Bool("drafts", false, "Include drafts in generated feeds")
 	clean := flag.Bool("clean", false, "Remove generated files")
 	build := flag.Bool("build", false, "Only generate files locally. No uploading.")
@@ -73,13 +83,13 @@ func main() {
 		os.Mkdir("dist", os.ModeDir|os.ModePerm)
 		os.Mkdir("dist/posts", os.ModeDir|os.ModePerm)
 		os.Mkdir("dist/posts/page", os.ModeDir|os.ModePerm)
-		os.Mkdir("dist/archives", os.ModeDir|os.ModePerm)
+		os.Mkdir("dist/posts/archives", os.ModeDir|os.ModePerm)
 	}
 
 	postsCh := make(chan cli.Post)
 
 	go func() {
-		if err := filepath.Walk(*path, cli.PostWalker(postsCh)); err != nil {
+		if err := filepath.Walk(*blogPath, cli.PostWalker(postsCh)); err != nil {
 			log.Println("error walking path: ", err)
 			return
 		}
@@ -191,7 +201,7 @@ func main() {
 		year := v[0].Attributes.PublishedAt.Year()
 		month := strings.ToLower(v[0].Attributes.PublishedAt.Month().String())
 
-		dir := fmt.Sprintf("dist/archives/%d", year)
+		dir := fmt.Sprintf("dist/posts/archives/%d", year)
 		fname := fmt.Sprintf("%s/%s.json", dir, month)
 
 		if _, err := os.Stat(dir); os.IsNotExist(err) {
@@ -216,7 +226,7 @@ func main() {
 		// no bounds check required, if there's a value for this map it means
 		// there's at least one element in it.
 		year := v[0].Attributes.PublishedAt.Year()
-		fname := fmt.Sprintf("dist/archives/%d.json", year)
+		fname := fmt.Sprintf("dist/posts/archives/%d.json", year)
 
 		f, err := os.Create(fname)
 		if err != nil {
