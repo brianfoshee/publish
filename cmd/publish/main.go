@@ -15,6 +15,7 @@ import (
 	"strings"
 
 	"github.com/brianfoshee/cli"
+	"github.com/brianfoshee/cli/imgur"
 	"github.com/kurin/blazer/b2"
 )
 
@@ -31,7 +32,6 @@ dist -|
 					2018.json
 					2018 -|
 						  february.json
-	  galleries.json
 	  galleries -|
 			 iceland.json
 			 page -|
@@ -42,8 +42,9 @@ dist -|
 */
 
 func main() {
-	blogPath := flag.String("blogPath", "./", "Path with blog post markdown files")
+	blogPath := flag.String("blog-path", "./", "Path with blog post markdown files")
 	//picsPath := flag.String("picsPath", "./", "Path with photo gallery markdown files and images")
+	preparePics := flag.String("prepare-pics", "./", "Path to a gallery of photos to prepare")
 	drafts := flag.Bool("drafts", false, "Include drafts in generated feeds")
 	clean := flag.Bool("clean", false, "Remove generated files")
 	build := flag.Bool("build", false, "Only generate files locally. No uploading.")
@@ -81,10 +82,27 @@ func main() {
 
 	if _, err := os.Stat("dist"); os.IsNotExist(err) {
 		os.Mkdir("dist", os.ModeDir|os.ModePerm)
+
 		os.Mkdir("dist/posts", os.ModeDir|os.ModePerm)
 		os.Mkdir("dist/posts/page", os.ModeDir|os.ModePerm)
 		os.Mkdir("dist/posts/archives", os.ModeDir|os.ModePerm)
+
+		os.Mkdir("dist/galleries", os.ModeDir|os.ModePerm)
+		os.Mkdir("dist/galleries/page", os.ModeDir|os.ModePerm)
+
+		os.Mkdir("dist/photos", os.ModeDir|os.ModePerm)
 	}
+
+	if *preparePics != "" {
+		if err := imgur.Prepare(*preparePics); err != nil {
+			log.Printf("error preparing path %s: %q", *preparePics, err)
+			os.Exit(1)
+		}
+		os.Exit(0)
+	}
+
+	// Do Post Things
+	// TODO move this into a posts package
 
 	postsCh := make(chan cli.Post)
 
