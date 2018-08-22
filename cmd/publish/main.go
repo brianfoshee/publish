@@ -40,7 +40,7 @@ dist -|
 
 func main() {
 	blogPath := flag.String("blog-path", "./", "Path with blog post markdown files")
-	//picsPath := flag.String("picsPath", "./", "Path with photo gallery markdown files and images")
+	picsPath := flag.String("pics-path", "./", "Path with photo gallery markdown files and images")
 	preparePics := flag.String("prepare-pics", "./", "Path to a gallery of photos to prepare")
 	drafts := flag.Bool("drafts", false, "Include drafts in generated feeds")
 	clean := flag.Bool("clean", false, "Remove generated files")
