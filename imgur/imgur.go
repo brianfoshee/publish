@@ -13,3 +13,6 @@ For every image, run retrobatch via command line to convert original image into 
   * get from http://flyingmeat.com/download/latest/#retrobatch
 Validate: a md file with the name of the folder exists (08/iceland-year-off/ must contain iceland-year-off.md)
 */
+
+func Build(path string, drafts bool) {
+}

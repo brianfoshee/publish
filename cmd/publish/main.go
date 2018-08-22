@@ -97,6 +97,9 @@ func main() {
 	// Do blog post building
 	blog.Build(*blogPath, *drafts)
 
+	// Do imgur building
+	imgur.Build(*picsPath, *drafts)
+
 	// Only building, not uploading
 	if *build {
 		return
