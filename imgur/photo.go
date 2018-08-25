@@ -14,14 +14,19 @@ import (
 
 type Photo struct {
 	Slug        string    `json:"id"`
-	Description string    `json:"description"`
+	Description string    `json:"description" yaml:"-"`
 	Gallery     string    `json:"gallery"`
 	CreatedAt   time.Time `json:"created-at" yaml:"created-at"`
 }
 
 func Prepare(path string) error {
 	// gallery name is taken from last element of path when separated by "/"
-	gallery := strings.Split(path, "/")[0]
+	gallery := strings.Replace(path, filepath.Dir(path)+"/", "", 1)
+
+	galleryMD := filepath.Dir(path) + "/" + gallery + ".md"
+	if !fileExists(galleryMD) {
+		// TODO: check if gallery.md file exists. If not, create it.
+	}
 
 	err := filepath.Walk(path,
 		func(path string, info os.FileInfo, err error) error {
@@ -30,13 +35,24 @@ func Prepare(path string) error {
 			}
 
 			// only work on jpg files
-			if !strings.HasSuffix(path, "JPG") {
+			ext := filepath.Ext(path)
+			if ext != "JPG" {
 				return nil
 			}
 
 			// All images should be flattened at the gallery path
 			if info.IsDir() {
 				return filepath.SkipDir
+			}
+
+			// some base variables.
+			dir, fileName := filepath.Split(path)
+			imgName := strings.Split(fileName, ".")[0]
+
+			// no need to process if a md file exists for this md file
+			mdName := dir + imgName + ".md"
+			if fileExists(mdName) {
+				return nil
 			}
 
 			// Note: if this is ever run concurrently, use sid workers?
@@ -46,8 +62,6 @@ func Prepare(path string) error {
 			}
 
 			// rename path. new filename will have sid instead of original name
-			// TODO figure out how to move over file stats
-			imgName := strings.Split(info.Name(), ".")[0]
 			nfName := strings.Replace(path, imgName, sid, 1)
 			nf, err := os.Create(nfName)
 			if err != nil {
@@ -94,4 +108,11 @@ func Prepare(path string) error {
 		})
 
 	return err
+}
+
+func fileExists(name string) bool {
+	if _, err := os.Stat(name); err == nil {
+		return true
+	}
+	return false
 }
