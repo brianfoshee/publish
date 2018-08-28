@@ -39,9 +39,9 @@ dist -|
 */
 
 func main() {
-	blogPath := flag.String("blog-path", "./", "Path with blog post markdown files")
-	picsPath := flag.String("pics-path", "./", "Path with photo gallery markdown files and images")
-	preparePics := flag.String("prepare-pics", "./", "Path to a gallery of photos to prepare")
+	blogPath := flag.String("blog-path", "", "Path with blog post markdown files")
+	imgurPath := flag.String("imgur-path", "", "Path with photo gallery markdown files and images")
+	preparePics := flag.String("prepare-pics", "", "Path to a gallery of photos to prepare")
 	drafts := flag.Bool("drafts", false, "Include drafts in generated feeds")
 	clean := flag.Bool("clean", false, "Remove generated files")
 	build := flag.Bool("build", false, "Only generate files locally. No uploading.")
@@ -78,6 +78,7 @@ func main() {
 	}
 
 	if *preparePics != "" {
+		log.Println("Preparing imgur")
 		if err := imgur.Prepare(*preparePics); err != nil {
 			log.Printf("error preparing path %s: %q", *preparePics, err)
 			os.Exit(1)
@@ -87,18 +88,28 @@ func main() {
 
 	// make sure directories are created before building
 	createDir("dist")
-	createDir("dist/posts")
-	createDir("dist/posts/page")
-	createDir("dist/posts/archives")
-	createDir("dist/galleries")
-	createDir("dist/galleries/page")
-	createDir("dist/photos")
 
 	// Do blog post building
-	blog.Build(*blogPath, *drafts)
+	if *blogPath != "" {
+		log.Println("Building blog")
+
+		createDir("dist/posts")
+		createDir("dist/posts/page")
+		createDir("dist/posts/archives")
+
+		blog.Build(*blogPath, *drafts)
+	}
 
 	// Do imgur building
-	imgur.Build(*picsPath, *drafts)
+	if *imgurPath != "" {
+		log.Println("Building imgur")
+
+		createDir("dist/galleries")
+		createDir("dist/galleries/page")
+		createDir("dist/photos")
+
+		imgur.Build(*imgurPath, *drafts)
+	}
 
 	// Only building, not uploading
 	if *build {
