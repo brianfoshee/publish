@@ -1,10 +1,14 @@
 package imgur
 
 import (
+	"encoding/json"
+	"fmt"
 	"log"
+	"math"
 	"os"
 	"path/filepath"
-	"strings"
+	"sort"
+	"time"
 )
 
 /* ***Galleries and Photos***
@@ -27,11 +31,84 @@ func Build(path string, drafts bool) {
 	go func() {
 		if err := filepath.Walk(path, imgurWalker(galleryCh)); err != nil {
 			log.Println("error walking imgur path: ", err)
-			return
 		}
 		// this works as long as file processing isn't happening in goroutines
 		close(galleryCh)
 	}()
+
+	// TODO work on photos too
+	var galleries dataGalleries
+	for g := range galleryCh {
+		// add to feed if published at is in the past
+		if time.Now().After(g.PublishedAt) || drafts {
+			d := dataGallery{
+				Type:       "galleries",
+				ID:         g.Slug,
+				Attributes: g,
+			}
+			galleries = append(galleries, d)
+
+			// create individual gallery file
+			f, err := os.Create("dist/galleries/" + g.Slug + ".json")
+			if err != nil {
+				log.Printf("could not create file for gallery %q: %s", g.Slug, err)
+				continue
+			}
+			if err := json.NewEncoder(f).Encode(base{Data: d}); err != nil {
+				// don't return here, keep going with the logged error.
+				log.Printf("error encoding gallery to json %s: %s", g.Slug, err)
+			}
+			f.Close()
+		}
+	}
+
+	// Sort galleries in reverse-chron
+	sort.Sort(sort.Reverse(galleries))
+
+	// write out main feed, and pages if more than 10 galleries
+	// main feed is index 0-9. next page should be 10-19
+	const galleriesPerPage = 5
+	total := len(galleries)
+	pages := math.Ceil(float64(total) / galleriesPerPage)
+	for i := 1; i <= int(pages); i += 1 {
+		fname := fmt.Sprintf("dist/galleries/page/%d.json", i)
+
+		f, err := os.Create(fname)
+		if err != nil {
+			log.Printf("could not open %s: %s", fname, err)
+			continue
+		}
+
+		low := galleriesPerPage*i - galleriesPerPage
+		high := galleriesPerPage * i
+		if high > total {
+			high = total
+		}
+
+		// 'next' is the next page of galleries. So page 1's next is page 2.
+		// 'prev' is the previous page of galleries. So page 2's prev is page 1.
+		next, prev := "", ""
+		if int(pages) > i {
+			prev = fmt.Sprintf("https://www.brianfoshee.com/px/page/%d", i+1)
+		}
+		if i > 1 {
+			next = fmt.Sprintf("https://www.brianfoshee.com/px/page/%d", i-1)
+		}
+
+		b := base{
+			Data: galleries[low:high],
+			Links: &links{
+				First: "https://www.brianfoshee.com/px",
+				Last:  fmt.Sprintf("https://www.brianfoshee.com/px/page/%d", int(pages)),
+				Next:  next,
+				Prev:  prev,
+			},
+		}
+		if err := json.NewEncoder(f).Encode(b); err != nil {
+			log.Printf("error encoding posts page %d: %s", i, err)
+		}
+		f.Close()
+	}
 }
 
 func imgurWalker(ch chan Gallery) filepath.WalkFunc {
@@ -47,18 +124,52 @@ func imgurWalker(ch chan Gallery) filepath.WalkFunc {
 		}
 
 		// find a base gallery directory containing md files and jpg files
-		if strings.HasSuffix(info.Name(), ".md") && info.Name() != "README.md" {
-			var g Gallery
-			/*
-				err := p.processFile(path)
-				if err != nil {
-					log.Printf("error processing file %s: %v", path, err)
-					return nil
+		if info.IsDir() {
+			_, mdname := filepath.Split(path)
+			mdname = path + "/" + mdname + ".md"
+			if _, err := os.Stat(mdname); err == nil || os.IsExist(err) {
+				var g Gallery
+				if err := g.open(mdname); err != nil {
+					return err
 				}
-			*/
-			ch <- g
+				ch <- g
+			}
+
 		}
 
 		return nil
 	}
 }
+
+// to satisfy JSONAPI
+type dataGallery struct {
+	Type       string  `json:"type"`
+	ID         string  `json:"id"`
+	Attributes Gallery `json:"attributes"`
+}
+
+// base is the base JSONAPI for either arrays or individual structs
+// TODO this is duped in blog pkg
+type base struct {
+	Data  interface{} `json:"data"`
+	Links *links      `json:"links,omitempty"`
+}
+
+// TODO this is duped in blog pkg
+type links struct {
+	First string `json:"first"`
+	Last  string `json:"last"`
+	Next  string `json:"next,omitempty"`
+	Prev  string `json:"prev,omitempty"`
+}
+
+// dataGalleries is a type to use with sort.Sort
+type dataGalleries []dataGallery
+
+func (d dataGalleries) Len() int { return len(d) }
+
+func (d dataGalleries) Less(i, j int) bool {
+	return d[i].Attributes.PublishedAt.Before(d[j].Attributes.PublishedAt)
+}
+
+func (d dataGalleries) Swap(i, j int) { d[i], d[j] = d[j], d[i] }

@@ -7,6 +7,7 @@ import (
 	"strings"
 	"time"
 
+	blackfriday "gopkg.in/russross/blackfriday.v2"
 	yaml "gopkg.in/yaml.v2"
 
 	"github.com/teris-io/shortid"
@@ -17,6 +18,16 @@ type Photo struct {
 	Description string    `json:"description" yaml:"-"`
 	Gallery     string    `json:"gallery"`
 	CreatedAt   time.Time `json:"created-at" yaml:"created-at"`
+}
+
+func (p *Photo) parseYAML(b []byte) error {
+	return yaml.Unmarshal(b, p)
+}
+
+func (p *Photo) parseMarkdown(b []byte) error {
+	output := blackfriday.Run(b)
+	p.Description = string(output)
+	return nil
 }
 
 func Prepare(path string) error {
