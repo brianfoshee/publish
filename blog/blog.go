@@ -62,9 +62,6 @@ func Build(path string, drafts bool) {
 	pages := math.Ceil(float64(total) / postsPerPage)
 	for i := 1; i <= int(pages); i += 1 {
 		fname := fmt.Sprintf("dist/posts/page/%d.json", i)
-		if i == 1 {
-			fname = "dist/posts.json"
-		}
 
 		f, err := os.Create(fname)
 		if err != nil {
@@ -79,20 +76,17 @@ func Build(path string, drafts bool) {
 		}
 
 		next, prev := "", ""
-		if i == 1 && int(pages) > i {
-			prev = fmt.Sprintf("https://www.brianfoshee.com/blog/page/2")
+		if int(pages) > i {
+			prev = fmt.Sprintf("https://www.brianfoshee.com/blog/page/%d", i+1)
 		}
 		if i > 1 {
 			next = fmt.Sprintf("https://www.brianfoshee.com/blog/page/%d", i-1)
-			if int(pages) > i {
-				prev = fmt.Sprintf("https://www.brianfoshee.com/blog/page/%d", i+1)
-			}
 		}
 
 		b := base{
 			Data: posts[low:high],
 			Links: &links{
-				First: "https://www.brianfoshee.com/px",
+				First: "https://www.brianfoshee.com/blog",
 				Last:  fmt.Sprintf("https://www.brianfoshee.com/blog/page/%d", int(pages)),
 				Next:  next,
 				Prev:  prev,
