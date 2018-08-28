@@ -92,7 +92,7 @@ func Build(path string, drafts bool) {
 		b := base{
 			Data: posts[low:high],
 			Links: &links{
-				First: "https://www.brianfoshee.com/blog/page/1",
+				First: "https://www.brianfoshee.com/px",
 				Last:  fmt.Sprintf("https://www.brianfoshee.com/blog/page/%d", int(pages)),
 				Next:  next,
 				Prev:  prev,
