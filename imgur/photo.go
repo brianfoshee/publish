@@ -2,7 +2,6 @@ package imgur
 
 import (
 	"fmt"
-	"io"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -18,10 +17,7 @@ import (
 type Photo struct {
 	Slug        string    `json:"id"`
 	Description string    `json:"description" yaml:"-"`
-	Gallery     string    `json:"gallery"`
 	CreatedAt   time.Time `json:"created-at" yaml:"created-at"`
-
-	path string // filesystem path to the image. used for copying to dist
 }
 
 func (p *Photo) parseYAML(b []byte) error {
@@ -34,29 +30,29 @@ func (p *Photo) parseMarkdown(b []byte) error {
 	return nil
 }
 
-func Prepare(path string) error {
+func Prepare(galleryPath string) error {
 	// gallery name is taken from last element of path when separated by "/"
-	gallery := strings.Replace(path, filepath.Dir(path)+"/", "", 1)
+	gallery := strings.Replace(galleryPath, filepath.Dir(galleryPath)+"/", "", 1)
 
-	galleryMD := filepath.Dir(path) + "/" + gallery + ".md"
+	galleryMD := filepath.Dir(galleryPath) + "/" + gallery + ".md"
 	if !fileExists(galleryMD) {
 		// TODO: check if gallery.md file exists. If not, create it.
 	}
 
-	err := filepath.Walk(path,
+	err := filepath.Walk(galleryPath,
 		func(path string, info os.FileInfo, err error) error {
 			if err != nil {
 				return err
 			}
 
 			// All images should be flattened at the gallery path
-			if info.IsDir() {
+			if info.IsDir() && path != galleryPath {
 				return filepath.SkipDir
 			}
 
 			// only work on jpg files
 			ext := filepath.Ext(path)
-			if ext != "JPG" {
+			if ext != ".JPG" {
 				return nil
 			}
 
@@ -64,7 +60,7 @@ func Prepare(path string) error {
 			dir, fileName := filepath.Split(path)
 			imgName := strings.Split(fileName, ".")[0]
 
-			// no need to process if a md file exists for this md file
+			// no need to process if a md file exists for this jpg file
 			mdName := dir + imgName + ".md"
 			if fileExists(mdName) {
 				return nil
@@ -78,23 +74,7 @@ func Prepare(path string) error {
 
 			// rename path. new filename will have sid instead of original name
 			nfName := strings.Replace(path, imgName, sid, 1)
-			nf, err := os.Create(nfName)
-			if err != nil {
-				return err
-			}
-			defer nf.Close()
-
-			img, err := os.Open(path)
-			if err != nil {
-				return err
-			}
-			defer img.Close()
-			if _, err := io.Copy(nf, img); err != nil {
-				return err
-			}
-
-			// Remove the original file
-			if err := os.Remove(path); err != nil {
+			if err := os.Rename(path, nfName); err != nil {
 				return err
 			}
 
@@ -102,7 +82,6 @@ func Prepare(path string) error {
 			p := &Photo{
 				CreatedAt: info.ModTime(),
 				Slug:      sid,
-				Gallery:   gallery,
 			}
 
 			fname := filepath.Dir(path) + "/" + p.Slug + ".md"
@@ -133,7 +112,6 @@ func (p *Photo) open(path string) error {
 	if !fileExists(imgPath) {
 		return fmt.Errorf("img for md file doesn't exist: %s", imgPath)
 	}
-	p.path = imgPath
 
 	f, err := os.Open(path)
 	if err != nil {
