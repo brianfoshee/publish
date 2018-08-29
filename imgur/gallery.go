@@ -14,9 +14,8 @@ import (
 )
 
 type Gallery struct {
-	Title string `json:"title"`
-	Slug  string `json:"id"`
-	// TODO change this to body and make description be a short html head description
+	Title       string    `json:"title"`
+	Slug        string    `json:"id"`
 	Description string    `json:"description" yaml:"-"` // from md
 	PublishedAt time.Time `json:"published-at" yaml:"published-at"`
 	Photos      []Photo   `json:"-" yaml:"-"`

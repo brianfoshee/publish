@@ -16,6 +16,7 @@ import (
 
 type Photo struct {
 	Slug        string    `json:"id"`
+	Title       string    `json:"title"`
 	Description string    `json:"description" yaml:"-"`
 	CreatedAt   time.Time `json:"created-at" yaml:"created-at"`
 }
