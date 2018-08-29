@@ -48,24 +48,34 @@ func Build(path string, drafts bool) {
 			}
 			galleries = append(galleries, d)
 
-			// create individual gallery file
-			f, err := os.Create("dist/galleries/" + g.Slug + ".json")
-			if err != nil {
-				log.Printf("could not create file for gallery %q: %s", g.Slug, err)
-				continue
-			}
-			if err := json.NewEncoder(f).Encode(base{Data: d}); err != nil {
-				// don't return here, keep going with the logged error.
-				log.Printf("error encoding gallery to json %s: %s", g.Slug, err)
-			}
-			f.Close()
+			photos := make([]relationshipData, len(g.Photos))
+			photosIncluded := make([]interface{}, len(g.Photos))
 
 			// create individual photo files
-			for _, p := range g.Photos {
+			for i, p := range g.Photos {
 				pd := dataPhoto{
 					Type:       "photos",
 					ID:         p.Slug,
 					Attributes: p,
+				}
+				photosIncluded[i] = pd
+				photos[i] = relationshipData{
+					ID:   p.Slug,
+					Type: "photos",
+				}
+
+				pd.Relationships = &galleryRelationships{
+					Gallery: base{
+						Data: relationshipData{
+							ID:   g.Slug,
+							Type: "galleries",
+						},
+					},
+				}
+
+				base := base{
+					Data:     pd,
+					Included: []interface{}{d},
 				}
 
 				f, err := os.Create("dist/photos/" + p.Slug + ".json")
@@ -73,12 +83,35 @@ func Build(path string, drafts bool) {
 					log.Printf("could not create file for photo %q: %s", p.Slug, err)
 					continue
 				}
-				if err := json.NewEncoder(f).Encode(base{Data: pd}); err != nil {
+				if err := json.NewEncoder(f).Encode(base); err != nil {
 					// don't return here, keep going with the logged error.
 					log.Printf("error encoding photo to json %s: %s", p.Slug, err)
 				}
 				f.Close()
 			}
+
+			d.Relationships = &photoRelationships{
+				Photos: base{
+					Data: photos,
+				},
+			}
+
+			galleryBase := base{
+				Data:     d,
+				Included: photosIncluded,
+			}
+
+			// create individual gallery file
+			f, err := os.Create("dist/galleries/" + g.Slug + ".json")
+			if err != nil {
+				log.Printf("could not create file for gallery %q: %s", g.Slug, err)
+				continue
+			}
+			if err := json.NewEncoder(f).Encode(galleryBase); err != nil {
+				// don't return here, keep going with the logged error.
+				log.Printf("error encoding gallery to json %s: %s", g.Slug, err)
+			}
+			f.Close()
 
 			// run procesing on photos
 			cmd := exec.Command(
@@ -177,22 +210,38 @@ func imgurWalker(ch chan Gallery) filepath.WalkFunc {
 
 // to satisfy JSONAPI
 type dataGallery struct {
-	Type       string  `json:"type"`
-	ID         string  `json:"id"`
-	Attributes Gallery `json:"attributes"`
+	Type          string              `json:"type"`
+	ID            string              `json:"id"`
+	Attributes    Gallery             `json:"attributes"`
+	Relationships *photoRelationships `json:"relationships,omitempty"`
+}
+
+type photoRelationships struct {
+	Photos base `json:"photos"`
 }
 
 type dataPhoto struct {
-	Type       string `json:"type"`
-	ID         string `json:"id"`
-	Attributes Photo  `json:"attributes"`
+	Type          string                `json:"type"`
+	ID            string                `json:"id"`
+	Attributes    Photo                 `json:"attributes"`
+	Relationships *galleryRelationships `json:"relationships,omitempty"`
+}
+
+type galleryRelationships struct {
+	Gallery base `json:"gallery"`
+}
+
+type relationshipData struct {
+	ID   string `json:"id"`
+	Type string `json:"type"`
 }
 
 // base is the base JSONAPI for either arrays or individual structs
 // TODO this is duped in blog pkg
 type base struct {
-	Data  interface{} `json:"data"`
-	Links *links      `json:"links,omitempty"`
+	Data     interface{}   `json:"data"`
+	Links    *links        `json:"links,omitempty"`
+	Included []interface{} `json:"included,omitempty"`
 }
 
 // TODO this is duped in blog pkg
