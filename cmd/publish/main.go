@@ -140,18 +140,25 @@ func main() {
 		if err != nil {
 			return err
 		}
+		// get rid of everything before dist/ in path
+		parts := strings.Split(path, "dist/")
 
 		// TODO do this concurrently
 		if strings.HasSuffix(info.Name(), ".json") {
-			// get rid of everything before dist/ in path
-			parts := strings.Split(path, "dist/")
 			// destination should not have .json extension
 			cleanPath := strings.TrimSuffix(parts[1], ".json")
 			dst := fmt.Sprintf("www/v1/%s", cleanPath)
 
 			log.Printf("copying %q to b2 %q", path, dst)
 
-			if err := copyFile(ctx, bucket, path, dst); err != nil {
+			if err := copyFile(ctx, bucket, path, dst, "application/vnd.api+json"); err != nil {
+				return err
+			}
+		} else if strings.HasSuffix(info.Name(), ".jpg") {
+			dst := fmt.Sprintf("www/v1/%s", parts[1])
+			log.Printf("copying %q to b2 %q", path, dst)
+
+			if err := copyFile(ctx, bucket, path, dst, "image/jpeg"); err != nil {
 				return err
 			}
 		}
@@ -163,7 +170,7 @@ func main() {
 	}
 }
 
-func copyFile(ctx context.Context, bucket *b2.Bucket, src, dst string) error {
+func copyFile(ctx context.Context, bucket *b2.Bucket, src, dst, cont string) error {
 	f, err := os.Open(src)
 	if err != nil {
 		return err
@@ -172,10 +179,12 @@ func copyFile(ctx context.Context, bucket *b2.Bucket, src, dst string) error {
 
 	obj := bucket.Object(dst)
 	w := obj.NewWriter(ctx)
-	ct := &b2.Attrs{
-		ContentType: "application/vnd.api+json",
+	if cont != "" {
+		ct := &b2.Attrs{
+			ContentType: cont,
+		}
+		b2.WithAttrsOption(ct)(w)
 	}
-	b2.WithAttrsOption(ct)(w)
 	if _, err := io.Copy(w, f); err != nil {
 		w.Close()
 		return err
