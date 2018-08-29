@@ -6,6 +6,7 @@ import (
 	"log"
 	"math"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"sort"
 	"time"
@@ -59,11 +60,39 @@ func Build(path string, drafts bool) {
 			}
 			f.Close()
 
-			// TODO work on photos too
+			// create individual photo files
 			for _, p := range g.Photos {
-				log.Println("got a photo", p.Slug)
+				pd := dataPhoto{
+					Type:       "photos",
+					ID:         p.Slug,
+					Attributes: p,
+				}
+
+				f, err := os.Create("dist/photos/" + p.Slug + ".json")
+				if err != nil {
+					log.Printf("could not create file for photo %q: %s", p.Slug, err)
+					continue
+				}
+				if err := json.NewEncoder(f).Encode(base{Data: pd}); err != nil {
+					// don't return here, keep going with the logged error.
+					log.Printf("error encoding photo to json %s: %s", p.Slug, err)
+				}
+				f.Close()
 			}
 
+			// run procesing on photos
+			cmd := exec.Command(
+				"/Applications/Retrobatch.app/Contents/MacOS/Retrobatch",
+				"--workflow",
+				"/Users/brian/Code/brianfoshee-imgur/imgur.retrobatch",
+				"--output",
+				"dist/photos",
+				g.path)
+			cmd.Stdout = os.Stdout
+			cmd.Stderr = os.Stderr
+			if err := cmd.Run(); err != nil {
+				log.Printf("Command finished with error: %v", err)
+			}
 		}
 	}
 
@@ -151,6 +180,12 @@ type dataGallery struct {
 	Type       string  `json:"type"`
 	ID         string  `json:"id"`
 	Attributes Gallery `json:"attributes"`
+}
+
+type dataPhoto struct {
+	Type       string `json:"type"`
+	ID         string `json:"id"`
+	Attributes Photo  `json:"attributes"`
 }
 
 // base is the base JSONAPI for either arrays or individual structs

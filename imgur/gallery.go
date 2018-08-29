@@ -14,11 +14,14 @@ import (
 )
 
 type Gallery struct {
-	Title       string    `json:"title"`
-	Slug        string    `json:"id"`
+	Title string `json:"title"`
+	Slug  string `json:"id"`
+	// TODO change this to body and make description be a short html head description
 	Description string    `json:"description" yaml:"-"` // from md
 	PublishedAt time.Time `json:"published-at" yaml:"published-at"`
 	Photos      []Photo   `json:"-" yaml:"-"`
+
+	path string // used when running retrobatch on image dir
 }
 
 func (g *Gallery) open(path string) error {
@@ -50,8 +53,10 @@ func (g *Gallery) open(path string) error {
 		return err
 	}
 
-	// process image files too
 	dir, _ := filepath.Split(path)
+	g.path = dir
+
+	// process image files too
 	return g.processPhotos(dir)
 }
 
