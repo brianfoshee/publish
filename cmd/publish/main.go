@@ -65,8 +65,12 @@ func main() {
 				return
 			}
 
-			w.Header().Set("Content-Type", "application/vnd.api+json")
-			r.URL.Path = r.URL.Path + ".json"
+			log.Println(r.URL.Path)
+
+			if r.Header.Get("Accept") == "application/vnd.api+json" {
+				w.Header().Set("Content-Type", "application/vnd.api+json")
+				r.URL.Path = r.URL.Path + ".json"
+			}
 
 			http.
 				StripPrefix("/www/v1/", http.FileServer(http.Dir("dist/"))).
