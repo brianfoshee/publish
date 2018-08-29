@@ -36,7 +36,6 @@ func Build(path string, drafts bool) {
 		close(galleryCh)
 	}()
 
-	// TODO work on photos too
 	var galleries dataGalleries
 	for g := range galleryCh {
 		// add to feed if published at is in the past
@@ -59,6 +58,12 @@ func Build(path string, drafts bool) {
 				log.Printf("error encoding gallery to json %s: %s", g.Slug, err)
 			}
 			f.Close()
+
+			// TODO work on photos too
+			for _, p := range g.Photos {
+				log.Println("got a photo", p.Slug)
+			}
+
 		}
 	}
 

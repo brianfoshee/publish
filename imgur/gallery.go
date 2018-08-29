@@ -3,6 +3,7 @@ package imgur
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -21,8 +22,6 @@ type Gallery struct {
 }
 
 func (g *Gallery) open(path string) error {
-	dir, _ := filepath.Split(path)
-
 	f, err := os.Open(path)
 	if err != nil {
 		return err
@@ -52,6 +51,7 @@ func (g *Gallery) open(path string) error {
 	}
 
 	// process image files too
+	dir, _ := filepath.Split(path)
 	return g.processPhotos(dir)
 }
 
@@ -65,30 +65,43 @@ func (g *Gallery) parseMarkdown(b []byte) error {
 	return nil
 }
 
-func (g *Gallery) processPhotos(path string) error {
-	return nil
-	/*
+func (g *Gallery) processPhotos(photosPath string) error {
+	galleryMdname := g.Slug + ".md"
 
-		err := filepath.Walk(path,
-			func(path string, info os.FileInfo, err error) error {
-				if err != nil {
-					return err
-				}
+	err := filepath.Walk(photosPath,
+		func(path string, info os.FileInfo, err error) error {
+			if err != nil {
+				return err
+			}
 
-				// only work on jpg files
-				ext := filepath.Ext(path)
-				if ext != "JPG" {
-					return nil
-				}
+			// All images should be flattened at the gallery path
+			if info.IsDir() && path != photosPath {
+				log.Printf("gallery should not have dirs %s", path)
+				return filepath.SkipDir
+			}
 
-				// All images should be flattened at the gallery path
-				if info.IsDir() {
-					return filepath.SkipDir
-				}
-
+			// skip the gallery md file
+			if info.Name() == galleryMdname {
 				return nil
-			})
+			}
 
-		return err
-	*/
+			// only work on md files
+			ext := filepath.Ext(path)
+			if ext != ".md" {
+				return nil
+			}
+
+			// open the md file related to the jpg. if one doesn't exist, log.
+			// store that data in g.Photos
+			var p Photo
+			if err := p.open(path); err != nil {
+				return err
+			}
+
+			g.Photos = append(g.Photos, p)
+
+			return nil
+		})
+
+	return err
 }

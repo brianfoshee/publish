@@ -1,7 +1,9 @@
 package imgur
 
 import (
+	"fmt"
 	"io"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -18,6 +20,8 @@ type Photo struct {
 	Description string    `json:"description" yaml:"-"`
 	Gallery     string    `json:"gallery"`
 	CreatedAt   time.Time `json:"created-at" yaml:"created-at"`
+
+	path string // filesystem path to the image. used for copying to dist
 }
 
 func (p *Photo) parseYAML(b []byte) error {
@@ -45,15 +49,15 @@ func Prepare(path string) error {
 				return err
 			}
 
+			// All images should be flattened at the gallery path
+			if info.IsDir() {
+				return filepath.SkipDir
+			}
+
 			// only work on jpg files
 			ext := filepath.Ext(path)
 			if ext != "JPG" {
 				return nil
-			}
-
-			// All images should be flattened at the gallery path
-			if info.IsDir() {
-				return filepath.SkipDir
 			}
 
 			// some base variables.
@@ -119,6 +123,47 @@ func Prepare(path string) error {
 		})
 
 	return err
+}
+
+// open takes a markdown file represnting an image
+func (p *Photo) open(path string) error {
+	dir, mdfile := filepath.Split(path)
+	imgName := strings.Replace(mdfile, ".md", ".JPG", 1)
+	imgPath := dir + imgName
+	if !fileExists(imgPath) {
+		return fmt.Errorf("img for md file doesn't exist: %s", imgPath)
+	}
+	p.path = imgPath
+
+	f, err := os.Open(path)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	b, err := ioutil.ReadAll(f)
+	if err != nil {
+		return err
+	}
+
+	// separate frontmatter (yaml) & markdown
+	arr := strings.Split(string(b), "---")
+	if len(arr) != 2 {
+		return fmt.Errorf("splitting file did not give two parts")
+	}
+	fm := arr[0]
+	md := arr[1]
+
+	// validate frontmatter contains all required fields
+	if err := p.parseYAML([]byte(fm)); err != nil {
+		return err
+	}
+	// convert markdown into html
+	if err := p.parseMarkdown([]byte(md)); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func fileExists(name string) bool {
