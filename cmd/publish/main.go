@@ -178,6 +178,14 @@ func copyFile(ctx context.Context, bucket *b2.Bucket, src, dst, cont string) err
 	defer f.Close()
 
 	obj := bucket.Object(dst)
+
+	// check if this object already exists. If so don't upload.
+	if attrs, err := obj.Attrs(ctx); err == nil {
+		if info, _ := f.Stat(); info.Size() == attrs.Size {
+			return nil
+		}
+	}
+
 	w := obj.NewWriter(ctx)
 	if cont != "" {
 		ct := &b2.Attrs{
