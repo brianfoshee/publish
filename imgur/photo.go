@@ -53,7 +53,7 @@ func Prepare(galleryPath string) error {
 
 			// only work on jpg files
 			ext := filepath.Ext(path)
-			if ext != ".JPG" {
+			if ext != ".JPG" && ext != ".jpg" {
 				return nil
 			}
 
@@ -75,6 +75,7 @@ func Prepare(galleryPath string) error {
 
 			// rename path. new filename will have sid instead of original name
 			nfName := strings.Replace(path, imgName, sid, 1)
+			nfName = strings.Replace(nfName, ext, strings.ToLower(ext), 1)
 			if err := os.Rename(path, nfName); err != nil {
 				return err
 			}
