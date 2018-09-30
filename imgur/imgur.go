@@ -48,8 +48,7 @@ func Build(path string, drafts bool) {
 			}
 			galleries = append(galleries, d)
 
-			photos := make([]relationshipData, len(g.Photos))
-			photosIncluded := make([]interface{}, len(g.Photos))
+			photosIncluded := make(dataPhotos, len(g.Photos))
 
 			// create individual photo files
 			for i, p := range g.Photos {
@@ -59,10 +58,6 @@ func Build(path string, drafts bool) {
 					Attributes: p,
 				}
 				photosIncluded[i] = pd
-				photos[i] = relationshipData{
-					ID:   p.Slug,
-					Type: "photos",
-				}
 
 				pd.Relationships = &galleryRelationships{
 					Gallery: base{
@@ -90,6 +85,22 @@ func Build(path string, drafts bool) {
 				f.Close()
 			}
 
+			// sort photos within a gallery
+			sort.Slice(photosIncluded, func(i, j int) bool {
+				return photosIncluded[i].Attributes.CreatedAt.Before(photosIncluded[j].Attributes.CreatedAt)
+			})
+
+			photos := make([]relationshipData, len(g.Photos))
+			pi := make([]interface{}, len(photosIncluded))
+			for i, p := range photosIncluded {
+				pi[i] = p
+
+				photos[i] = relationshipData{
+					ID:   p.Attributes.Slug,
+					Type: "photos",
+				}
+			}
+
 			d.Relationships = &photoRelationships{
 				Photos: base{
 					Data: photos,
@@ -98,7 +109,7 @@ func Build(path string, drafts bool) {
 
 			galleryBase := base{
 				Data:     d,
-				Included: photosIncluded,
+				Included: pi,
 			}
 
 			// create individual gallery file
@@ -262,3 +273,14 @@ func (d dataGalleries) Less(i, j int) bool {
 }
 
 func (d dataGalleries) Swap(i, j int) { d[i], d[j] = d[j], d[i] }
+
+// dataPhotos is a type to use with sort.Sort
+type dataPhotos []dataPhoto
+
+func (d dataPhotos) Len() int { return len(d) }
+
+func (d dataPhotos) Less(i, j int) bool {
+	return d[i].Attributes.CreatedAt.Before(d[j].Attributes.CreatedAt)
+}
+
+func (d dataPhotos) Swap(i, j int) { d[i], d[j] = d[j], d[i] }
