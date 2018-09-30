@@ -154,7 +154,6 @@ func main() {
 			}
 		} else if strings.HasSuffix(info.Name(), ".jpg") {
 			dst := fmt.Sprintf("www/v1/%s", parts[1])
-			log.Printf("copying %q to b2 %q", path, dst)
 
 			if err := copyFile(ctx, bucket, path, dst, "image/jpeg"); err != nil {
 				return err
@@ -182,9 +181,9 @@ func copyFile(ctx context.Context, bucket *b2.Bucket, src, dst, cont string) err
 		if info, _ := f.Stat(); info.Size() == attrs.Size {
 			log.Printf("object exists %q on b2", src)
 			return nil
+		} else {
+			log.Printf("copying %q to b2 %q", src, dst)
 		}
-	} else {
-		log.Printf("copying %q to b2 %q", src, dst)
 	}
 
 	w := obj.NewWriter(ctx)
