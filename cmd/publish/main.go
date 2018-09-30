@@ -149,8 +149,6 @@ func main() {
 			cleanPath := strings.TrimSuffix(parts[1], ".json")
 			dst := fmt.Sprintf("www/v1/%s", cleanPath)
 
-			log.Printf("copying %q to b2 %q", path, dst)
-
 			if err := copyFile(ctx, bucket, path, dst, "application/vnd.api+json"); err != nil {
 				return err
 			}
@@ -181,9 +179,13 @@ func copyFile(ctx context.Context, bucket *b2.Bucket, src, dst, cont string) err
 
 	// check if this object already exists. If so don't upload.
 	if attrs, err := obj.Attrs(ctx); err == nil {
-		if info, _ := f.Stat(); info.Size() == attrs.Size {
+		info, _ := f.Stat()
+		if info.Size() == attrs.Size {
+			log.Printf("object exists %q on b2", src)
 			return nil
 		}
+	} else {
+		log.Printf("copying %q to b2 %q", src, dst)
 	}
 
 	w := obj.NewWriter(ctx)
