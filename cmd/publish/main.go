@@ -179,8 +179,7 @@ func copyFile(ctx context.Context, bucket *b2.Bucket, src, dst, cont string) err
 
 	// check if this object already exists. If so don't upload.
 	if attrs, err := obj.Attrs(ctx); err == nil {
-		info, _ := f.Stat()
-		if info.Size() == attrs.Size {
+		if info, _ := f.Stat(); info.Size() == attrs.Size {
 			log.Printf("object exists %q on b2", src)
 			return nil
 		}
