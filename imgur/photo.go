@@ -11,6 +11,7 @@ import (
 	blackfriday "gopkg.in/russross/blackfriday.v2"
 	yaml "gopkg.in/yaml.v2"
 
+	"github.com/rwcarlsen/goexif/exif"
 	"github.com/teris-io/shortid"
 )
 
@@ -53,7 +54,7 @@ func Prepare(galleryPath string) error {
 
 			// only work on jpg files
 			ext := filepath.Ext(path)
-			if ext != ".JPG" && ext != ".jpg" {
+			if strings.ToLower(ext) != ".jpg" {
 				return nil
 			}
 
@@ -80,9 +81,27 @@ func Prepare(galleryPath string) error {
 				return err
 			}
 
+			// get the exif DateTime for when the image was created
+			imf, err := os.Open(nfName)
+			if err != nil {
+				return nil
+			}
+			defer imf.Close()
+
+			x, err := exif.Decode(imf)
+			if err != nil {
+				return err
+			}
+
+			tm, err := x.DateTime()
+			if err != nil {
+				return err
+			}
+			// lat, long, _ := x.LatLong()
+
 			// Create sid.md file with some default contents
 			p := &Photo{
-				CreatedAt: info.ModTime(),
+				CreatedAt: tm,
 				Slug:      sid,
 			}
 
