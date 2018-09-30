@@ -145,7 +145,7 @@ func Build(path string, drafts bool) {
 
 	// write out main feed, and pages if more than 10 galleries
 	// main feed is index 0-9. next page should be 10-19
-	const galleriesPerPage = 5
+	const galleriesPerPage = 20
 	total := len(galleries)
 	pages := math.Ceil(float64(total) / galleriesPerPage)
 	for i := 1; i <= int(pages); i += 1 {
