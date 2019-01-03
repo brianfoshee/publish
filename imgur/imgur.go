@@ -128,7 +128,7 @@ func Build(path string, drafts bool) {
 			cmd := exec.Command(
 				"/Applications/Retrobatch.app/Contents/MacOS/Retrobatch",
 				"--workflow",
-				"/Users/brian/Code/brianfoshee-content/imgur/imgur.retrobatch",
+				"/Users/brian/Code/brianfoshee/content/imgur/imgur.retrobatch",
 				"--output",
 				"dist/photos",
 				g.path)
