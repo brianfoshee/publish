@@ -46,11 +46,11 @@ func (p *Post) processFile(name string) error {
 
 	// separate frontmatter (yaml) & markdown
 	arr := strings.Split(string(b), "---")
-	if len(arr) != 2 {
-		return fmt.Errorf("splitting file did not give two parts")
+	if len(arr) != 3 {
+		return fmt.Errorf("splitting file %s did not give three parts", name)
 	}
-	fm := arr[0]
-	md := arr[1]
+	fm := arr[1]
+	md := arr[2]
 
 	// validate frontmatter contains all required fields
 	if err := p.parseYAML([]byte(fm)); err != nil {
