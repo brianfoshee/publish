@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"crypto/sha1"
 	"flag"
 	"fmt"
 	"io"
@@ -131,12 +132,16 @@ func main() {
 		os.Exit(1)
 	}
 
+	// TODO set bucket as an env var
 	bucket, err := c.Bucket(ctx, "brianfoshee-cdn")
 	if err != nil {
 		log.Println("error getting brianfoshee-cdn bucket from b2 client", err)
 		os.Exit(1)
 	}
 
+	// TODO run uploads concurrently
+	// cpus is how many workers we'll spin up
+	//cpus := runtime.NumCPU()
 	if err := filepath.Walk("dist/", func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
@@ -179,7 +184,15 @@ func copyFile(ctx context.Context, bucket *b2.Bucket, src, dst, cont string) err
 
 	// check if this object already exists. If so don't upload.
 	if attrs, err := obj.Attrs(ctx); err == nil {
-		if info, _ := f.Stat(); info.Size() == attrs.Size {
+		// calculate the sha1 sum of the file
+		h := sha1.New()
+		if _, err := io.Copy(h, f); err != nil {
+			log.Fatalf("could not copy from file to hash: %s", err)
+		}
+		sum := h.Sum(nil)
+		sha := fmt.Sprintf("%x", sum) // convert to string
+
+		if attrs.SHA1 == sha {
 			log.Printf("object exists %q on b2", src)
 			return nil
 		}
