@@ -13,10 +13,8 @@ ENV APP_DIR /go/src/github.com/brianfoshee/publish
 
 RUN mkdir -p ${APP_DIR}
 
-WORKDIR $APP_DIR
+ADD ./ ${APP_DIR}
 
-ADD ./ ./
+RUN cd ${APP_DIR} && go get ./... && go install ./cmd/publish
 
-RUN go get ./... && go build ./cmd/publish
-
-ENTRYPOINT ["./publish"]
+ENTRYPOINT ["publish"]
