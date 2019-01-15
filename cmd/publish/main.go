@@ -117,7 +117,7 @@ func main() {
 
 	// Only building, not uploading
 	if *build {
-		log.Println("Only building. Done")
+		fmt.Println("Only building. Done")
 		return
 	}
 
