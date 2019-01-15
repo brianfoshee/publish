@@ -192,14 +192,12 @@ func copyFile(ctx context.Context, bucket *b2.Bucket, src, dst, cont string) err
 		sum := h.Sum(nil)
 		sha := fmt.Sprintf("%x", sum) // convert to string
 
-		log.Printf("attr sum %s local sum %s", attrs.SHA1, sha)
-
 		if attrs.SHA1 == sha {
 			log.Printf("object exists %q on b2", src)
 			return nil
 		}
 	} else {
-		log.Printf("error getting attrs for %s", src)
+		log.Printf("error getting attrs for %s", dst)
 	}
 
 	log.Printf("copying %q to b2 %q", src, dst)
