@@ -128,7 +128,7 @@ func Prepare(galleryPath string) error {
 // open takes a markdown file represnting an image
 func (p *Photo) open(path string) error {
 	dir, mdfile := filepath.Split(path)
-	imgName := strings.Replace(mdfile, ".md", ".JPG", 1)
+	imgName := strings.Replace(mdfile, ".md", ".jpg", 1)
 	imgPath := dir + imgName
 	if !fileExists(imgPath) {
 		return fmt.Errorf("img for md file doesn't exist: %s", imgPath)
