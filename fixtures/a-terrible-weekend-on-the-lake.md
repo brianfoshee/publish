@@ -1,3 +1,4 @@
+---
 slug: a-terrible-weekend-on-the-lake
 title: A Terrible Weekend On The Lake
 published-at: 2018-06-15
