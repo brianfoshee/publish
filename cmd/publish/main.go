@@ -117,10 +117,11 @@ func main() {
 
 	// Only building, not uploading
 	if *build {
+		log.Println("Only building. Done")
 		return
 	}
 
-	account := os.Getenv("B2_KEY_ID")
+	account := os.Getenv("B2_ACCOUNT_ID")
 	key := os.Getenv("B2_APPLICATION_KEY")
 
 	ctx := context.TODO()
