@@ -48,8 +48,6 @@ func main() {
 	serve := flag.Bool("serve", false, "Serve files in dist dir.")
 	flag.Parse()
 
-	log.Println("Publish is running.")
-
 	if *clean {
 		if err := os.RemoveAll("./dist"); err != nil {
 			log.Println("error deleting dist directory", err)
@@ -119,7 +117,7 @@ func main() {
 
 	// Only building, not uploading
 	if *build {
-		fmt.Println("Only building. Done")
+		log.Println("Only building. Done")
 		return
 	}
 
