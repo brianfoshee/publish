@@ -11,8 +11,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/brianfoshee/cli/blog"
-	"github.com/brianfoshee/cli/imgur"
+	"github.com/brianfoshee/publish/blog"
+	"github.com/brianfoshee/publish/imgur"
 	"github.com/kurin/blazer/b2"
 )
 

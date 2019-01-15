@@ -1,3 +1,4 @@
+---
 slug: im-taking-a-year-off
 title: I'm Taking a Year Off
 description: I left my job writing software at The New York Times to travel for a year.
