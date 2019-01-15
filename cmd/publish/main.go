@@ -171,6 +171,8 @@ func main() {
 		log.Println("error walking dist path:", err)
 		os.Exit(1)
 	}
+
+	log.Println("Bye.")
 }
 
 func copyFile(ctx context.Context, bucket *b2.Bucket, src, dst, cont string) error {
@@ -193,11 +195,11 @@ func copyFile(ctx context.Context, bucket *b2.Bucket, src, dst, cont string) err
 		sha := fmt.Sprintf("%x", sum) // convert to string
 
 		if attrs.SHA1 == sha {
-			log.Printf("object exists %q on b2", src)
+			// log.Printf("object exists %q on b2", src)
 			return nil
 		}
 	} else {
-		log.Printf("error getting attrs for %s", dst)
+		log.Printf("error getting attrs for %s: %s", dst, err)
 	}
 
 	log.Printf("copying %q to b2 %q", src, dst)
