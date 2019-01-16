@@ -11,6 +11,7 @@ import (
 	"os"
 	"path/filepath"
 	"runtime"
+	"strconv"
 	"strings"
 	"sync"
 
@@ -147,10 +148,13 @@ func main() {
 		path string
 		info os.FileInfo
 	}
-	cpus := runtime.NumCPU()
 	fileChan := make(chan files)
 	wg := sync.WaitGroup{}
-	for i := 0; i < cpus*2; i++ {
+	workers, err := strconv.ParseInt(os.Getenv("UPLOAD_WORKERS"), 10, 64)
+	if err != nil || workers == 0 {
+		workers = int64(runtime.NumCPU() * 2)
+	}
+	for i := 0; i < int(workers); i++ {
 		log.Printf("Working %d starting", i)
 		wg.Add(1)
 		go func() {
