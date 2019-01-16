@@ -10,7 +10,9 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
+	"sync"
 
 	"github.com/brianfoshee/publish/blog"
 	"github.com/brianfoshee/publish/imgur"
@@ -139,38 +141,61 @@ func main() {
 		os.Exit(1)
 	}
 
-	// TODO run uploads concurrently
+	// run uploads concurrently
 	// cpus is how many workers we'll spin up
-	// cpus := runtime.NumCPU()
+	type files struct {
+		path string
+		info os.FileInfo
+	}
+	cpus := runtime.NumCPU()
+	fileChan := make(chan files)
+	wg := sync.WaitGroup{}
+	for i := 0; i < cpus*2; i++ {
+		log.Printf("Working %d starting", i)
+		wg.Add(1)
+		go func() {
+			for f := range fileChan {
+				path := f.path
+				info := f.info
+
+				// get rid of everything before dist/ in path
+				parts := strings.Split(path, "dist/")
+
+				if strings.HasSuffix(info.Name(), ".json") {
+					// destination should not have .json extension
+					cleanPath := strings.TrimSuffix(parts[1], ".json")
+					dst := fmt.Sprintf("www/v1/%s", cleanPath)
+
+					if err := copyFile(ctx, bucket, path, dst, "application/vnd.api+json"); err != nil {
+						log.Printf("error copying %s to %s: %s", path, dst, err)
+					}
+				} else if strings.HasSuffix(info.Name(), ".jpg") {
+					dst := fmt.Sprintf("www/v1/%s", parts[1])
+
+					if err := copyFile(ctx, bucket, path, dst, "image/jpeg"); err != nil {
+						log.Printf("error copying %s to %s: %s", path, dst, err)
+					}
+				}
+			}
+			wg.Done()
+		}()
+	}
+
 	if err := filepath.Walk("dist/", func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
-		// get rid of everything before dist/ in path
-		parts := strings.Split(path, "dist/")
 
-		// TODO do this concurrently
-		if strings.HasSuffix(info.Name(), ".json") {
-			// destination should not have .json extension
-			cleanPath := strings.TrimSuffix(parts[1], ".json")
-			dst := fmt.Sprintf("www/v1/%s", cleanPath)
-
-			if err := copyFile(ctx, bucket, path, dst, "application/vnd.api+json"); err != nil {
-				return err
-			}
-		} else if strings.HasSuffix(info.Name(), ".jpg") {
-			dst := fmt.Sprintf("www/v1/%s", parts[1])
-
-			if err := copyFile(ctx, bucket, path, dst, "image/jpeg"); err != nil {
-				return err
-			}
-		}
+		fileChan <- files{path, info}
 
 		return nil
 	}); err != nil {
 		log.Println("error walking dist path:", err)
 		os.Exit(1)
 	}
+
+	close(fileChan)
+	wg.Wait()
 
 	log.Println("Bye.")
 }
