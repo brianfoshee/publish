@@ -227,8 +227,6 @@ func copyFile(ctx context.Context, bucket *b2.Bucket, src, dst, cont string) err
 			// log.Printf("object exists %q on b2", src)
 			return nil
 		}
-	} else {
-		log.Printf("error getting attrs for %s: %s", dst, err)
 	}
 
 	log.Printf("copying %q to b2 %q", src, dst)
