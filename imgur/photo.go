@@ -112,6 +112,9 @@ func Prepare(galleryPath string) error {
 			}
 			defer f.Close()
 
+			f.Write([]byte("---"))
+			f.Write([]byte("\n"))
+
 			if err := yaml.NewEncoder(f).Encode(p); err != nil {
 				return err
 			}
