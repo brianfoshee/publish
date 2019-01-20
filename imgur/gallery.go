@@ -20,7 +20,10 @@ type Gallery struct {
 	PublishedAt time.Time `json:"published-at" yaml:"published-at"`
 	Photos      []Photo   `json:"-" yaml:"-"`
 
+	// TODO remove this
 	path string // used when running retrobatch on image dir
+
+	// TODO add coverPhoto to use when sharing
 }
 
 func (g *Gallery) open(path string) error {
