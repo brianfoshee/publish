@@ -9,15 +9,13 @@ import (
 	"path/filepath"
 	"sort"
 	"strings"
-
-	"github.com/brianfoshee/publish"
 )
 
 func Build(path string, drafts bool) {
-	postsCh := make(chan publish.Post)
+	postsCh := make(chan Post)
 
 	go func() {
-		if err := filepath.Walk(path, publish.PostWalker(postsCh)); err != nil {
+		if err := filepath.Walk(path, postWalker(postsCh)); err != nil {
 			log.Println("error walking path: ", err)
 			return
 		}
@@ -166,9 +164,9 @@ func Build(path string, drafts bool) {
 
 // to satisfy JSONAPI
 type dataPost struct {
-	Type       string       `json:"type"`
-	ID         string       `json:"id"`
-	Attributes publish.Post `json:"attributes"`
+	Type       string `json:"type"`
+	ID         string `json:"id"`
+	Attributes Post   `json:"attributes"`
 }
 
 // base is the base JSONAPI for either arrays or individual structs
