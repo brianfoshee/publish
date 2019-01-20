@@ -121,6 +121,15 @@ func main() {
 		imgur.Build(*imgurPath, *drafts)
 	}
 
+	if *feeds {
+		if *imgurPath == "" || *blogPath == "" {
+			log.Println("both imgurPath and blogPath must be specified to generate feeds")
+			os.Exit(1)
+		}
+
+		// TODO generate feeds
+	}
+
 	// Only building, not uploading
 	if *build {
 		log.Println("Only building. Done")
