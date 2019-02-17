@@ -96,22 +96,14 @@ func Build(path string, drafts bool) {
 		f.Close()
 	}
 
-	// create archives. Feed for each year, and feed for each month of each year.
+	// create archives. Feed for each month of each year.
 	monthArchives := map[string]dataPosts{}
-	yearArchives := map[string]dataPosts{}
 	for _, p := range posts {
 		months := p.Attributes.PublishedAt.Format("2006-01")
 		if a, ok := monthArchives[months]; ok {
 			monthArchives[months] = append(a, p)
 		} else {
 			monthArchives[months] = dataPosts{p}
-		}
-
-		years := p.Attributes.PublishedAt.Format("2006")
-		if a, ok := yearArchives[years]; ok {
-			yearArchives[years] = append(a, p)
-		} else {
-			yearArchives[years] = dataPosts{p}
 		}
 	}
 
