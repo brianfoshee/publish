@@ -134,24 +134,22 @@ func Build(path string, drafts bool) {
 	// TODO this is wrong. It should be a list of all months in each year with posts
 	// TODO make posts/archives.json
 	// TODO make posts/archives/2018.json
-	/*
-		for _, v := range yearArchives {
-			// no bounds check required, if there's a value for this map it means
-			// there's at least one element in it.
-			year := v[0].Attributes.PublishedAt.Year()
-			fname := fmt.Sprintf("dist/posts/archives/%d.json", year)
+	for _, v := range yearArchives {
+		// no bounds check required, if there's a value for this map it means
+		// there's at least one element in it.
+		year := v[0].Attributes.PublishedAt.Year()
+		fname := fmt.Sprintf("dist/posts/archives/%d.json", year)
 
-			f, err := os.Create(fname)
-			if err != nil {
-				log.Printf("could not open %s: %s", fname, err)
-				continue
-			}
-			if err := json.NewEncoder(f).Encode(base{Data: v}); err != nil {
-				log.Printf("error encoding archives %s: %s", fname, err)
-			}
-			f.Close()
+		f, err := os.Create(fname)
+		if err != nil {
+			log.Printf("could not open %s: %s", fname, err)
+			continue
 		}
-	*/
+		if err := json.NewEncoder(f).Encode(base{Data: v}); err != nil {
+			log.Printf("error encoding archives %s: %s", fname, err)
+		}
+		f.Close()
+	}
 }
 
 // to satisfy JSONAPI
