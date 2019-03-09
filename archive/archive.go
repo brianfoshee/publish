@@ -10,9 +10,9 @@ import (
 )
 
 type Archive struct {
-	Kind  string
-	Year  int
-	Month string
+	Kind  string `json:"kind"`
+	Year  int    `json:"year"`
+	Month string `json:"month"`
 }
 
 // WriteFile writes a json-encoded file of JSONAPI-formatted Archive data
@@ -23,7 +23,8 @@ func WriteArchives(path string, archives []Archive) error {
 
 	for i, archive := range archives {
 		da := dataArchive{
-			Type:       "archives",
+			Type: "archives",
+			// TODO double check that this slug is okay
 			ID:         fmt.Sprintf("%s/%d/%s", archive.Kind, archive.Year, archive.Month),
 			Attributes: archive,
 		}
