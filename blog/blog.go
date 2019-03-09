@@ -107,6 +107,9 @@ func Build(path string, drafts bool) {
 		}
 	}
 
+	// TODO this is wrong. It should be a list of all months in each year with posts
+	// TODO make archives/posts.json
+	// TODO make posts/archives/2018.json
 	for _, v := range monthArchives {
 		// no bounds check required, if there's a value for this map it means
 		// there's at least one element in it.
@@ -119,26 +122,6 @@ func Build(path string, drafts bool) {
 		if _, err := os.Stat(dir); os.IsNotExist(err) {
 			os.Mkdir(dir, os.ModeDir|os.ModePerm)
 		}
-
-		f, err := os.Create(fname)
-		if err != nil {
-			log.Printf("could not open %s: %s", fname, err)
-			continue
-		}
-		if err := json.NewEncoder(f).Encode(base{Data: v}); err != nil {
-			log.Printf("error encoding archives %s: %s", fname, err)
-		}
-		f.Close()
-	}
-
-	// TODO this is wrong. It should be a list of all months in each year with posts
-	// TODO make archives/posts.json
-	// TODO make posts/archives/2018.json
-	for _, v := range yearArchives {
-		// no bounds check required, if there's a value for this map it means
-		// there's at least one element in it.
-		year := v[0].Attributes.PublishedAt.Year()
-		fname := fmt.Sprintf("dist/archives/posts/%d.json", year)
 
 		f, err := os.Create(fname)
 		if err != nil {
