@@ -9,6 +9,8 @@ import (
 	"path/filepath"
 	"sort"
 	"strings"
+
+	"github.com/brianfoshee/publish/archive"
 )
 
 func Build(path string, drafts bool) {
@@ -98,25 +100,36 @@ func Build(path string, drafts bool) {
 
 	// create archives. Feed for each month of each year.
 	monthArchives := map[string]dataPosts{}
+	archives := []archive.Archive{}
 	for _, p := range posts {
 		months := p.Attributes.PublishedAt.Format("2006-01")
 		if a, ok := monthArchives[months]; ok {
 			monthArchives[months] = append(a, p)
 		} else {
 			monthArchives[months] = dataPosts{p}
+			a := archive.Archive{
+				Kind:  "posts",
+				Year:  p.Attributes.PublishedAt.Year(),
+				Month: strings.ToLower(p.Attributes.PublishedAt.Month().String()),
+			}
+			archives = append(archives, a)
 		}
 	}
 
-	// TODO this is wrong. It should be a list of all months in each year with posts
-	// TODO make archives/posts.json
-	// TODO make posts/archives/2018.json
+	if err := archive.WriteArchives("dist/archives/posts.json", archives); err != nil {
+		log.Printf("error writing archives %s", err)
+	}
+
+	// make archives/posts/2018/february.json
 	for _, v := range monthArchives {
+		sort.Sort(sort.Reverse(v))
+
 		// no bounds check required, if there's a value for this map it means
 		// there's at least one element in it.
 		year := v[0].Attributes.PublishedAt.Year()
 		month := strings.ToLower(v[0].Attributes.PublishedAt.Month().String())
 
-		dir := fmt.Sprintf("dist/posts/archives/%d", year)
+		dir := fmt.Sprintf("dist/archives/posts/%d", year)
 		fname := fmt.Sprintf("%s/%s.json", dir, month)
 
 		if _, err := os.Stat(dir); os.IsNotExist(err) {

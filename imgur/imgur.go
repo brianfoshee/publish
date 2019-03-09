@@ -8,7 +8,10 @@ import (
 	"os"
 	"path/filepath"
 	"sort"
+	"strings"
 	"time"
+
+	"github.com/brianfoshee/publish/archive"
 )
 
 /* ***Galleries and Photos***
@@ -172,6 +175,55 @@ func Build(path string, drafts bool) {
 		}
 		if err := json.NewEncoder(f).Encode(b); err != nil {
 			log.Printf("error encoding posts page %d: %s", i, err)
+		}
+		f.Close()
+	}
+
+	// create archives. Feed for each month of each year.
+	monthArchives := map[string]dataGalleries{}
+	archives := []archive.Archive{}
+	for _, g := range galleries {
+		months := g.Attributes.PublishedAt.Format("2006-01")
+		if a, ok := monthArchives[months]; ok {
+			monthArchives[months] = append(a, g)
+		} else {
+			monthArchives[months] = dataGalleries{g}
+			a := archive.Archive{
+				Kind:  "galleries",
+				Year:  g.Attributes.PublishedAt.Year(),
+				Month: strings.ToLower(g.Attributes.PublishedAt.Month().String()),
+			}
+			archives = append(archives, a)
+		}
+	}
+
+	if err := archive.WriteArchives("dist/archives/galleries.json", archives); err != nil {
+		log.Printf("error writing archives %s", err)
+	}
+
+	// make archives/posts/2018/february.json
+	for _, v := range monthArchives {
+		sort.Sort(sort.Reverse(v))
+
+		// no bounds check required, if there's a value for this map it means
+		// there's at least one element in it.
+		year := v[0].Attributes.PublishedAt.Year()
+		month := strings.ToLower(v[0].Attributes.PublishedAt.Month().String())
+
+		dir := fmt.Sprintf("dist/archives/galleries/%d", year)
+		fname := fmt.Sprintf("%s/%s.json", dir, month)
+
+		if _, err := os.Stat(dir); os.IsNotExist(err) {
+			os.Mkdir(dir, os.ModeDir|os.ModePerm)
+		}
+
+		f, err := os.Create(fname)
+		if err != nil {
+			log.Printf("could not open %s: %s", fname, err)
+			continue
+		}
+		if err := json.NewEncoder(f).Encode(base{Data: v}); err != nil {
+			log.Printf("error encoding archives %s: %s", fname, err)
 		}
 		f.Close()
 	}
