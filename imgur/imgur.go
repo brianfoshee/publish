@@ -201,7 +201,7 @@ func Build(path string, drafts bool) {
 		log.Printf("error writing archives %s", err)
 	}
 
-	// make archives/posts/2018/february.json
+	// make archives/galleries/2018/february.json
 	for _, v := range monthArchives {
 		sort.Sort(sort.Reverse(v))
 
