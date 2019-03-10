@@ -10,14 +10,14 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/brianfoshee/publish"
+	"github.com/brianfoshee/publish/archive"
 )
 
 func Build(path string, drafts bool) {
-	postsCh := make(chan publish.Post)
+	postsCh := make(chan Post)
 
 	go func() {
-		if err := filepath.Walk(path, publish.PostWalker(postsCh)); err != nil {
+		if err := filepath.Walk(path, postWalker(postsCh)); err != nil {
 			log.Println("error walking path: ", err)
 			return
 		}
@@ -98,32 +98,38 @@ func Build(path string, drafts bool) {
 		f.Close()
 	}
 
-	// create archives. Feed for each year, and feed for each month of each year.
+	// create archives. Feed for each month of each year.
 	monthArchives := map[string]dataPosts{}
-	yearArchives := map[string]dataPosts{}
+	archives := []archive.Archive{}
 	for _, p := range posts {
 		months := p.Attributes.PublishedAt.Format("2006-01")
 		if a, ok := monthArchives[months]; ok {
 			monthArchives[months] = append(a, p)
 		} else {
 			monthArchives[months] = dataPosts{p}
-		}
-
-		years := p.Attributes.PublishedAt.Format("2006")
-		if a, ok := yearArchives[years]; ok {
-			yearArchives[years] = append(a, p)
-		} else {
-			yearArchives[years] = dataPosts{p}
+			a := archive.Archive{
+				Kind:  "posts",
+				Year:  p.Attributes.PublishedAt.Year(),
+				Month: strings.ToLower(p.Attributes.PublishedAt.Month().String()),
+			}
+			archives = append(archives, a)
 		}
 	}
 
+	if err := archive.WriteArchives("dist/archives/posts.json", archives); err != nil {
+		log.Printf("error writing archives %s", err)
+	}
+
+	// make archives/posts/2018/february.json
 	for _, v := range monthArchives {
+		sort.Sort(sort.Reverse(v))
+
 		// no bounds check required, if there's a value for this map it means
 		// there's at least one element in it.
 		year := v[0].Attributes.PublishedAt.Year()
 		month := strings.ToLower(v[0].Attributes.PublishedAt.Month().String())
 
-		dir := fmt.Sprintf("dist/posts/archives/%d", year)
+		dir := fmt.Sprintf("dist/archives/posts/%d", year)
 		fname := fmt.Sprintf("%s/%s.json", dir, month)
 
 		if _, err := os.Stat(dir); os.IsNotExist(err) {
@@ -140,35 +146,13 @@ func Build(path string, drafts bool) {
 		}
 		f.Close()
 	}
-
-	// TODO this is wrong. It should be a list of all months in each year with posts
-	// TODO make posts/archives.json
-	// TODO make posts/archives/2018.json
-	/*
-		for _, v := range yearArchives {
-			// no bounds check required, if there's a value for this map it means
-			// there's at least one element in it.
-			year := v[0].Attributes.PublishedAt.Year()
-			fname := fmt.Sprintf("dist/posts/archives/%d.json", year)
-
-			f, err := os.Create(fname)
-			if err != nil {
-				log.Printf("could not open %s: %s", fname, err)
-				continue
-			}
-			if err := json.NewEncoder(f).Encode(base{Data: v}); err != nil {
-				log.Printf("error encoding archives %s: %s", fname, err)
-			}
-			f.Close()
-		}
-	*/
 }
 
 // to satisfy JSONAPI
 type dataPost struct {
-	Type       string       `json:"type"`
-	ID         string       `json:"id"`
-	Attributes publish.Post `json:"attributes"`
+	Type       string `json:"type"`
+	ID         string `json:"id"`
+	Attributes Post   `json:"attributes"`
 }
 
 // base is the base JSONAPI for either arrays or individual structs

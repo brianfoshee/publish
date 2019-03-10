@@ -96,6 +96,7 @@ func main() {
 
 	// make sure directories are created before building
 	createDir("dist")
+	createDir("dist/archives")
 
 	// Do blog post building
 	if *blogPath != "" {
@@ -103,7 +104,7 @@ func main() {
 
 		createDir("dist/posts")
 		createDir("dist/posts/page")
-		createDir("dist/posts/archives")
+		createDir("dist/archives/posts")
 
 		blog.Build(*blogPath, *drafts)
 	}
@@ -115,6 +116,7 @@ func main() {
 		createDir("dist/galleries")
 		createDir("dist/galleries/page")
 		createDir("dist/photos")
+		createDir("dist/archives/galleries")
 
 		imgur.Build(*imgurPath, *drafts)
 	}

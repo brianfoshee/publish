@@ -1,4 +1,4 @@
-FROM golang:1.11
+FROM golang:1.12
 
 LABEL "com.github.actions.name"="Go Builder"
 LABEL "com.github.actions.description"="Build this project"
