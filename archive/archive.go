@@ -23,8 +23,7 @@ func WriteArchives(path string, archives []Archive) error {
 
 	for i, archive := range archives {
 		da := dataArchive{
-			Type: "archives",
-			// TODO double check that this slug is okay
+			Type:       "archives",
 			ID:         fmt.Sprintf("%s/%d/%s", archive.Kind, archive.Year, archive.Month),
 			Attributes: archive,
 		}
