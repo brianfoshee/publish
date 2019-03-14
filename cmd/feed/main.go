@@ -1,7 +1,7 @@
 package main
 
-import "github.com/brianfoshee/publish/atom"
+import "github.com/brianfoshee/publish/feed"
 
 func main() {
-	atom.Build()
+	feed.Build()
 }
