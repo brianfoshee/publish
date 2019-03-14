@@ -48,8 +48,8 @@ func main() {
 	preparePics := flag.String("prepare-pics", "", "Path to a gallery of photos to prepare")
 	drafts := flag.Bool("drafts", false, "Include drafts in generated feeds")
 	clean := flag.Bool("clean", false, "Remove generated files")
-	build := flag.Bool("build", false, "Only generate files locally. No uploading.")
 	serve := flag.Bool("serve", false, "Serve files in dist dir.")
+	upload := flag.Bool("upload", false, "Upload files in dist dir to B2.")
 	flag.Parse()
 
 	if *clean {
@@ -61,7 +61,9 @@ func main() {
 	}
 
 	if *serve {
+		vnd := "application/vnd.api+json"
 		mw := func(w http.ResponseWriter, r *http.Request) {
+			// TODO test which of these are required to reflect in CDN
 			w.Header().Set("Access-Control-Allow-Origin", "http://localhost:4200")
 			w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
 			w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
@@ -71,8 +73,8 @@ func main() {
 
 			log.Println(r.URL.Path)
 
-			if r.Header.Get("Accept") == "application/vnd.api+json" {
-				w.Header().Set("Content-Type", "application/vnd.api+json")
+			if r.Header.Get("Accept") == vnd {
+				w.Header().Set("Content-Type", vnd)
 				r.URL.Path = r.URL.Path + ".json"
 			}
 
@@ -121,96 +123,87 @@ func main() {
 		imgur.Build(*imgurPath, *drafts)
 	}
 
-	if *feeds {
-		if *imgurPath == "" || *blogPath == "" {
-			log.Println("both imgurPath and blogPath must be specified to generate feeds")
+	if *upload {
+		log.Println("Uploading...")
+		// TODO extract uploading into a package
+
+		account := os.Getenv("B2_ACCOUNT_ID")
+		key := os.Getenv("B2_APPLICATION_KEY")
+		bucketName := os.Getenv("B2_BUCKET")
+
+		ctx := context.TODO()
+		c, err := b2.NewClient(ctx, account, key, b2.UserAgent("brianfoshee"))
+		if err != nil {
+			log.Println("error creating new b2 client", err)
 			os.Exit(1)
 		}
 
-		// TODO generate feeds
-	}
-
-	// Only building, not uploading
-	if *build {
-		log.Println("Only building. Done")
-		return
-	}
-
-	account := os.Getenv("B2_ACCOUNT_ID")
-	key := os.Getenv("B2_APPLICATION_KEY")
-
-	ctx := context.TODO()
-	c, err := b2.NewClient(ctx, account, key, b2.UserAgent("brianfoshee"))
-	if err != nil {
-		log.Println("error creating new b2 client", err)
-		os.Exit(1)
-	}
-
-	// TODO set bucket as an env var
-	bucket, err := c.Bucket(ctx, "brianfoshee-cdn")
-	if err != nil {
-		log.Println("error getting brianfoshee-cdn bucket from b2 client", err)
-		os.Exit(1)
-	}
-
-	// run uploads concurrently
-	// cpus is how many workers we'll spin up
-	type files struct {
-		path string
-		info os.FileInfo
-	}
-	fileChan := make(chan files)
-	wg := sync.WaitGroup{}
-	workers, err := strconv.ParseInt(os.Getenv("UPLOAD_WORKERS"), 10, 64)
-	if err != nil || workers == 0 {
-		workers = int64(runtime.NumCPU() * 2)
-	}
-	for i := 0; i < int(workers); i++ {
-		log.Printf("Working %d starting", i)
-		wg.Add(1)
-		go func() {
-			for f := range fileChan {
-				path := f.path
-				info := f.info
-
-				// get rid of everything before dist/ in path
-				parts := strings.Split(path, "dist/")
-
-				if strings.HasSuffix(info.Name(), ".json") {
-					// destination should not have .json extension
-					cleanPath := strings.TrimSuffix(parts[1], ".json")
-					dst := fmt.Sprintf("www/v1/%s", cleanPath)
-
-					if err := copyFile(ctx, bucket, path, dst, "application/vnd.api+json"); err != nil {
-						log.Printf("error copying %s to %s: %s", path, dst, err)
-					}
-				} else if strings.HasSuffix(info.Name(), ".jpg") {
-					dst := fmt.Sprintf("www/v1/%s", parts[1])
-
-					if err := copyFile(ctx, bucket, path, dst, "image/jpeg"); err != nil {
-						log.Printf("error copying %s to %s: %s", path, dst, err)
-					}
-				}
-			}
-			wg.Done()
-		}()
-	}
-
-	if err := filepath.Walk("dist/", func(path string, info os.FileInfo, err error) error {
+		bucket, err := c.Bucket(ctx, bucketName)
 		if err != nil {
-			return err
+			log.Printf("error getting %s bucket from b2 client", bucketName, err)
+			os.Exit(1)
 		}
 
-		fileChan <- files{path, info}
+		// run uploads concurrently
+		// cpus is how many workers will be spun up
+		type files struct {
+			path string
+			info os.FileInfo
+		}
+		fileChan := make(chan files)
+		wg := sync.WaitGroup{}
+		workers, err := strconv.ParseInt(os.Getenv("UPLOAD_WORKERS"), 10, 64)
+		if err != nil || workers == 0 {
+			workers = int64(runtime.NumCPU() * 2)
+		}
+		for i := 0; i < int(workers); i++ {
+			log.Printf("Working %d starting", i)
+			wg.Add(1)
+			go func() {
+				for f := range fileChan {
+					path := f.path
+					info := f.info
 
-		return nil
-	}); err != nil {
-		log.Println("error walking dist path:", err)
-		os.Exit(1)
+					// get rid of everything before dist/ in path
+					parts := strings.Split(path, "dist/")
+
+					if strings.HasSuffix(info.Name(), ".json") {
+						// destination should not have .json extension
+						cleanPath := strings.TrimSuffix(parts[1], ".json")
+						dst := fmt.Sprintf("www/v1/%s", cleanPath)
+
+						if err := copyFile(ctx, bucket, path, dst, "application/vnd.api+json"); err != nil {
+							log.Printf("error copying %s to %s: %s", path, dst, err)
+						}
+					} else if strings.HasSuffix(info.Name(), ".jpg") {
+						dst := fmt.Sprintf("www/v1/%s", parts[1])
+
+						if err := copyFile(ctx, bucket, path, dst, "image/jpeg"); err != nil {
+							log.Printf("error copying %s to %s: %s", path, dst, err)
+						}
+					}
+				}
+				wg.Done()
+			}()
+		}
+
+		if err := filepath.Walk("dist/", func(path string, info os.FileInfo, err error) error {
+			if err != nil {
+				return err
+			}
+
+			fileChan <- files{path, info}
+
+			return nil
+		}); err != nil {
+			log.Println("error walking dist path:", err)
+			os.Exit(1)
+		}
+
+		close(fileChan)
+		wg.Wait()
+
 	}
-
-	close(fileChan)
-	wg.Wait()
 
 	log.Println("Bye.")
 }
