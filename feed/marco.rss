@@ -1,0 +1,1407 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"><channel><title>Marco.org</title><link>https://marco.org/</link><description>I’m Marco Arment, creator of Overcast, technology podcaster and writer, and coffee enthusiast.</description><item><title>Overcast 5.1 with Instant Search</title><link>https://marco.org/2019/01/28/overcast-instant-search</link><guid isPermaLink="false">/2019/01/28/overcast-instant-search</guid><pubDate>Mon, 28 Jan 2019 13:14:38 EST</pubDate><description>&lt;p style="text-align: center; margin-bottom: 2em;"&gt;
+&lt;video id="instantsearchvideo" loop autoplay muted playsinline poster="http://www.marco.org/media/2019/01/instantsearch.png" style="max-width: 70%; border: 1px solid #eee; border-radius: 12px;" onclick="if (this.paused) this.play(); else this.pause();" onplay="document.getElementById('instantsearchpp').innerHTML = '⏸️';" onpause="document.getElementById('instantsearchpp').innerHTML = '▶️';"&gt;
+&lt;source src="http://www.marco.org/media/2019/01/instantsearch-hevc.m4v" type='video/mp4; codecs="hev1.1.6.L93.B0"'/&gt;
+&lt;source src="http://www.marco.org/media/2019/01/instantsearch-h264.m4v" type='video/mp4; codecs="avc1.42E01E"'/&gt;
+&lt;source src="http://www.marco.org/media/2019/01/instantsearch.webm" type='video/webm; codecs="vp8.0"'/&gt;
+&lt;track  src="http://www.marco.org/media/2019/01/instantsearch.vtt" kind="descriptions" srclang="en"/&gt;
+&lt;img src="http://www.marco.org/media/2019/01/instantsearch.png" style="max-width: 70%; border: 1px solid #eee; border-radius: 12px;"/&gt;
+&lt;/video&gt;&lt;br/&gt;
+&lt;a href="#" id="instantsearchpp" style="text-transform: uppercase; color: #aaa; text-decoration: none;" onclick="var v = document.getElementById('instantsearchvideo'); if (v.paused) v.play(); else v.pause(); return false;"&gt;▶️&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;The &lt;em&gt;first&lt;/em&gt; thing someone does in a podcast app is add some podcasts, and most active &lt;a href="https://itunes.apple.com/app/overcast-podcast-player/id888422857"&gt;Overcast&lt;/a&gt; users add at least two new podcasts each month.&lt;/p&gt;
+
+&lt;p&gt;Over 80% of podcasts are added to Overcast by searching, with the vast majority as searches for a specific podcast by name (rather than searching for generic keywords, such as &amp;#8220;business&amp;#8221;).&lt;/p&gt;
+
+&lt;p&gt;Good search is a critical, differentiating feature of any podcast app.&lt;/p&gt;
+
+&lt;p&gt;I&amp;#8217;m not satisfied if the podcast you&amp;#8217;re looking for is somewhere in the middle of a long list &amp;#8212; I want it to be the first one, displayed quickly, after typing the fewest characters possible. I&amp;#8217;ve been building toward this by analyzing years of popularity statistics and anonymous search data.&lt;/p&gt;
+
+&lt;p&gt;Instant Search is the next step in Overcast&amp;#8217;s search evolution. It combines a small local cache with a highly optimized search service to give the most relevant results &lt;em&gt;immediately&lt;/em&gt; as you type, even after only a single letter.&lt;sup id="fnref:p2xPEWvo61"&gt;&lt;a href="#fn:p2xPEWvo61" rel="footnote"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;p&gt;It&amp;#8217;s a dramatic, delightful improvement to a critical, frequently used feature. This was a lot of fun to build, and I&amp;#8217;m proud of it.&lt;/p&gt;
+
+&lt;p&gt;See for yourself! &lt;a href="https://itunes.apple.com/app/overcast-podcast-player/id888422857"&gt;Overcast is free on the App Store&lt;/a&gt;.&lt;/p&gt;
+
+&lt;div class="footnotes"&gt;
+&lt;hr /&gt;
+&lt;ol&gt;
+
+&lt;li id="fn:p2xPEWvo61"&gt;
+&lt;p&gt;If Instant Search isn&amp;#8217;t instant right after you update, the cache hasn&amp;#8217;t fully downloaded yet. It&amp;#8217;s downloaded weekly, only on Wi-Fi, and is less than 5 MB.&amp;#160;&lt;a href="#fnref:p2xPEWvo61" rev="footnote"&gt;&amp;#8617;&amp;#xFE0E;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+
+&lt;/ol&gt;
+&lt;/div&gt;
+</description></item><item><title>The 2018 iPad Pro</title><link>https://marco.org/2018/11/09/ipad-pro-2018-review</link><guid isPermaLink="false">/2018/11/09/ipad-pro-2018-review</guid><pubDate>Fri, 09 Nov 2018 15:18:04 EST</pubDate><description>&lt;p&gt;&lt;style type="text/css"&gt;&lt;!--
+/* thanks https://stackoverflow.com/a/46272114 */
+.fixed-aspect-wrapper {
+  width: 100%; /* desired width */
+  padding: 0;
+}
+.fixed-aspect-padder {
+  height: 0;
+  padding: 0 0 56.25%; /* desired aspect ratio: (height / width) */
+  position: relative;
+  margin: 0;
+  width: auto;
+}
+.whatever-needs-the-fixed-aspect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+--&gt;&lt;/style&gt;&lt;/p&gt;
+
+&lt;div class="fixed-aspect-wrapper"&gt;
+  &lt;div class="fixed-aspect-padder"&gt;
+    &lt;iframe class="whatever-needs-the-fixed-aspect" src="https://www.youtube.com/embed/BBD_48AY0Zc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen&gt;&lt;/iframe&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;a href="https://www.youtube.com/watch?v=BBD_48AY0Zc"&gt;Watch my video review&lt;/a&gt; of the new iPad Pro in both sizes.&lt;/p&gt;
+
+&lt;p&gt;Rather than try to be comprehensive, I focused on what matters most to me: size choice between the 11&amp;#8221; and 12.9&amp;#8221;, the Smart Keyboard Folio from my perspective as a frequent 10.5&amp;#8221; Smart Keyboard user, the new Pencil, and why “getting work done” isn’t important to me.&lt;/p&gt;
+</description></item><item><title>The 2018 Mac Mini</title><link>https://marco.org/2018/11/06/mac-mini-2018-review</link><guid isPermaLink="false">/2018/11/06/mac-mini-2018-review</guid><pubDate>Tue, 06 Nov 2018 06:01:39 EST</pubDate><description>&lt;p&gt;&lt;style type="text/css"&gt;&lt;!--
+.reviewgraph { margin-top: 2em; margin-bottom: 2em; } 
+h2 { margin-top: 2em; }
+
+/* thanks https://stackoverflow.com/a/46272114 */
+.fixed-aspect-wrapper {
+  width: 100%; /* desired width */
+  padding: 0;
+}
+.fixed-aspect-padder {
+  height: 0;
+  padding: 0 0 56.25%; /* desired aspect ratio: (height / width) */
+  position: relative;
+  margin: 0;
+  width: auto;
+}
+.whatever-needs-the-fixed-aspect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+--&gt;&lt;/style&gt;&lt;/p&gt;
+
+&lt;div class="fixed-aspect-wrapper"&gt;
+  &lt;div class="fixed-aspect-padder"&gt;
+    &lt;iframe class="whatever-needs-the-fixed-aspect" src="https://www.youtube-nocookie.com/embed/0ixJLLbP8Is" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen&gt;&lt;/iframe&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p style="text-align: center; margin-bottom: 1.5em;"&gt;
+&lt;b&gt;&lt;a href="https://www.youtube.com/watch?v=0ixJLLbP8Is"&gt;Watch the video review&lt;/a&gt;&lt;/b&gt;
+&lt;/p&gt;
+
+&lt;p&gt;I hardly ever think about my Mac Mini, but it serves a vital role for my family as our &lt;a href="https://rogueamoeba.com/audiohijack/"&gt;home-theater mixer&lt;/a&gt;, &lt;a href="https://www.plex.tv/"&gt;Plex&lt;/a&gt; server, &lt;a href="https://www.fujitsu.com/us/products/computing/peripheral/scanners/scansnap/"&gt;ScanSnap&lt;/a&gt; server, Apple Photos backup, and &lt;a href="https://www.backblaze.com/atp.html"&gt;Backblaze&lt;/a&gt; host for our &lt;a href="https://www.synology.com/en-us"&gt;NAS&lt;/a&gt;.&lt;sup id="fnref:pQF3OuDFd1"&gt;&lt;a href="#fn:pQF3OuDFd1" rel="footnote"&gt;1&lt;/a&gt;&lt;/sup&gt; Almost every port on the back is in use, and it runs 24/7, reliably, in total silence.&lt;/p&gt;
+
+&lt;p&gt;Until last week, I thought it would be the last Mac Mini that Apple ever made.&lt;/p&gt;
+
+&lt;p&gt;And when rumors started swirling about an imminent Mac Mini update, I assumed the worst: if it came at all, it would be a tiny box with a slow, ultra-low-power processor and almost zero ports, optimizing for small size instead of versatility.&lt;/p&gt;
+
+&lt;p&gt;I don’t think this was an unreasonable fear after the 2014 Mac Mini update, which made many key aspects much worse without making anything much better. It seemed clear then, and for the following &lt;strong&gt;four years&lt;/strong&gt; that it went without an update, that Apple held the Mac Mini and its customers in very low regard.&lt;/p&gt;
+
+&lt;p&gt;Not anymore.&lt;/p&gt;
+
+&lt;p&gt;The 2018 Mac Mini is real, and it’s spectacular.&lt;/p&gt;
+
+&lt;p&gt;It makes almost nothing worse and almost everything better, finally bringing the Mac Mini into the modern age.&lt;/p&gt;
+
+&lt;p style="text-align: center; margin-top: 1.5em; margin-bottom: 1.5em;"&gt;
+&lt;img src="http://www.marco.org/media/2018/11/macmini-ports.jpg" style="border: 1px solid #ccc;"/&gt;
+&lt;br/&gt;
+&lt;small&gt;Ports! Glorious ports!&lt;/small&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Number one — and this is a big one these days, especially for this product — is that it’s not any &lt;em&gt;less&lt;/em&gt; useful or versatile than the outgoing Mac Mini, including the generous assortment of ports. If the previous one served a role for you, the new one can probably do it just as well, and probably better and faster, with minimal donglage.&lt;sup id="fnref:pQF3OuDFd2"&gt;&lt;a href="#fn:pQF3OuDFd2" rel="footnote"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;p&gt;It’s the same size as the old one, which is the right tradeoff. I know zero Mac Mini owners who really need it to get smaller, and many who don’t want it to get fewer ports or worse performance.&lt;/p&gt;
+
+&lt;p&gt;The point of the Mac Mini is to be as versatile as possible, addressing lots of diverse and edge-case needs that the other Macs can’t with their vastly different form factors and more opinionated designs. The Mac Mini needs to be a utility product, not a design statement. (Although, even as someone tired of space-gray everything, I have to admit that the Mini looks fantastic in its new color.)&lt;/p&gt;
+
+&lt;p&gt;The base price has increased to $800, and that’s not great. It’s partly justifiable because it’s much higher-end than before — the processors are &lt;strong&gt;much&lt;/strong&gt; better, the architecture is higher-end and includes big advances like the T2, and all-SSD is standard — but it’s still an expensive product in absolute terms.&lt;/p&gt;
+
+&lt;p&gt;Apple lent me a high-end configuration for review — 6-core i7, 32 GB RAM, 1 TB SSD — which would cost $2499 (much of which is the SSD). This would’ve sounded crazy to spend on a Mac Mini a few years ago, but when it’s specced up like this, it’s targeting a much higher-end market than the previous model could. Compared to similarly specced iMacs and MacBook Pros, the pricing is generally reasonable.&lt;/p&gt;
+
+&lt;p&gt;And this can truly be a pro desktop, with just one exception.&lt;/p&gt;
+
+&lt;h2&gt;Benchmarks&lt;/h2&gt;
+
+&lt;p&gt;The big story to me is how incredibly &lt;strong&gt;fast&lt;/strong&gt; this thing is. Granted, I’m testing the fastest CPU offered, but &lt;strong&gt;damn&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p class="reviewgraph" style="text-align: center;"&gt;
+&lt;a href="http://www.marco.org/media/2018/11/macmini-geekbench.png"&gt;&lt;img src="http://www.marco.org/media/2018/11/macmini-geekbench.png"/&gt;&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="https://www.geekbench.com/"&gt;Geekbench&lt;/a&gt; results are very strong. The i7 Mac Mini scored better on single-core performance than &lt;a href="https://browser.geekbench.com/mac-benchmarks"&gt;every other Mac today (!)&lt;/a&gt; at 5912, and its multi-core score of nearly 24,740 beats every Mac to date except the iMac Pro and the old 12-core 2013 Mac Pro.&lt;/p&gt;
+
+&lt;p&gt;“Performance-competitive with pro Macs” was not high on my prediction list for a Mac Mini update, but here we are.&lt;/p&gt;
+
+&lt;p class="reviewgraph" style="text-align: center;"&gt;
+&lt;a href="http://www.marco.org/media/2018/11/macmini-xcode.png"&gt;&lt;img src="http://www.marco.org/media/2018/11/macmini-xcode.png"/&gt;&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;As the rate of CPU advancement has slowed dramatically over the last few years, Apple has found other ways to improve performance. The T2 is great for lots of &lt;a href="https://techcrunch.com/2018/10/30/apple-t2-security-chip-microphone-eavesdropping/"&gt;security&lt;/a&gt; reasons — I wouldn’t buy a new Mac these days without it — but what you’re seeing here is its strength as a ridiculously fast SSD controller.&lt;/p&gt;
+
+&lt;p&gt;This Mac Mini builds my app, &lt;a href="https://overcast.fm/"&gt;Overcast&lt;/a&gt;, &lt;strong&gt;much&lt;/strong&gt; faster than my maxed-out 13-inch MacBook Pro, and about as quickly as my 10-core iMac Pro! Obviously, to achieve this result with only 6 cores, it’s not maxing out the CPU 100% of the time — it hits it in bursts while juggling a lot between the SSD and memory — but the result is that it’s incredibly fast as a development machine.&lt;/p&gt;
+
+&lt;p class="reviewgraph" style="text-align: center;"&gt;
+&lt;a href="http://www.marco.org/media/2018/11/macmini-blackmagic.png"&gt;&lt;img src="http://www.marco.org/media/2018/11/macmini-blackmagic.png"/&gt;&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;The &lt;a href="https://itunes.apple.com/us/app/blackmagic-disk-speed-test/id425264550"&gt;Blackmagick Disk Speed Test&lt;/a&gt; shows that the raw SSD performance is effectively identical to the other T2 Macs shipped to date, and a huge improvement over the four-year-old Mac Mini.&lt;/p&gt;
+
+&lt;p class="reviewgraph" style="text-align: center;"&gt;
+&lt;a href="http://www.marco.org/media/2018/11/macmini-ffmpeg.png"&gt;&lt;img src="http://www.marco.org/media/2018/11/macmini-ffmpeg.png"/&gt;&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;A lot of people use Mac Minis as media or Plex servers, so I ran an H.265 transcoding test with &lt;code&gt;ffmpeg&lt;/code&gt;. This maxes out all CPU cores, so the results predictably scale with the core count: the 6-core Mac Mini was much faster than the 4-core MacBook Pro, but the 10-core iMac Pro beat them both.&lt;/p&gt;
+
+&lt;p&gt;But if an app supports the T2&amp;#8217;s hardware HEVC encoder,&lt;sup id="fnref:pQF3OuDFdhevc"&gt;&lt;a href="#fn:pQF3OuDFdhevc" rel="footnote"&gt;3&lt;/a&gt;&lt;/sup&gt; it can go &lt;strong&gt;much&lt;/strong&gt; faster. And since every T2 so far performs identically, all T2 machines &amp;#8212; from the 2018 MacBook Air to the iMac Pro &amp;#8212; encode HEVC this way at the same speed, and all in complete silence because they&amp;#8217;re barely touching the CPU.&lt;/p&gt;
+
+&lt;p&gt;I wasn&amp;#8217;t able to notice any quality differences between the videos encoded with &lt;code&gt;x265&lt;/code&gt; and the T2&amp;#8217;s hardware acceleration.&lt;/p&gt;
+
+&lt;p class="reviewgraph" style="text-align: center;"&gt;
+&lt;a href="http://www.marco.org/media/2018/11/macmini-opencl.png"&gt;&lt;img src="http://www.marco.org/media/2018/11/macmini-opencl.png"/&gt;&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;The only spec that lets it down is the Intel GPU. It’s fast enough for common tasks, but if your workload benefits from a strong GPU, you’re better off going for an iMac or a 15-inch MacBook Pro, or considering an eGPU setup.&lt;/p&gt;
+
+&lt;p&gt;Many Mac lines rely on Intel’s integrated GPUs to fit their physical and thermal needs, and Intel has been incredibly inconsistent over the last few years in delivering updated CPU-GPU combinations that would be suitable for many Macs.&lt;/p&gt;
+
+&lt;p&gt;We often blame Intel’s CPU roadmap (or Apple’s seeming indifference) for the lack of updates to certain Mac lines, but Intel’s GPU offerings are often the bigger issue. This is Intel’s fault, but it’s Apple’s problem — and Apple passes that problem right along to its customers.&lt;/p&gt;
+
+&lt;p&gt;But that’s it — aside from price, that’s the only downside. The GPU sucks. Everything else is awesome.&lt;/p&gt;
+
+&lt;p&gt;If you don’t need a strong GPU — and honestly, most Mac Mini use-cases don’t — this is a solid pick for a general-purpose Mac, even at the base-level configuration. Spec it up, and it’s more like a mini-Mac Pro.&lt;/p&gt;
+
+&lt;p&gt;A few assorted notes, with apologies for stealing &lt;a href="https://daringfireball.net/2018/11/the_2018_ipad_pros"&gt;Gruber&amp;#8217;s&lt;/a&gt; format:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;It’s silent at idle. The i7’s fan noise does become clearly audible when it’s under heavy load: it’s in the ballpark of a modern MacBook Pro, but quieter.&lt;/p&gt;
+
+&lt;p&gt;Interestingly, I &lt;a href="https://marco.org/2018/07/31/mac-low-power-mode"&gt;disabled Turbo Boost&lt;/a&gt; to simulate the base i3 model’s thermals, and couldn’t get the fan to spin up audibly, no matter what I did. Those who prioritize silence under heavy loads should probably stick with the i3.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;This is the first non-iMac desktop Mac that lets you plug in a 5K display, at full quality, without dual cables or other unreliable hacks. We finally have 5K Retina Mac options beyond the iMac! Unfortunately, we still don’t have any great standalone 5K displays. (The LG UltraFine isn’t.)&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;You can upgrade the RAM again! I &lt;strong&gt;never&lt;/strong&gt; would’ve guessed this was coming, and I believe it’s the first time in a &lt;strong&gt;long&lt;/strong&gt; time that an Apple product’s direct successor became &lt;strong&gt;more&lt;/strong&gt; upgradeable and serviceable.&lt;/p&gt;
+
+&lt;p&gt;I still recommend getting it with the right amount of RAM from Apple if possible, since third-party RAM has historically been a mess of unreliability and finger-pointing, but if you need that, it’s back. (The security screws inside — TR6? — still need some &lt;a href="https://www.ifixit.com/"&gt;iFixit&lt;/a&gt; tools to get past.)&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;I Can&amp;#8217;t Believe The Mac Mini Is This Awesome, I Can&amp;#8217;t Even Say &amp;#8220;Again&amp;#8221; Because It Never Was&lt;/h2&gt;
+
+&lt;p&gt;A new Mac Mini could&amp;#8217;ve been so much worse. At many times in its past, it has seemed unloved, neglected, and downright punitive &amp;#8212; a similar pattern to Apple&amp;#8217;s other headless desktop, the Mac Pro. It seemed for a while that Apple lacked any interest in making Macs anymore, especially desktops.&lt;/p&gt;
+
+&lt;p&gt;Last year, with the introduction of the absolutely stellar iMac Pro, Apple showed us a glimpse of a potential new direction. It was downright perfect &amp;#8212; a love letter to the Mac and its pro desktop users, and a clear turnaround in the way the company views the Mac for the better.&lt;/p&gt;
+
+&lt;p&gt;We didn&amp;#8217;t know until now whether the iMac Pro&amp;#8217;s greatness was a fluke. But now we have another data point: the last two desktops out of Apple have been incredible. After this, I have faith that they&amp;#8217;re going to do the new Mac Pro justice when it finally ships next year.&lt;/p&gt;
+
+&lt;p&gt;The new Mac Mini is a great update, out of nowhere, to a product we thought would never be updated again.&lt;/p&gt;
+
+&lt;p&gt;Of course, with Apple’s track record on the Mac Mini, it may never be updated after this. This is either the first in a series of regular updates with which Apple proves that they care about the Mac Mini again, or it’s the last Mac Mini that will ever exist and we’ll all be hoarding them in a few years. We can’t know yet.&lt;/p&gt;
+
+&lt;p&gt;But today, this is a great update, a wonderful all-arounder for lots of potential needs, and just a fantastic little computer.&lt;/p&gt;
+
+&lt;div class="footnotes"&gt;
+&lt;hr /&gt;
+&lt;ol&gt;
+
+&lt;li id="fn:pQF3OuDFd1"&gt;
+&lt;p&gt;I do this via iSCSI, but I wouldn’t recommend it. It breaks and requires a new $200+ iSCSI initiator with almost every macOS update — which is why my Mac Mini still runs Sierra. In the near future, I’ll just directly attach some giant external hard drives to the Mac Mini and stop using the NAS.&amp;#160;&lt;a href="#fnref:pQF3OuDFd1" rev="footnote"&gt;&amp;#8617;&amp;#xFE0E;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+
+&lt;li id="fn:pQF3OuDFd2"&gt;
+&lt;p&gt;Unless you used optical audio, audio input, or the SD-card reader. (Shit, I use optical in and out.)&amp;#160;&lt;a href="#fnref:pQF3OuDFd2" rev="footnote"&gt;&amp;#8617;&amp;#xFE0E;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+
+&lt;li id="fn:pQF3OuDFdhevc"&gt;
+&lt;p&gt;&lt;code&gt;ffmpeg&lt;/code&gt; can do it by specifying &lt;code&gt;-c:v hevc_videotoolbox&lt;/code&gt; instead of &lt;code&gt;-c:v x265&lt;/code&gt;. I also needed &lt;code&gt;-vtag hvc1&lt;/code&gt; for the output MP4s with either codec to be playable on macOS.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="https://itunes.apple.com/us/app/compressor/id424390742"&gt;Compressor&lt;/a&gt; uses the T2&amp;#8217;s HEVC acceleration when encoding 8-bit HEVC, but not 10-bit.&amp;#160;&lt;a href="#fnref:pQF3OuDFdhevc" rev="footnote"&gt;&amp;#8617;&amp;#xFE0E;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+
+&lt;/ol&gt;
+&lt;/div&gt;
+</description></item><item><title>Why it’s hard to read the time on Infograph</title><link>https://marco.org/2018/10/09/infograph-legibility</link><guid isPermaLink="false">/2018/10/09/infograph-legibility</guid><pubDate>Tue, 09 Oct 2018 14:34:42 EDT</pubDate><description>&lt;p&gt;&lt;style type="text/css"&gt;&lt;!--
+.watchimg, .roundwatch {
+    border-width: 0;
+    max-width: 30%;
+    margin-left: 0.5%;
+    margin-right: 0.5%;
+}
+    
+.roundwatch {
+    max-width: 26%;
+    border: 8px solid #000;
+    border-radius: 20%;
+    border-color: #000;
+    background-color: #000;
+}
+p.roundwatches { margin-top: 1.5em; margin-bottom: 1.5em; }
+p.roundwatches small { opacity: 0.5; }
+--&gt;&lt;/style&gt;&lt;/p&gt;
+
+&lt;p&gt;Quick, what time is it?&lt;/p&gt;
+
+&lt;p class="roundwatches" style="text-align: center;"&gt;
+&lt;img class="roundwatch" src="http://www.marco.org/media/2018/10/watch-infograph-default.jpg"/&gt;
+&lt;/p&gt;
+
+&lt;p&gt;If that took you a bit longer than usual to tell the time on the Apple Watch&amp;#8217;s new default Infograph face, you&amp;#8217;re not alone:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://daringfireball.net/2018/09/apple_watch_series_4"&gt;John Gruber finds it &amp;#8220;far too busy&amp;#8221;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://sixcolors.com/post/2018/10/apple-watch-series-4-review-the-invisible-redesign/"&gt;Jason Snell finds it &amp;#8220;pretty and packed with features&amp;#8221;, but misses hour numerals&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://9to5mac.com/2018/10/04/customizing-infograph-apple-watch-series-4/"&gt;Zac Hall removes almost everything to improve legibility&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://david-smith.org/blog/2018/10/05/considering-low-contrast-complications/"&gt;David Smith wrote his own complications (!) to improve contrast&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I&amp;#8217;ve configured mine acceptably, but Utility is still &lt;em&gt;far&lt;/em&gt; more legible for telling the time at a quick glance:&lt;/p&gt;
+
+&lt;p class="roundwatches" style="text-align: center;"&gt;
+&lt;img class="roundwatch" title="My Infograph configuration" src="http://www.marco.org/media/2018/10/watch-infograph-mine.png"/&gt;
+&lt;img class="roundwatch" title="My Utility configuration" src="http://www.marco.org/media/2018/10/watch-utility-mine.png"/&gt;
+&lt;br/&gt;&lt;small&gt;Infograph, Utility&lt;/small&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Infograph suffers from two major issues:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The center complications reduce the contrast between the dial and hands, often making the hands hard to locate. This is avoidable with customization, although the defaults should be much more conservative.&lt;/li&gt;
+&lt;li&gt;It takes too much cognitive effort (and therefore time) to distinguish the current hour. This is simply a flawed design.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;It&amp;#8217;s faster and easier to read analog time with the 1–12 numerals displayed on a watch, but many people prefer the cleaner look of a watch that uses lines, dots, or other shapes as hour markers instead. (Watch people call these &amp;#8220;indices&amp;#8221;.)&lt;/p&gt;
+
+&lt;p&gt;And it&amp;#8217;s absolutely possible to design a highly legible dial with hour indices in many different styles. Here are some classics and modern takes:&lt;sup id="fnref:pMiV5VkCX1"&gt;&lt;a href="#fn:pMiV5VkCX1" rel="footnote"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;p class="roundwatches" style="text-align: center;"&gt;
+&lt;img class="watchimg" title="Rolex Submariner" src="http://www.marco.org/media/2018/10/watch-classic1-submariner.jpg"/&gt;
+&lt;img class="watchimg" title="Patek Philippe Nautilus" src="http://www.marco.org/media/2018/10/watch-classic2-nautilus.jpg"/&gt;
+&lt;img class="watchimg" title="A. Lange &amp;amp; Sohne Saxonia" src="http://www.marco.org/media/2018/10/watch-classic3-saxonia.jpg"/&gt;
+&lt;img class="watchimg" title="Seiko Presage SARY085" src="http://www.marco.org/media/2018/10/watch-modern1-cocktailtime.jpg"/&gt;
+&lt;img class="watchimg" title="Damasko DA44" src="http://www.marco.org/media/2018/10/watch-modern2-da44.jpg"/&gt;
+&lt;img class="watchimg" title="Nomos Metro" src="http://www.marco.org/media/2018/10/watch-modern3-metro.jpg"/&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Across a wide variety of brands, styles, and price points, a few key design principles are clear:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The hour markers for 12 (and often 3/6/9) are more prominent.&lt;/li&gt;
+&lt;li&gt;The hour indices are much larger than the minute markings.&lt;/li&gt;
+&lt;li&gt;The hour hands nearly touch the hour indices.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;These all improve legibility by making it as fast and easy as possible to know which hour is being indicated (and minimize the chance of an off-by-one error), first by orienting your eyes to the current rotation with the 12 marker, then by minimizing the distance between the hour hand and the indices it&amp;#8217;s between.&lt;/p&gt;
+
+&lt;p&gt;Apple Watch&amp;#8217;s analog faces &lt;em&gt;all&lt;/em&gt; fail to achieve these principles:&lt;sup id="fnref:pMiV5VkCX2"&gt;&lt;a href="#fn:pMiV5VkCX2" rel="footnote"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;p class="roundwatches" style="text-align: center;"&gt;
+&lt;img class="roundwatch" title="Color" src="http://www.marco.org/media/2018/10/watch-color.png"/&gt;
+&lt;img class="roundwatch" title="Simple" src="http://www.marco.org/media/2018/10/watch-simple.png"/&gt;
+&lt;img class="roundwatch" title="Explorer (no numbers)" src="http://www.marco.org/media/2018/10/watch-explorer.png"/&gt;
+&lt;br/&gt;&lt;small&gt;Color, Simple, Explorer&lt;/small&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Color, Simple, and Explorer have easily distinguished hour markers, but Explorer&amp;#8217;s are a bit too far from its hour hand.&lt;/p&gt;
+
+&lt;p&gt;None of them have distinguished 12 markers to aid in orientation.&lt;/p&gt;
+
+&lt;p&gt;While Explorer omits minute markings altogether, Simple bafflingly uses 30-second markings in place of its minute track, making time-telling even harder. I&amp;#8217;ve never seen another watch with sub-minute markings identical to its minute markings.&lt;/p&gt;
+
+&lt;p class="roundwatches" style="text-align: center;"&gt;
+&lt;img class="roundwatch" title="Activity Analog" src="http://www.marco.org/media/2018/10/watch-activity-analog.png"/&gt;
+&lt;img class="roundwatch" title="Utility (no numbers)" src="http://www.marco.org/media/2018/10/watch-utility-minimal.png"/&gt;
+&lt;img class="roundwatch" title="Infograph" src="http://www.marco.org/media/2018/10/watch-infograph-minimal.png"/&gt;
+&lt;br/&gt;&lt;small&gt;Activity Analog, Utility, and Infograph without most complications&lt;/small&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Activity Analog&amp;#8217;s hour markers are faint and far from its hour hand, and the central activity rings quickly eliminate the hands&amp;#8217; contrast against the dial as they progress.&lt;/p&gt;
+
+&lt;p&gt;Utility (when configured without numbers) improves legibility slightly with its bold hour indices, but they&amp;#8217;re still too small and too far from its hour hand, and there&amp;#8217;s no differentiation for the 12 index.&lt;/p&gt;
+
+&lt;p&gt;Infograph is similar, but even worse: its hour indices are more faint, it uses 30-second markings instead of minute markings, and its default Calendar display wipes out the top three indices. (At least you can tell which way is up.)&lt;/p&gt;
+
+&lt;p&gt;Even with almost no complications, the basic essence of the Infograph dial has poor time legibility.&lt;/p&gt;
+
+&lt;p&gt;When it&amp;#8217;s being used as Apple seems to intend, time-telling at a glance is so difficult that many people have actually suggested setting the &lt;em&gt;digital&lt;/em&gt; time as the center complication, at which point the hands are just a nuisance and we should stop pretending it&amp;#8217;s an analog face.&lt;/p&gt;
+
+&lt;p class="roundwatches" style="text-align: center;"&gt;
+&lt;img class="roundwatch" alt="Infograph with digital time" src="http://www.marco.org/media/2018/10/watch-infograph-digital.jpg"/&gt;
+&lt;/p&gt;
+
+&lt;p&gt;It&amp;#8217;s great for Apple to offer a wide variety of Apple Watch faces, but most of them are short-lived novelties at best. We&amp;#8217;re three years and four generations into the Apple Watch, and almost every Watch owner I know still uses the same handful of &amp;#8220;good&amp;#8221; faces.&lt;/p&gt;
+
+&lt;p&gt;If you want digital time with a good deal of complications, Modular is your only good choice (or Infograph Modular on the Series 4).&lt;sup id="fnref:pMiV5VkCX3"&gt;&lt;a href="#fn:pMiV5VkCX3" rel="footnote"&gt;3&lt;/a&gt;&lt;/sup&gt; If you want analog time with numerals, Utility is the only good option. If you want indices instead of numerals &amp;#8212; probably the most popular analog watch style in the world &amp;#8212; I don&amp;#8217;t think there &lt;em&gt;is&lt;/em&gt; a good option.&lt;/p&gt;
+
+&lt;p&gt;By now, we&amp;#8217;ve seen Apple&amp;#8217;s design range that they&amp;#8217;re willing to ship as Watch faces, and while it seems broad at first glance, it&amp;#8217;s actually pretty narrow.&lt;/p&gt;
+
+&lt;p&gt;And we&amp;#8217;re restricted to the handful of good watch faces that Apple makes, because other developers aren&amp;#8217;t allowed to make custom Watch faces.&lt;/p&gt;
+
+&lt;p&gt;The Apple Watch is an amazing feat of technology. It&amp;#8217;s a &lt;em&gt;computer&lt;/em&gt;. It can display &lt;em&gt;anything&lt;/em&gt;. With no mechanical or physical limitations to hold us back, &lt;em&gt;any&lt;/em&gt; watch-face design from &lt;em&gt;anyone&lt;/em&gt; could plausibly be built, enabling a range of creativity, style, and usefulness that no single company could ever design on its own.&lt;/p&gt;
+
+&lt;p&gt;But they won&amp;#8217;t let us. In a time when personal expression and innovation in watch fashion should be booming, they&amp;#8217;re instead being eroded, as everyone in the room is increasingly wearing the same watch with the same two faces.&lt;/p&gt;
+
+&lt;p&gt;Open this door, Apple.&lt;/p&gt;
+
+&lt;div class="footnotes"&gt;
+&lt;hr /&gt;
+&lt;ol&gt;
+
+&lt;li id="fn:pMiV5VkCX1"&gt;
+&lt;p&gt;You can even see which model the Apple Watch&amp;#8217;s hand shape comes from, which &lt;a href="https://www.hodinkee.com/articles/jony-ive-apple-watch-collector-hodinkee-magazine"&gt;is not a coincidence&lt;/a&gt;.&amp;#160;&lt;a href="#fnref:pMiV5VkCX1" rev="footnote"&gt;&amp;#8617;&amp;#xFE0E;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+
+&lt;li id="fn:pMiV5VkCX2"&gt;
+&lt;p&gt;For Apple Watch faces offering multiple hour/minute styles, I selected the best one that didn&amp;#8217;t have hour numerals, and most complications were disabled.&amp;#160;&lt;a href="#fnref:pMiV5VkCX2" rev="footnote"&gt;&amp;#8617;&amp;#xFE0E;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+
+&lt;li id="fn:pMiV5VkCX3"&gt;
+&lt;p&gt;Special shout-out to my favorite digital face, &lt;a href="https://www.instagram.com/p/BoDR0MijPP8/?taken-by=marcoarment"&gt;Solar&lt;/a&gt;.&amp;#160;&lt;a href="#fnref:pMiV5VkCX3" rev="footnote"&gt;&amp;#8617;&amp;#xFE0E;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+
+&lt;/ol&gt;
+&lt;/div&gt;
+</description></item><item><title>Overcast 5: Watch, Siri, search, and redesign!</title><link>https://marco.org/2018/09/17/overcast5</link><guid isPermaLink="false">/2018/09/17/overcast5</guid><pubDate>Mon, 17 Sep 2018 15:27:02 EDT</pubDate><description>&lt;p&gt;&lt;style type="text/css"&gt;&lt;!--
+.screenshot1 {
+    border: 1px solid #ccc;
+    max-width: 95%;
+}
+.screenshot3 {
+    border: 1px solid #ccc;
+    max-width: 30%;
+    margin-left: 1%;
+    margin-right: 1%;
+}
+small { opacity: 0.5; }
+p.screenshots { margin-top: 1.5em; margin-bottom: 1.5em; }
+--&gt;&lt;/style&gt;&lt;/p&gt;
+
+&lt;p class="screenshots" style="text-align: center;"&gt;&lt;img class="extrawide" src="http://www.marco.org/media/2018/09/overcast5-phone.jpg"/&gt;&lt;br/&gt;
+&lt;small&gt;I apologize for the low battery level. Busy day.&lt;/small&gt;
+&lt;/p&gt;
+
+&lt;p&gt;It all started with the watchOS volume widget.&lt;/p&gt;
+
+&lt;p&gt;You see, &lt;a href="https://overcast.fm/"&gt;Overcast&amp;#8217;s&lt;/a&gt; previous Apple Watch app really sucked. I did my best with the capabilities of watchOS 1–4, but I couldn&amp;#8217;t give people what they really wanted:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Standalone podcast playback on the Apple Watch&lt;/strong&gt; without an iPhone. I briefly offered it through some bad hacks, but &lt;a href="https://marco.org/2017/08/10/removed-send-to-watch"&gt;had to remove it&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Volume control on the Watch,&lt;/strong&gt; which is increasingly important with the popularity of AirPods.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;That&amp;#8217;s why I nearly jumped for joy during the watchOS 5 announcement in June, when Apple unveiled most of my list of &lt;a href="https://marco.org/2017/09/24/what-watch-podcast-apps-need"&gt;watchOS changes needed to make good podcast apps&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;After a very busy summer, standalone Apple Watch playback is back in Overcast, and it&amp;#8217;s actually good this time!&lt;/p&gt;
+
+&lt;p class="screenshots" style="text-align: center;"&gt;&lt;img class="extrawide" src="http://www.marco.org/media/2018/09/overcast5-watch.jpg"/&gt;&lt;/p&gt;
+
+&lt;p&gt;It&amp;#8217;s not perfect:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;No cellular.&lt;/strong&gt; Apple hasn&amp;#8217;t released a good way to do cellular audio streaming in watchOS, and the bad ways wouldn&amp;#8217;t be very useful.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Sending podcasts to the Watch is slow.&lt;/strong&gt; Overcast shrinks them to reduce the transfer time, but when (and how quickly) podcasts transfer is tightly controlled by watchOS to preserve battery life. Transfers still sometimes wait forever or silently fail.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Programmers like me can&amp;#8217;t accept that something is just &lt;em&gt;slow&lt;/em&gt;, so I&amp;#8217;ve decided to make transfer speed irrelevant. Nobody cares how slowly podcasts transfer if it happens while they&amp;#8217;re asleep!&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Auto-Sync to Watch&lt;/strong&gt; automatically tries to send your most recent podcasts to your Apple Watch whenever it gets a chance.&lt;sup id="fnref:plLbts5im1"&gt;&lt;a href="#fn:plLbts5im1" rel="footnote"&gt;1&lt;/a&gt;&lt;/sup&gt; You can still send episodes manually from the queue button on an episode (&lt;span style="color: #fc7e0f;"&gt;≡&lt;sup&gt;+&lt;/sup&gt;&lt;/span&gt;), but in my testing, I never needed to. Just pick up your Watch and go, and it&amp;#8217;ll already have plenty of podcasts for your outing, all without having to manually sync anything or wait for slow transfers.&lt;/p&gt;
+
+&lt;p&gt;The Overcast 5.0.1 update, due out in a few days, makes Watch transfers even more reliable. (Sorry. Found a better way after 5.0 was approved.)&lt;/p&gt;
+
+&lt;p&gt;And &lt;strong&gt;Watch-crown volume control!&lt;/strong&gt; Finally, the best way to use Overcast from your Apple Watch isn&amp;#8217;t to delete it, letting the Now Playing app show up instead.&lt;/p&gt;
+
+&lt;p&gt;That&amp;#8217;s where the other half of my summer workload began.&lt;/p&gt;
+
+&lt;p&gt;The watchOS volume widget offers minimal customization: just the color of the circle. I couldn&amp;#8217;t make the line width a little narrower to match the rest of Overcast&amp;#8217;s thin-line aesthetic. But that iOS 7-era thin-line aesthetic looked dated, and I&amp;#8217;d wanted a design refresh for a while.&lt;/p&gt;
+
+&lt;p&gt;I decided to start modernizing the app&amp;#8217;s design, screen by screen. I couldn&amp;#8217;t do it all in one summer, so I started with the screen that needed the most help: Now Playing.&lt;/p&gt;
+
+&lt;p class="screenshots" style="text-align: center;"&gt;
+&lt;a href="http://www.marco.org/media/2018/09/overcast4.png"&gt;&lt;img class="screenshot3" src="http://www.marco.org/media/2018/09/overcast4.png"/&gt;&lt;/a&gt;&lt;br/&gt;
+&lt;small&gt;The previous Now Playing screen in Overcast 4.&lt;/small&gt;
+&lt;/p&gt;
+
+&lt;p&gt;The biggest problem of the previous design was the center artwork area, a scrollable set of &amp;#8220;pages&amp;#8221; that had speed and effects controls offscreen to the left, and the episode notes offscreen to the right.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Nobody ever found them.&lt;/strong&gt; I&amp;#8217;ve been getting emails almost &lt;em&gt;every&lt;/em&gt; day from people asking where the speed controls were because they set them once and couldn&amp;#8217;t find them again, or saying how they&amp;#8217;d really like my app more if it offered speed controls. The only indication in the interface was three &amp;#8220;page dots&amp;#8221; below the scrollable area, but that wasn&amp;#8217;t enough.&lt;/p&gt;
+
+&lt;p&gt;The new design maintains the same scrollable pages, but now as obvious, tactile &lt;strong&gt;cards.&lt;/strong&gt; In my testing, everyone figured these out immediately.&lt;/p&gt;
+
+&lt;p class="screenshots" style="text-align: center;"&gt;&lt;a href="http://www.marco.org/media/2018/09/overcast5-np1-effects.png"   &gt;&lt;img class="screenshot3" src="http://www.marco.org/media/2018/09/overcast5-np1-effects.png"   /&gt;&lt;/a&gt;&lt;a href="http://www.marco.org/media/2018/09/overcast5-np2-nowplaying.png"&gt;&lt;img class="screenshot3" src="http://www.marco.org/media/2018/09/overcast5-np2-nowplaying.png"/&gt;&lt;/a&gt;&lt;a href="http://www.marco.org/media/2018/09/overcast5-np3-shownotes.png" &gt;&lt;img class="screenshot3" src="http://www.marco.org/media/2018/09/overcast5-np3-shownotes.png" /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Put differently, it&amp;#8217;s like you&amp;#8217;re navigating this through a phone-shaped window in the middle:&lt;/p&gt;
+
+&lt;p class="screenshots" style="text-align: center;"&gt;
+&lt;a href="http://www.marco.org/media/2018/09/overcast5-nowplaying-combo.png"&gt;&lt;img class="screenshot1" src="http://www.marco.org/media/2018/09/overcast5-nowplaying-combo.png"/&gt;&lt;/a&gt;&lt;br/&gt;
+&lt;/p&gt;
+
+&lt;p&gt;This design is not only more discoverable, but it allows me to fit more controls on screen, and in more reachable areas. Unlike the previous design, I can also fit the same controls on all devices, from the iPhone SE to the iPad Pro.&lt;/p&gt;
+
+&lt;p&gt;Designing a good Now Playing screen for a music or podcast app that&amp;#8217;s nice, clean, &lt;em&gt;and&lt;/em&gt; highly discoverable is incredibly difficult. I think I&amp;#8217;ve finally found a good balance.&lt;/p&gt;
+
+&lt;p&gt;I&amp;#8217;ve given chapters (when present) their own card with durations and inline progress bars. I&amp;#8217;ve also finally revamped the sleep timer to ditch the ugly alert sheet, give it a proper UI for fast input, and show the remaining time in more useful ways:&lt;/p&gt;
+
+&lt;p class="screenshots" style="text-align: center;"&gt;
+&lt;a href="http://www.marco.org/media/2018/09/overcast5-np-chapters.png" &gt;&lt;img class="screenshot3" src="http://www.marco.org/media/2018/09/overcast5-np-chapters.png" /&gt;&lt;/a&gt;
+&lt;a href="http://www.marco.org/media/2018/09/overcast5-np-sleeptimer.png" &gt;&lt;img class="screenshot3" src="http://www.marco.org/media/2018/09/overcast5-np-sleeptimer.png" /&gt;&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;There are lots of other improvements throughout the app as well. Some of the highlights:&lt;/p&gt;
+
+&lt;p class="screenshots" style="text-align: center;"&gt;
+&lt;a href="http://www.marco.org/media/2018/09/overcast5-ft-search.png" &gt;&lt;img class="screenshot3" src="http://www.marco.org/media/2018/09/overcast5-ft-search.png" /&gt;&lt;/a&gt;
+&lt;a href="http://www.marco.org/media/2018/09/overcast5-ft-podcast.png"&gt;&lt;img class="screenshot3" src="http://www.marco.org/media/2018/09/overcast5-ft-podcast.png"/&gt;&lt;/a&gt;
+&lt;a href="http://www.marco.org/media/2018/09/overcast5-ft-siri.png"   &gt;&lt;img class="screenshot3" src="http://www.marco.org/media/2018/09/overcast5-ft-siri.png"   /&gt;&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Search&lt;/strong&gt; your podcasts and current episodes from the main screen, or go into a podcast&amp;#8217;s screen to search its entire archive.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Refreshed the podcast screen&lt;/strong&gt; a little. (More to come.)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Siri Shortcuts&lt;/strong&gt; support, of course.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Plus smaller fixes and improvements:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;CarPlay performance is much better, especially for people with large collections.&lt;/li&gt;
+&lt;li&gt;Podcasts now display their estimated release frequency (daily, weekly, etc.) if it can be inferred.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://marco.org/2018/04/27/overcast42"&gt;Tap-to-load on images&lt;/a&gt; now loads all images from the same domain at once.&lt;/li&gt;
+&lt;li&gt;Tons of bug fixes and performance improvements.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Overcast 5 requires iOS 12 and watchOS 5, and as always, it&amp;#8217;s free.&lt;/p&gt;
+
+&lt;p&gt;Update your devices, then go get &lt;a href="https://overcast.fm/"&gt;Overcast&lt;/a&gt;!&lt;/p&gt;
+
+&lt;div class="footnotes"&gt;
+&lt;hr /&gt;
+&lt;ol&gt;
+
+&lt;li id="fn:plLbts5im1"&gt;
+&lt;p&gt;Up to 20 episodes are auto-synced today. This number will change as I refine the balance of resource usage. &lt;strong&gt;Auto-Sync to Watch&lt;/strong&gt; is on by default and can be turned off in Nitpicky Details.&amp;#160;&lt;a href="#fnref:plLbts5im1" rev="footnote"&gt;&amp;#8617;&amp;#xFE0E;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+
+&lt;/ol&gt;
+&lt;/div&gt;
+</description></item><item><title>Low Power Mode on the Mac</title><link>https://marco.org/2018/07/31/mac-low-power-mode</link><guid isPermaLink="false">/2018/07/31/mac-low-power-mode</guid><pubDate>Tue, 31 Jul 2018 15:12:17 EDT</pubDate><description>&lt;p&gt;Laptop battery life is decreasingly relevant to me as more airplanes offer power outlets. But sometimes you lose that lottery, as I did on my latest 8-hour daytime flight.&lt;/p&gt;
+
+&lt;p&gt;Apple&amp;#8217;s &amp;#8220;Up to 10 hours&amp;#8221; claim doesn&amp;#8217;t apply to my work,&lt;sup id="fnref:pfKDuWxMd1"&gt;&lt;a href="#fn:pfKDuWxMd1" rel="footnote"&gt;1&lt;/a&gt;&lt;/sup&gt; which is usually a mix of Xcode, web browsing, and social time-wasting, so I knew I&amp;#8217;d have to seriously conserve power.&lt;/p&gt;
+
+&lt;p&gt;Sometimes, you just need Low Power Mode: the switch added to iOS a few years ago to conserve battery life when you need it, at the expense of full performance and background tasks.&lt;/p&gt;
+
+&lt;p&gt;There&amp;#8217;s no such feature on Mac laptops, but there should be. It could:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Disable the discrete GPU on 15-inch models unless required for hardware reasons&lt;sup id="fnref:pfKDuWxMd2"&gt;&lt;a href="#fn:pfKDuWxMd2" rel="footnote"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+&lt;li&gt;Pause Photos syncing and analysis&lt;/li&gt;
+&lt;li&gt;Pause Spotlight indexing&lt;/li&gt;
+&lt;li&gt;Reduce the frequency of Time Machine backups&lt;/li&gt;
+&lt;li&gt;Don&amp;#8217;t download or install software updates&lt;/li&gt;
+&lt;li&gt;Don&amp;#8217;t download new content in iTunes&lt;/li&gt;
+&lt;li&gt;Auto-dim the screen after a shorter time&lt;/li&gt;
+&lt;li&gt;Let third-party apps detect Low Power Mode and reduce their background operations to only essential work&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;And the big one:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Reduce the processor&amp;#8217;s maximum wattage or disable &lt;a href="https://en.wikipedia.org/wiki/Intel_Turbo_Boost"&gt;Turbo Boost&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Back in 2015, I &lt;a href="https://marco.org/2015/06/07/disabling-turbo-boost"&gt;experimented with disabling Turbo Boost&lt;/a&gt; and discovered that it reduced performance by about a third, but also boosted battery life by almost as much. Since then, I&amp;#8217;ve been running &lt;a href="https://www.rugarciap.com/turbo-boost-switcher-for-os-x/"&gt;Turbo Boost Switcher Pro&lt;/a&gt; to automatically disable Turbo Boost when I&amp;#8217;m running on battery power, and it has been wonderful: I made it through that 8-hour flight only because Turbo Boost was off.&lt;/p&gt;
+
+&lt;p&gt;Over the last few days, I&amp;#8217;ve run battery tests on my 2018 13-inch MacBook Pro with the (awesome) 2.7 GHz i7 and my 2015 2.2 GHz 15-inch&lt;sup id="fnref:pfKDuWxMd3"&gt;&lt;a href="#fn:pfKDuWxMd3" rel="footnote"&gt;3&lt;/a&gt;&lt;/sup&gt; to see how far I could push the battery life using &lt;a href="http://volta.garymathews.com/"&gt;Volta&lt;/a&gt;, which can disable Turbo Boost and/or set wattage limits on the CPU.&lt;/p&gt;
+
+&lt;p&gt;My test was based on the &amp;#8220;Heavy&amp;#8221; script &lt;a href="https://marco.org/2015/06/07/disabling-turbo-boost"&gt;from last time&lt;/a&gt;, but using &lt;code&gt;xcodebuild&lt;/code&gt; every few minutes with Overcast&amp;#8217;s current codebase (which is larger and includes some Swift). Improvements are in green and performance reductions are in red:&lt;/p&gt;
+
+&lt;p&gt;&lt;style&gt;&lt;!--
+.turboboosttable {
+    margin: 2em auto;
+    border-collapse: collapse;
+}
+.turboboosttable th, .turboboosttable td { text-align: center; border: 1px solid #f4f4f4; padding: 0.5em; }
+.turboboosttable th { width: 15%; }
+.turboboosttable th.lcol { text-align: right; }
+.turboboosttable th.notbold { font-weight: normal; }
+.turboboosttable th { background-color: #f4f4f4; }
+.turboboosttable .lightslash { opacity: 0.33; }
+.turboboosttable td.noturbo { background-color: #f8f8f8; }
+.turboboosttable .perfminus  { color: #a00; }
+.turboboosttable .perfplus { color: #0a0; }
+--&gt;&lt;/style&gt;&lt;/p&gt;
+
+&lt;h3&gt;15-inch 2015 MacBook Pro (2.2 GHz quad-core i7)&lt;/h3&gt;
+
+&lt;table class="turboboosttable"&gt;
+&lt;tr&gt;
+    &lt;th class="lcol"&gt;&amp;nbsp;&lt;/th&gt;
+    &lt;th&gt;Battery life&lt;/th&gt;
+    &lt;th&gt;Geekbench single/multi&lt;/th&gt;
+    &lt;th&gt;xcodebuild&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+    &lt;th class="lcol notbold"&gt;Normal&lt;/th&gt;
+    &lt;td&gt;3:36&lt;/td&gt;
+    &lt;td&gt;3963&lt;span class="lightslash"&gt;/&lt;/span&gt;13864&lt;/td&gt;
+    &lt;td&gt;43.9s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+    &lt;th class="lcol notbold"&gt;No Turbo&lt;/th&gt;
+    &lt;td class="noturbo"&gt;5:06&lt;div class="perfplus"&gt;+42%&lt;/div&gt;&lt;/td&gt;
+    &lt;td class="noturbo"&gt;2796&lt;span class="lightslash"&gt;/&lt;/span&gt;9917&lt;div class="perfminus"&gt;−29&lt;span class="lightslash"&gt;/&lt;/span&gt;28%&lt;/div&gt;&lt;/td&gt;
+    &lt;td class="noturbo"&gt;63.4s&lt;div class="perfminus"&gt;+44%&lt;/div&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;h3&gt;13-inch 2018 MacBook Pro (2.7 GHz quad-core i7)&lt;/h3&gt;
+
+&lt;table class="turboboosttable"&gt;
+&lt;tr&gt;
+    &lt;th class="lcol"&gt;&amp;nbsp;&lt;/th&gt;
+    &lt;th&gt;Battery life&lt;/th&gt;
+    &lt;th&gt;Geekbench single/multi&lt;/th&gt;
+    &lt;th&gt;xcodebuild&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+    &lt;th class="lcol notbold"&gt;Normal&lt;/th&gt;
+    &lt;td&gt;3:09&lt;/td&gt;
+    &lt;td&gt;5412&lt;span class="lightslash"&gt;/&lt;/span&gt;18983&lt;/td&gt;
+    &lt;td&gt;34.3s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+    &lt;th class="lcol notbold"&gt;28W&lt;/th&gt;
+    &lt;td&gt;3:28&lt;div class="perfplus"&gt;+10%&lt;/div&gt;&lt;/td&gt;
+    &lt;td&gt;5401&lt;span class="lightslash"&gt;/&lt;/span&gt;16326&lt;div class="perfminus"&gt;−0&lt;span class="lightslash"&gt;/&lt;/span&gt;14%&lt;/div&gt;&lt;/td&gt;
+    &lt;td&gt;37.4s&lt;div class="perfminus"&gt;+9%&lt;/div&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+    &lt;th class="lcol notbold"&gt;18W&lt;/th&gt;
+    &lt;td&gt;4:05&lt;div class="perfplus"&gt;+29%&lt;/div&gt;&lt;/td&gt;
+    &lt;td&gt;5248&lt;span class="lightslash"&gt;/&lt;/span&gt;14133&lt;div class="perfminus"&gt;−3&lt;span class="lightslash"&gt;/&lt;/span&gt;26%&lt;/div&gt;&lt;/td&gt;
+    &lt;td&gt;43.5s&lt;div class="perfminus"&gt;+27%&lt;/div&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+    &lt;th class="lcol notbold"&gt;12W&lt;/th&gt;
+    &lt;td&gt;4:44&lt;div class="perfplus"&gt;+50%&lt;/div&gt;&lt;/td&gt;
+    &lt;td&gt;4818&lt;span class="lightslash"&gt;/&lt;/span&gt;11835&lt;div class="perfminus"&gt;−11&lt;span class="lightslash"&gt;/&lt;/span&gt;38%&lt;/div&gt;&lt;/td&gt;
+    &lt;td&gt;48.2s&lt;div class="perfminus"&gt;+41%&lt;/div&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+    &lt;th class="lcol notbold"&gt;No Turbo&lt;/th&gt;
+    &lt;td class="noturbo"&gt;5:05&lt;div class="perfplus"&gt;+61%&lt;/div&gt;&lt;/td&gt;
+    &lt;td class="noturbo"&gt;3624&lt;span class="lightslash"&gt;/&lt;/span&gt;13324&lt;div class="perfminus"&gt;−33&lt;span class="lightslash"&gt;/&lt;/span&gt;30%&lt;/div&gt;&lt;/td&gt;
+    &lt;td class="noturbo"&gt;48.9s&lt;div class="perfminus"&gt;+43%&lt;/div&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+    &lt;th class="lcol notbold"&gt;6W&lt;/th&gt;
+    &lt;td&gt;6:24&lt;div class="perfplus"&gt;+103%&lt;/div&gt;&lt;/td&gt;
+    &lt;td&gt;4065&lt;span class="lightslash"&gt;/&lt;/span&gt;7596&lt;div class="perfminus"&gt;−25&lt;span class="lightslash"&gt;/&lt;/span&gt;60%&lt;/div&gt;&lt;/td&gt;
+    &lt;td&gt;76.1s&lt;div class="perfminus"&gt;+121%&lt;/div&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;p&gt;It&amp;#8217;s impressive how much faster this new 13-inch model is than &lt;a href="https://marco.org/2017/11/14/best-laptop-ever"&gt;the best laptop ever made&lt;/a&gt; due to significant CPU and SSD improvements.&lt;/p&gt;
+
+&lt;p&gt;Dropping the wattage to 6W, the thermal limit of the fanless 12-inch MacBook, interestingly (but not surprisingly) makes it perform effectively identically to the &lt;a href="https://browser.geekbench.com/macs/422"&gt;best 12-inch MacBook&lt;/a&gt; in Geekbench. This is an extreme option, but one I&amp;#8217;d occasionally take if offered. It roughly doubles compilation times, but also doubles the battery life.&lt;/p&gt;
+
+&lt;p&gt;This ratio holds for most other configurations: the gain in battery life is about as large as the loss in heavy-workload performance. That&amp;#8217;s a trade-off I&amp;#8217;d gladly make when I need to maximize runtime.&lt;/p&gt;
+
+&lt;p&gt;The best bang-for-the-buck option is still to just disable Turbo Boost. Single-threaded performance hurts more than with wattage-limiting, but it&amp;#8217;s able to maintain better multi-threaded performance and more consistent thermals, and gets a larger battery gain relative to its performance loss.&lt;/p&gt;
+
+&lt;p&gt;And Volta, which offers both wattage limits and Turbo disabling, requires disabling System Integrity Protection to install an unsigned kernel extension, which I really don&amp;#8217;t recommend. Turbo Boost Switcher, which doesn&amp;#8217;t offer wattage control, works with SIP using a signed extension and its Pro version has more convenient features for automatic toggling.&lt;/p&gt;
+
+&lt;p&gt;For now, I&amp;#8217;m going to continue to happily run &lt;a href="https://www.rugarciap.com/turbo-boost-switcher-for-os-x/"&gt;Turbo Boost Switcher Pro&lt;/a&gt; to selectively give myself better battery life, and I recommend it for anyone else with the same need.&lt;/p&gt;
+
+&lt;p&gt;But what I ultimately want is for a true Low Power Mode built into macOS that could provide this sort of CPU throttling &lt;em&gt;and&lt;/em&gt; software changes, which would ultimately achieve even greater gains.&lt;/p&gt;
+
+&lt;div class="footnotes"&gt;
+&lt;hr /&gt;
+&lt;ol&gt;
+
+&lt;li id="fn:pfKDuWxMd1"&gt;
+&lt;p&gt;Whose work &lt;em&gt;does&lt;/em&gt; get 10 hours out of a MacBook Pro? None of the use-cases on &lt;a href="https://www.apple.com/macbook-pro/"&gt;the marketing page&lt;/a&gt; &amp;#8212; Photography, Coding, Video Editing, 3D Graphics, and Gaming &amp;#8212; are likely to achieve even half of that in practice.&amp;#160;&lt;a href="#fnref:pfKDuWxMd1" rev="footnote"&gt;&amp;#8617;&amp;#xFE0E;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+
+&lt;li id="fn:pfKDuWxMd2"&gt;
+&lt;p&gt;I&amp;#8217;ve heard that 15-inch models are wired such that the discrete GPU is required when external displays are connected. Otherwise, whether it&amp;#8217;s used or not is a software decision, and &lt;a href="https://gfx.io/"&gt;gfxCardStatus&lt;/a&gt; can override it in certain conditions.&amp;#160;&lt;a href="#fnref:pfKDuWxMd2" rev="footnote"&gt;&amp;#8617;&amp;#xFE0E;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+
+&lt;li id="fn:pfKDuWxMd3"&gt;
+&lt;p&gt;It&amp;#8217;s not brand new, so it&amp;#8217;s not a perfect comparison, but the battery only had 90 cycles before this test.&amp;#160;&lt;a href="#fnref:pfKDuWxMd3" rev="footnote"&gt;&amp;#8617;&amp;#xFE0E;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+
+&lt;/ol&gt;
+&lt;/div&gt;
+</description></item><item><title>Overcast 4.2: The privacy update</title><link>https://marco.org/2018/04/27/overcast42</link><guid isPermaLink="false">/2018/04/27/overcast42</guid><pubDate>Fri, 27 Apr 2018 14:56:21 EDT</pubDate><description>&lt;p&gt;&lt;a href="https://itunes.apple.com/us/app/overcast-podcast-player/id888422857?ls=1&amp;amp;mt=8&amp;amp;at=11lIuy&amp;amp;ct=marcoorg"&gt;Overcast 4.2 is out now&lt;/a&gt;. It enhances privacy in two major areas:&lt;/p&gt;
+
+&lt;h3&gt;&lt;strong&gt;Anonymous sync by default&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;Overcast has offered anonymous sync accounts since 2014. They&amp;#8217;re fully functional, but they lack email addresses or passwords, so they can&amp;#8217;t log into the website. A login token is stored in iCloud so the account can be accessed after a restore or upgrade, or from other devices you own.&lt;/p&gt;
+
+&lt;p&gt;Previously, the login screen pushed email logins. But with four years of perspective, feedback, and usage data, I now think that&amp;#8217;s the wrong move. Only a single-digit percentage of customers use the website, and the iCloud token-sync method solves cross-device logins for almost everyone.&lt;/p&gt;
+
+&lt;p&gt;Your personal data isn&amp;#8217;t my business &amp;#8212; it&amp;#8217;s a &lt;a href="https://en.wikipedia.org/wiki/General_Data_Protection_Regulation"&gt;liability&lt;/a&gt;. I want as little as possible. I don&amp;#8217;t even log IP addresses anymore.&lt;/p&gt;
+
+&lt;p&gt;If I don&amp;#8217;t need your email address, I really don&amp;#8217;t want it.&lt;/p&gt;
+
+&lt;p&gt;68% of Overcast accounts have email addresses today. To reduce that as much as possible, I&amp;#8217;ve made major changes to account handling:&lt;/p&gt;
+
+&lt;p style="text-align: center; margin-top: 1.5em; margin-bottom: 2em;"&gt;
+&lt;a href="http://www.marco.org/media/2018/04/overcast41-login.png"&gt;&lt;img style="border: 1px solid #eee; max-width: 45%; margin-right: 5%;" src="http://www.marco.org/media/2018/04/overcast41-login.png"/&gt;&lt;/a&gt;&lt;a href="http://www.marco.org/media/2018/04/overcast42-login.png"&gt;&lt;img style="border: 1px solid #eee; max-width: 45%;" src="http://www.marco.org/media/2018/04/overcast42-login.png"/&gt;&lt;/a&gt;&lt;br/&gt;
+&lt;small&gt;The previous login screen (left) and the new one.&lt;/small&gt;
+&lt;/p&gt;
+
+&lt;p&gt;In Overcast 4.2, the login screen now prominently encourages anonymous accounts by default.&lt;/p&gt;
+
+&lt;p&gt;If you already have an account in iCloud, it&amp;#8217;ll pop up a dialog box over this screen asking if you want to use it.&lt;/p&gt;
+
+&lt;p&gt;And the first time you launch 4.2, people with email-based accounts will be encouraged to migrate them to anonymous accounts:&lt;/p&gt;
+
+&lt;p style="text-align: center; margin-top: 1.5em; margin-bottom: 2em;"&gt;
+&lt;img style="border: 1px solid #eee; max-width: 45%;" src="http://www.marco.org/media/2018/04/overcast42-migration.png"/&gt;&lt;br/&gt;
+&lt;small&gt;The migration prompt that shows on the first run.&lt;/small&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Finally, you can now change your account between email-based and anonymous whenever you want.&lt;/p&gt;
+
+&lt;h3&gt;&lt;strong&gt;Blocking ad-tracking images&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;In most podcast apps, podcasts are downloaded automatically in the background. The only data sent to a podcast&amp;#8217;s publisher about you or your behavior is your IP address and the app&amp;#8217;s name. The IP address lets them derive your approximate region, but not much else.&lt;/p&gt;
+
+&lt;p&gt;They don&amp;#8217;t know exactly who you are, whether you listened, when you listened, how far you listened, or whether you skipped certain parts.&lt;/p&gt;
+
+&lt;p&gt;Some large podcast producers are trying &lt;em&gt;very&lt;/em&gt; hard to change that.&lt;/p&gt;
+
+&lt;p&gt;I&amp;#8217;m not.&lt;/p&gt;
+
+&lt;p&gt;Big data ruined the web, and I&amp;#8217;m not going to help bring it to podcasts. Publishers already &lt;a href="https://techcrunch.com/2017/12/14/apple-launches-its-podcast-analytics-service-into-beta/"&gt;get enough from Apple&lt;/a&gt; to inform ad rates and make content decisions &amp;#8212; they don&amp;#8217;t need more data from my customers. Podcasting has thrived, grown, and made tons of money for tons of people under the current model for over a decade. We already have all the data we need.&lt;/p&gt;
+
+&lt;p&gt;One of the ways publishers try to get around the limitations of the current model is by embedding remote images or invisible &amp;#8220;tracking pixels&amp;#8221; in each episode&amp;#8217;s HTML show notes. When displayed in most apps, the images are automatically loaded from an analytics server, which can then record and track more information about you.&lt;/p&gt;
+
+&lt;p style="text-align: center; margin-top: 1.5em; margin-bottom: 2em;"&gt;
+&lt;a href="http://www.marco.org/media/2018/04/overcast42-remote-image.png"&gt;&lt;img style="border: 1px solid #eee; max-width: 45%;" src="http://www.marco.org/media/2018/04/overcast42-remote-image.png"/&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;In Overcast 4.2, much like Mail (and for the same reason), remote images don&amp;#8217;t load by default. A tappable placeholder shows you where each image will load from, and you can decide whether to load it or not.&lt;/p&gt;
+
+&lt;p&gt;I believe I&amp;#8217;ve done this in the most secure way possible &amp;#8212; I&amp;#8217;m actually displaying the show notes using a strict &lt;a href="https://en.wikipedia.org/wiki/Content_Security_Policy"&gt;Content Security Policy&lt;/a&gt; &amp;#8212; and I would &lt;strong&gt;love&lt;/strong&gt; to hear from anyone who finds a way to inject auto-loading remote images or execute arbitrary JavaScript in show notes.&lt;/p&gt;
+
+&lt;h3&gt;&lt;strong&gt;Bug fixes&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;Overcast 4.2 also includes a bunch of minor fixes, and two big ones:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Fixed the major slowdowns and high battery usage that resulted from extremely large podcast artwork.&lt;/li&gt;
+&lt;li&gt;Password-protected &lt;em&gt;episodes&lt;/em&gt; are now supported on password-protected feeds.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a href="https://itunes.apple.com/us/app/overcast-podcast-player/id888422857?ls=1&amp;amp;mt=8&amp;amp;at=11lIuy&amp;amp;ct=marcoorg"&gt;Get it now in the App Store&lt;/a&gt;!&lt;/p&gt;
+</description></item><item><title>Overcast 4.1 now available</title><link>https://marco.org/2018/03/13/overcast41</link><guid isPermaLink="false">/2018/03/13/overcast41</guid><pubDate>Tue, 13 Mar 2018 20:42:08 EDT</pubDate><description>&lt;p&gt;&lt;a href="https://itunes.apple.com/us/app/overcast-podcast-player/id888422857?ls=1&amp;amp;mt=8&amp;amp;at=11lIuy&amp;amp;ct=marcoorg"&gt;Overcast 4.1 is now in the App Store&lt;/a&gt; with some small but nice new features.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Smart Resume&lt;/strong&gt; is actually two features:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;It jumps back by up to a few seconds after having been paused to help remind you of the conversation.&lt;/li&gt;
+&lt;li&gt;It slightly adjusts resumes and seeks to fall in the silences between spoken words when reasonably possible.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Both are subtle but noticeable benefits (my favorite kind), especially when you&amp;#8217;re being interrupted a lot, such as while following turn-by-turn navigation directions.&lt;/p&gt;
+
+&lt;p&gt;Smart Resume is on by default, and can be turned off in Nitpicky Details.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Delete episodes 24 hours after completion:&lt;/strong&gt; Before, episodes could either be auto-deleted immediately upon completion, or not at all. There&amp;#8217;s now a third option, auto-deleting 24 hours after completion, which will soon be the default for new accounts.&lt;/p&gt;
+
+&lt;p&gt;The 24-hour threshold is only enforced after a successful sync, so it won&amp;#8217;t auto-delete anything in the middle of an extended offline period, such as a long flight.&lt;/p&gt;
+
+&lt;p&gt;Auto-deletion, either immediate or after 24 hours, also no longer applies to Premium subscribers&amp;#8217; Uploads.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Password-protected podcasts:&lt;/strong&gt; Some private podcast feeds, including many paid and members-only podcasts, require a username and password via HTTP Basic Auth. You can now add these in the Add URL screen.&lt;/p&gt;
+
+&lt;p&gt;Password-protected podcasts, and other private feeds such as Patreon bonus feeds and anything using the &lt;code&gt;&amp;lt;itunes:block&amp;gt;&lt;/code&gt; tag, do not show up in search or recommendations.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Noteworthy bug fixes:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Resuming playback after quitting in the background, especially on very long podcasts and/or when using AirPods, no longer occasionally results in glitchy noises and incorrect durations.&lt;/li&gt;
+&lt;li&gt;Playback under certain conditions no longer stalls, requiring pausing and playing again.&lt;/li&gt;
+&lt;li&gt;Downloads now fail less often.&lt;/li&gt;
+&lt;li&gt;Playback controls no longer disappear occasionally.&lt;/li&gt;
+&lt;li&gt;Smart Speed total savings now appear at the bottom of the Settings screen for locales that use commas as their decimal separator.&lt;sup id="fnref:pTEOizqmk1"&gt;&lt;a href="#fn:pTEOizqmk1" rel="footnote"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+&lt;li&gt;Extremely large playlists now only show the most/least-recent 500 episodes to improve app performance for users with very high subscription counts.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;There&amp;#8217;s also one removal: rotation support on iPhone. (The iPad app still rotates.) iPhone rotation has always been disabled by default, and had been buried in Nitpicky Details for a long time, so &lt;em&gt;very&lt;/em&gt; few people have ever used it. Meanwhile, it has become increasingly difficult to support and maintain, especially with the modern complexities of rotation and the dramatically increased workload of supporting the iPhone X in landscape.&lt;/p&gt;
+
+&lt;p&gt;iPhone rotation has simply proven far too costly to maintain for its extremely low usage, and it had to go to free up more of my time for more highly demanded features. I apologize to the few people who did use it, and I hope this isn&amp;#8217;t too disruptive for you.&lt;/p&gt;
+
+&lt;p&gt;The rest is all good news. &lt;a href="https://itunes.apple.com/us/app/overcast-podcast-player/id888422857?ls=1&amp;amp;mt=8&amp;amp;at=11lIuy&amp;amp;ct=marcoorg"&gt;Go get Overcast now&lt;/a&gt;!&lt;/p&gt;
+
+&lt;p&gt;In the next update, I&amp;#8217;ll be addressing the biggest design failure of Overcast 4: the non-discoverability of the Effects and Notes pages in the Now Playing screen. Expect the return of an ancient user-interface tool known as &amp;#8220;buttons&amp;#8221;.&lt;/p&gt;
+
+&lt;div class="footnotes"&gt;
+&lt;hr /&gt;
+&lt;ol&gt;
+
+&lt;li id="fn:pTEOizqmk1"&gt;
+&lt;p&gt;This was Overcast&amp;#8217;s oldest known bug, which had been there since 1.0: some users, mostly in central Europe, wouldn&amp;#8217;t see Smart Speed totals. It turned out to be one of the most interesting and obscure bugs I&amp;#8217;ve seen.&lt;/p&gt;
+
+&lt;p&gt;The total-time-saved value is stored on-device as it accumulates, then gets sent to the server to be combined with any listening you do on other devices. The overall total is read back from the server, and the local total is reset, on each sync.&lt;/p&gt;
+
+&lt;p&gt;I was using an &lt;code&gt;NSNumberFormatter&lt;/code&gt; to read the total value from Overcast&amp;#8217;s server as a &lt;code&gt;double&lt;/code&gt;. My server always sends values with U.S.-style number formatting, using a period as the decimal separator (e.g. &amp;#8220;1234.5&amp;#8221;). But by default, &lt;code&gt;NSNumberFormatter&lt;/code&gt; uses the device&amp;#8217;s locale, so in countries that use a comma as the decimal separator (e.g. &amp;#8220;1234,5&amp;#8221;), it was interpreting the server&amp;#8217;s numbers with periods as invalid and returning zero. So the Settings screen thought they hadn&amp;#8217;t saved any time, and hid the time-saved label.&lt;/p&gt;
+
+&lt;p&gt;Fortunately, it was an easy fix: setting that &lt;code&gt;NSNumberFormatter&lt;/code&gt; locale to &lt;code&gt;en_US&lt;/code&gt; to match what the server was sending. And since the accumulated local totals were still being sent and added properly, the correct historical data is there &amp;#8212; it just wasn&amp;#8217;t being displayed correctly.&amp;#160;&lt;a href="#fnref:pTEOizqmk1" rev="footnote"&gt;&amp;#8617;&amp;#xFE0E;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+
+&lt;/ol&gt;
+&lt;/div&gt;
+</description></item><item><title>WatchKit is a sweet solution that will only ever give us baby apps</title><link>https://marco.org/2018/02/26/watchkit-baby-apps</link><guid isPermaLink="false">/2018/02/26/watchkit-baby-apps</guid><pubDate>Mon, 26 Feb 2018 15:03:35 EST</pubDate><description>&lt;p&gt;In the original &lt;a href="https://www.youtube.com/watch?v=vN4U5FqrOdQ"&gt;2007 iPhone introduction&lt;/a&gt;, Steve Jobs famously derided other smartphones at the time for running &amp;#8220;baby&amp;#8221; software and the &amp;#8220;baby&amp;#8221; internet. He was right.&lt;/p&gt;
+
+&lt;p&gt;Developers weren&amp;#8217;t given access to make native apps until the iPhone&amp;#8217;s second year. Before the native development kit was ready, Apple tried to pass off web apps as a &amp;#8220;&lt;a href="https://daringfireball.net/2007/06/wwdc_2007_keynote"&gt;sweet solution&lt;/a&gt;&amp;#8221; for third-party apps, but nobody was fooled.&lt;/p&gt;
+
+&lt;p&gt;Apple wasn&amp;#8217;t using web apps for their own built-in iPhone apps &amp;#8212; they were using native code and frameworks to make &lt;em&gt;real&lt;/em&gt; apps.&lt;sup id="fnref:pFMrzsSqF1"&gt;&lt;a href="#fn:pFMrzsSqF1" rel="footnote"&gt;1&lt;/a&gt;&lt;/sup&gt; Developers like me did our best with web apps, but they sucked. We simply couldn&amp;#8217;t make great apps without access to the real frameworks.&lt;/p&gt;
+
+&lt;p&gt;Apps were terrible, and didn&amp;#8217;t take off, until we had access to the same native tools that Apple used.&lt;/p&gt;
+
+&lt;p style="text-align: center; margin-top: 1.5em; margin-bottom: 1.5em;"&gt;*&amp;nbsp;&amp;nbsp;&amp;nbsp;*&amp;nbsp;&amp;nbsp;&amp;nbsp;*&lt;/p&gt;
+
+&lt;p&gt;Developing Apple Watch apps is &lt;a href="http://benjaminmayo.co.uk/developing-for-apple-watch"&gt;extremely frustrating and limited&lt;/a&gt; for one big reason: unlike on iOS, Apple doesn&amp;#8217;t give app developers access to the same watchOS frameworks that &lt;em&gt;they&lt;/em&gt; use on Apple Watch.&lt;/p&gt;
+
+&lt;p&gt;Instead, we&amp;#8217;re only allowed to use WatchKit, a baby UI framework that would&amp;#8217;ve seemed rudimentary to developers even in the 1990s. But unlike the iPhone&amp;#8217;s web apps, WatchKit doesn&amp;#8217;t appear to be a stopgap &amp;#8212; it seems to be Apple&amp;#8217;s long-term solution to third-party app development on the Apple Watch.&lt;/p&gt;
+
+&lt;p&gt;The separation of Apple&amp;#8217;s internally-used frameworks from WatchKit has two huge problems:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Apple doesn&amp;#8217;t feel WatchKit&amp;#8217;s limitations.&lt;/strong&gt; Since they&amp;#8217;re not using it, it&amp;#8217;s too easy for Apple&amp;#8217;s developers and evangelists to forget or never know what&amp;#8217;s possible, what isn&amp;#8217;t, what&amp;#8217;s easy, and what&amp;#8217;s hard. The &lt;a href="https://marco.org/2017/09/24/what-watch-podcast-apps-need"&gt;bugs and limitations I report to them&lt;/a&gt; are usually met with shock and surprise &amp;#8212; &lt;em&gt;they have no idea&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;WatchKit is buggy as hell.&lt;/strong&gt; Since Apple doesn&amp;#8217;t use it and there are relatively few third-party Watch apps of value, WatchKit is &lt;em&gt;far&lt;/em&gt; more buggy, and seems far less tested, than any other Apple API I&amp;#8217;ve ever worked with.&lt;sup id="fnref:pFMrzsSqF2"&gt;&lt;a href="#fn:pFMrzsSqF2" rel="footnote"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Apple will never have a very good idea of where WatchKit needs to improve if they&amp;#8217;re not using it. But this sweet solution is the only choice anyone else has to make Apple Watch apps.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;WatchKit only lets us create &amp;#8220;baby&amp;#8221; apps.&lt;/strong&gt; That&amp;#8217;s all it will ever let us create.&lt;/p&gt;
+
+&lt;p&gt;WatchKit needs to be discontinued and replaced.&lt;/p&gt;
+
+&lt;p&gt;No focus on quality or expansion of WatchKit will fix this. There are only two ways to meaningfully improve Watch apps, spur third-party innovation, and unlock the true potential of the Apple Watch.&lt;/p&gt;
+
+&lt;p&gt;One solution is for Apple to reimplement all of its own Watch apps with WatchKit instead of their internal frameworks, which will force them to fix WatchKit&amp;#8217;s many bugs and dramatically expand it.&lt;/p&gt;
+
+&lt;p&gt;The much better solution, and the one I hope they take, is for Apple to expose its &lt;em&gt;real&lt;/em&gt; watchOS UI and media frameworks to third-party developers, as it has done on iOS.&lt;/p&gt;
+
+&lt;p style="text-align: center; margin-top: 1.5em; margin-bottom: 1.5em;"&gt;*&amp;nbsp;&amp;nbsp;&amp;nbsp;*&amp;nbsp;&amp;nbsp;&amp;nbsp;*&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;I also made this argument in podcast form in &lt;a href="https://overcast.fm/+FgnaVMt3Q/14:03"&gt;Under The Radar 114&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+
+&lt;div class="footnotes"&gt;
+&lt;hr /&gt;
+&lt;ol&gt;
+
+&lt;li id="fn:pFMrzsSqF1"&gt;
+&lt;p&gt;Defensive web developers who object to my &amp;#8220;real&amp;#8221; classification, remember this was 2007 hardware with 2007 cellular speeds and 2007 browser capabilities. You don&amp;#8217;t realize how good you have it today. (But most apps should still be native.)&amp;#160;&lt;a href="#fnref:pFMrzsSqF1" rev="footnote"&gt;&amp;#8617;&amp;#xFE0E;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+
+&lt;li id="fn:pFMrzsSqF2"&gt;
+&lt;p&gt;&lt;a href="https://twitter.com/qzervaas/status/967522663143886850"&gt;Here&amp;#8217;s one from today&lt;/a&gt; for &lt;code&gt;WKAudioFilePlayer&lt;/code&gt;, an abysmal, demoralizing API that I lost weeks of my life battling that feels like it had literally &lt;em&gt;zero&lt;/em&gt; testing at Apple. I&amp;#8217;d bet money that nobody at Apple has ever tried to build an app with it.&amp;#160;&lt;a href="#fnref:pFMrzsSqF2" rev="footnote"&gt;&amp;#8617;&amp;#xFE0E;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+
+&lt;/ol&gt;
+&lt;/div&gt;
+</description></item><item><title>Defending your app from copies and clones</title><link>https://marco.org/2018/02/22/your-app-was-copied</link><guid isPermaLink="false">/2018/02/22/your-app-was-copied</guid><pubDate>Thu, 22 Feb 2018 08:48:53 EST</pubDate><description>&lt;p&gt;App developers sometimes ask me what they should do when their features, designs, or entire apps are copied by competitors.&lt;/p&gt;
+
+&lt;p&gt;Legally, there&amp;#8217;s not a lot you can do about it:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Copyright&lt;/strong&gt; protects your icon, images, other creative resources, and source code. You automatically have copyright protection, but it&amp;#8217;s easy to evade with minor variations.&lt;sup id="fnref:pvEnZOtTJc"&gt;&lt;a href="#fn:pvEnZOtTJc" rel="footnote"&gt;1&lt;/a&gt;&lt;/sup&gt; App stores don&amp;#8217;t enforce it easily unless resources have been copied &lt;em&gt;exactly.&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Trademarks&lt;/strong&gt; protect names, logos, and slogans. They cover minor variations as well, and app stores enforce trademarks more easily, but they&amp;#8217;re costly to register and only apply in narrow areas.&lt;sup id="fnref:pvEnZOtTJtm"&gt;&lt;a href="#fn:pvEnZOtTJtm" rel="footnote"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Only assholes get &lt;strong&gt;patents.&lt;/strong&gt; They can be &lt;a href="http://www.candlerblog.com/2013/12/23/no-thanks-ia/"&gt;a huge PR mistake&lt;/a&gt;, and they&amp;#8217;re a fool&amp;#8217;s errand: even if you get one (&lt;a href="http://www.ipwatchdog.com/2015/04/04/the-cost-of-obtaining-a-patent-in-the-us/id=56485/"&gt;$20,000+ later&lt;/a&gt;), you can&amp;#8217;t afford to use it against any adversary big enough to matter.&lt;/p&gt;
+
+&lt;p&gt;Don&amp;#8217;t be an asshole or a fool. Don&amp;#8217;t get software patents.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;If someone literally copied your assets or got too close to your trademarked name, you need to file takedowns or legal complaints, but that&amp;#8217;s rarely done by anyone big enough to matter. If a competitor just adds a feature or design similar to one of yours, you usually can&amp;#8217;t do anything.&lt;/p&gt;
+
+&lt;p&gt;You can publicly call out a copy, but you won&amp;#8217;t come out of it looking good:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;If they&amp;#8217;re more successful than you, it&amp;#8217;s envy and sour grapes.&lt;/li&gt;
+&lt;li&gt;If they&amp;#8217;re less successful than you, it&amp;#8217;s jealousy and punching down (and giving them attention!).&lt;/li&gt;
+&lt;li&gt;The public may have a very different opinion on whether you&amp;#8217;re really being copied from, whether you were really the first to do it, or whether you deserve to &amp;#8220;own&amp;#8221; it.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;These disputes are best kept private, or not fought at all.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Nobody else will care as much as you do.&lt;/strong&gt; Nobody cares who was first, and nobody cares who copied who. The public won&amp;#8217;t defend you.&lt;/p&gt;
+
+&lt;p&gt;The instant someone else has the same feature or design as you, the public and press see it as a collective checkbox feature, or a &amp;#8220;standard&amp;#8221; or &amp;#8220;obvious&amp;#8221; design, that apps in this category just &lt;em&gt;have&lt;/em&gt;. It&amp;#8217;s no longer yours.&lt;/p&gt;
+
+&lt;p&gt;You can try to &amp;#8220;educate&amp;#8221; the public, but you&amp;#8217;ll lose.&lt;/p&gt;
+
+&lt;p&gt;This feels unfair when it happens to you, but it&amp;#8217;s just how it goes, and the entire ecosystem benefits. Every app &amp;#8212; even yours &amp;#8212; includes countless &amp;#8220;standard&amp;#8221; and &amp;#8220;obvious&amp;#8221; features and designs that, at one time, weren&amp;#8217;t. &lt;a href="https://www.everythingisaremix.info/"&gt;Everything is a remix&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;A great design or feature can give you a competitive advantage for a little while, but it&amp;#8217;s always temporary. Compete on marketing, quality, and what you can do next, not the assumption that nobody can copy what you made.&lt;/p&gt;
+
+&lt;p&gt;Setting the roadmap for competitors is a satisfying accomplishment, but only a personal one. &lt;em&gt;You&lt;/em&gt; know you&amp;#8217;ve done it. That has to be enough.&lt;/p&gt;
+
+&lt;div class="footnotes"&gt;
+&lt;hr /&gt;
+&lt;ol&gt;
+
+&lt;li id="fn:pvEnZOtTJc"&gt;
+&lt;p&gt;For instance, nobody else can make an app that uses Overcast&amp;#8217;s exact icon, or anything clearly derivative of it, but I can&amp;#8217;t stop anyone from making a different-looking, originally-drawn orange icon with a radio tower in it.&amp;#160;&lt;a href="#fnref:pvEnZOtTJc" rev="footnote"&gt;&amp;#8617;&amp;#xFE0E;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+
+&lt;li id="fn:pvEnZOtTJtm"&gt;
+&lt;p&gt;For instance, nobody else can make an audio player named Overcast or anything similar to it, but I can&amp;#8217;t stop anyone from making a weather app with that name. And other podcast players can&amp;#8217;t make features named Smart Speed or Voice Boost, but I can&amp;#8217;t stop them from making similar features with different-enough names.&amp;#160;&lt;a href="#fnref:pvEnZOtTJtm" rev="footnote"&gt;&amp;#8617;&amp;#xFE0E;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+
+&lt;/ol&gt;
+&lt;/div&gt;
+</description></item><item><title>The end of the conference era</title><link>https://marco.org/2018/01/17/end-of-conference-era</link><guid isPermaLink="false">/2018/01/17/end-of-conference-era</guid><pubDate>Wed, 17 Jan 2018 18:02:58 EST</pubDate><description>&lt;p&gt;Chris Adamson &lt;a href="http://subfurther.com/blog/2018/01/15/the-final-conf-down/"&gt;notes a significant contraction in iOS and related conferences recently&lt;/a&gt; (via &lt;a href="https://mjtsai.com/blog/2018/01/16/the-final-conf-down/"&gt;Michael Tsai&lt;/a&gt;).&lt;/p&gt;
+
+&lt;p&gt;Having attended (and sometimes spoken at) many of these conferences over the years, I can&amp;#8217;t deny the feeling I&amp;#8217;ve had in the last couple of years that the era of the small Apple-ish developer-ish conference is mostly or entirely behind us.&lt;/p&gt;
+
+&lt;p&gt;I don&amp;#8217;t think that&amp;#8217;s a bad thing. This style of conference had a &lt;em&gt;great&lt;/em&gt; run, but it always had major and inherent limitations, challenges, and inefficiencies:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Cost:&lt;/strong&gt; With flights, lodging, and the ticket adding up to thousands of dollars per conference, most people are priced out. The vast majority of attendees&amp;#8217; money isn&amp;#8217;t even going to the conference organizers or speakers &amp;#8212; it&amp;#8217;s going to venues, hotels, and airlines.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Size:&lt;/strong&gt; There&amp;#8217;s no good size for a conference. Small conferences exclude too many people; big conferences impede socialization and logistics.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Logistics:&lt;/strong&gt; Planning and executing a conference takes such a toll on the organizers that few of them have ever lasted more than a few years.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Format:&lt;/strong&gt; Preparing formal talks with slide decks is a &lt;em&gt;massively&lt;/em&gt; inefficient use of the speakers&amp;#8217; time compared to other modern methods of communicating ideas, and sitting there listening to blocks of talks for long stretches while you&amp;#8217;re trying to stay awake after lunch is a pretty inefficient way to hear ideas.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;It&amp;#8217;s getting increasingly difficult for organizers to sell tickets, in part because it&amp;#8217;s hard to get big-name speakers without the budget to pay them much (which would significantly drive up ticket costs, which exacerbates other problems), but also because conferences now have much bigger competition in connecting people to their colleagues or audiences.&lt;/p&gt;
+
+&lt;p&gt;There&amp;#8217;s no single factor that has made it so difficult, but the explosion of podcasts and YouTube over the last few years must have contributed significantly. Podcasts are a vastly more time-efficient way for people to communicate ideas than writing conference talks, and people who prefer crafting their message as a produced piece or with multimedia can do the same thing (and more) on YouTube. Both are much easier and more versatile for people to consume than conference talks, and they can reach and benefit &lt;em&gt;far&lt;/em&gt; more people.&lt;/p&gt;
+
+&lt;p&gt;Ten years ago, you had to go to conferences to hear most prominent people in our industry speak in their own voice, or to get more content than an occasional blog post. Today, anyone who could headline a conference probably has a podcast or YouTube channel with hours of their thoughts and ideas available to anyone, anywhere in the world, anytime, for free.&lt;/p&gt;
+
+&lt;p&gt;But all of that media can&amp;#8217;t really replace the socializing, networking, and simply &lt;em&gt;fun&lt;/em&gt; that happened as part of (or sometimes despite) the conference formula.&lt;/p&gt;
+
+&lt;p&gt;I don&amp;#8217;t know how to fix conferences, but the first place I&amp;#8217;d start on that whiteboard is by getting rid of all of the talks, then trying to find different ways to bring people together &amp;#8212; and far more of them than before.&lt;/p&gt;
+
+&lt;p&gt;Or maybe we&amp;#8217;ve already solved these problems with social networks, Slack groups, podcasts, and YouTube, and we just haven&amp;#8217;t fully realized it yet.&lt;/p&gt;
+</description></item><item><title>Fixing the MacBook Pro</title><link>https://marco.org/2017/11/24/fixing-the-macbook-pro</link><guid isPermaLink="false">/2017/11/24/fixing-the-macbook-pro</guid><pubDate>Fri, 24 Nov 2017 19:14:29 EST</pubDate><description>&lt;p&gt;Despite &lt;a href="https://marco.org/2017/11/14/best-laptop-ever"&gt;my love for the previous Retina MacBook Pro&lt;/a&gt;, I won&amp;#8217;t be able to use it forever. The best laptop to ever exist should be in the future, not the past.&lt;/p&gt;
+
+&lt;p&gt;There&amp;#8217;s a lot to like about the new MacBook Pros, but they need some changes to be truly great and up to Apple&amp;#8217;s standards.&lt;/p&gt;
+
+&lt;p&gt;Here&amp;#8217;s what I&amp;#8217;m hoping to see in the next MacBook Pro that I believe is technically possible, reasonable, widely agreeable, and likely for Apple to actually do, in descending order of importance:&lt;/p&gt;
+
+&lt;h3&gt;&lt;strong&gt;Magic Keyboard&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;Butterfly keyswitches are a design failure that should be abandoned. They&amp;#8217;ve been controversial, fatally unreliable, and expensive to repair since their introduction on the first 12&amp;#8221; MacBook in early 2015. Their flaws were evident immediately, yet Apple brought them to the entire MacBook Pro lineup in late 2016.&lt;/p&gt;
+
+&lt;p&gt;After three significant revisions, Apple&amp;#8217;s butterfly keyswitches remain as controversial and unreliable as ever. At best, they&amp;#8217;re a compromise acceptable &lt;em&gt;only&lt;/em&gt; on the ultra-thin 12&amp;#8221; MacBook, and only if nothing else fits. They have no place in Apple&amp;#8217;s mainstream or pro computers.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;The MacBook Pro must return to scissor keyswitches.&lt;/strong&gt; If Apple only changes one thing about the next MacBook Pro, it should be this. It&amp;#8217;s far more important than anything else on this list.&lt;/p&gt;
+
+&lt;p&gt;Fans of the butterfly keyboard&amp;#8217;s feel need not worry &amp;#8212; this doesn&amp;#8217;t mean we need the old MacBook Pro keyboard, exactly.&lt;/p&gt;
+
+&lt;p&gt;The &lt;a href="https://www.apple.com/shop/product/MLA22LL/A/magic-keyboard-us-english"&gt;Magic Keyboard&amp;#8217;s&lt;/a&gt; scissor switches feel similar, but with a bit more travel, and all of the reliability and resilience of previous keyboard generations. They&amp;#8217;re a much better, more reliable, and more repairable balance of thinness and typing feel likely to appeal to far more people &amp;#8212; even those who like the butterfly keyboards.&lt;/p&gt;
+
+&lt;p&gt;The Magic Keyboard only needs one change to be perfect for the MacBook Pro: returning to the &amp;#8220;inverted-T&amp;#8221; arrow-key arrangement by making the left- and right-arrow keys half-height again. This arrangement is much more natural and less error-prone because we can align our fingers by feeling the &amp;#8220;T&amp;#8221; shape, a crucial affordance for such frequently used keys that are so far from the home row.&lt;/p&gt;
+
+&lt;h3&gt;&lt;strong&gt;Great first-party USB-C hubs&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;The MacBook Pro bet heavily on the USB-C ecosystem, but it hasn&amp;#8217;t developed enough on its own.&lt;/p&gt;
+
+&lt;p&gt;When people can&amp;#8217;t get what they need from Apple at all, or at a remotely competitive price, they&amp;#8217;ll go to cheap third-party products, which are often unreliable or cause other problems. When these critical accessories aren&amp;#8217;t flawless, it reflects poorly on Apple, as it harms the overall real-world experience of using these computers.&lt;/p&gt;
+
+&lt;p&gt;If a third-party hub or dongle is flaky, the owner doesn&amp;#8217;t blame &lt;em&gt;it&lt;/em&gt; &amp;#8212; they blame their expensive new Apple computer for needing it.&lt;/p&gt;
+
+&lt;p&gt;Apple needs to step up with its own solid offerings to offer more ports for people who need them.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="https://www.apple.com/shop/product/MJ1K2AM/A/usb-c-digital-av-multiport-adapter"&gt;Apple&amp;#8217;s most full-featured USB-C accessory&lt;/a&gt; is downright punitive in its unnecessary minimalism: one USB-C passthrough, one USB-A (a.k.a. regular/old USB), and an HDMI port that doesn&amp;#8217;t even do 4K at 60 Hz &amp;#8212; all for the shameless price of $80.&lt;/p&gt;
+
+&lt;p&gt;Instead of giving us the &lt;strong&gt;least&lt;/strong&gt; that we might possibly need, this type of product should give us the &lt;strong&gt;most&lt;/strong&gt; that can fit within reasonable size, cost, and bandwidth constraints. I&amp;#8217;d like to see at least two USB-C ports, at least two USB-A ports, and HDMI that can do 4K60. An SD-card reader would be a nice bonus.&lt;/p&gt;
+
+&lt;p&gt;To make it easier to go all-USB-C on our peripherals and cables, I&amp;#8217;d also like to see a true USB-C &lt;em&gt;hub:&lt;/em&gt; one USB-C in and at least three USB-C out, with power passthrough on one.&lt;/p&gt;
+
+&lt;p&gt;And just as we learned that the need for pro displays shouldn&amp;#8217;t be outsourced to LG, Apple should stop outsourcing critical adapters and hubs to Belkin. They&amp;#8217;re not as good as Apple&amp;#8217;s, and they never will be.&lt;/p&gt;
+
+&lt;h3&gt;&lt;strong&gt;More ports&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;USB-C is great, but being limited to 2 or 4 total ports (including power) simply isn&amp;#8217;t enough. Even if you adopt the USB-C ecosystem, these MacBook Pros are more limited than their predecessors:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The 13&amp;#8221; MacBook Air can connect to power, two USB devices, Thunderbolt, and an SD card simultaneously. Its replacement, the 13&amp;#8221; MacBook &amp;#8220;Escape&amp;#8221; (without Touch Bar), can only connect to two total devices on battery, or one when powered.&lt;/li&gt;
+&lt;li&gt;The 2015 13&amp;#8221; and 15&amp;#8221; MacBook Pros can connect to power, two USB devices, two Thunderbolt devices, HDMI output, and an SD card simultaneously. Their replacements can only connect to four devices on battery, or three when powered.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;If there&amp;#8217;s not enough Thunderbolt or PCIe bandwidth to have more USB-C ports, that&amp;#8217;s fine — not every port needs to be USB-C with Thunderbolt. All of that cost and bandwidth is unnecessary for most common real-world uses of laptop ports (power in, charging iPhones, external keyboards, etc.).&lt;/p&gt;
+
+&lt;p&gt;Dongles should be the exception, not the norm, in real-world use &amp;#8212; most owners should need zero. But HDMI and USB-A are still &lt;em&gt;far&lt;/em&gt; too widely used to have been removed completely, and neither are likely to fade away anytime soon regardless of how Apple configures their laptops. Re-adding HDMI and at least one USB-A port would reduce or eliminate many people&amp;#8217;s dongle needs, which I bet would dramatically improve their satisfaction.&lt;/p&gt;
+
+&lt;p&gt;Finally, Apple should give serious consideration to bringing back the SD-card slot. SD cards are more widely used than ever in photography, video, audio, and other specialized equipment, and they provide excellent options for fast, reliable storage expansion and data transfer. And they&amp;#8217;re going to be around for a while &amp;#8212; Wi-Fi and cables don&amp;#8217;t or can&amp;#8217;t replace most current uses in practice.&lt;/p&gt;
+
+&lt;h3&gt;&lt;strong&gt;Back away from the Touch Bar&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;Sorry, it&amp;#8217;s a flop. It was a solid try at something new, but it didn&amp;#8217;t work out. There&amp;#8217;s no shame in that &amp;#8212; Apple should just recognize this, learn from it, and move on.&lt;/p&gt;
+
+&lt;p&gt;The Touch Bar should either be discontinued or made optional for all MacBook Pro sizes and configurations.&lt;/p&gt;
+
+&lt;p&gt;Touch ID is the only part of the Touch Bar worth saving, but the future is clearly Face ID. If we can&amp;#8217;t have that yet, the ideal setup is Touch ID without the Touch Bar. We&amp;#8217;d retain the Secure Enclave&amp;#8217;s protection for the camera and microphones, and hopefully get the iMac Pro&amp;#8217;s boot protection, too.&lt;/p&gt;
+
+&lt;h3&gt;&lt;strong&gt;Nicer charger&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;USB-C PD charging and replaceable charging cables are great advances that should be kept. USB-C PD is the reason I didn&amp;#8217;t include battery life in this list &amp;#8212; occasional needs for extended battery life can be achieved with inexpensive USB-C PD batteries.&lt;/p&gt;
+
+&lt;p&gt;But Apple could make their chargers and cables so much nicer &amp;#8212; and they only need to look to their own recent past.&lt;/p&gt;
+
+&lt;p&gt;I&amp;#8217;d like to see them bring back the charging LED on the end of the cable, and the cable-management arms on the brick. These weren&amp;#8217;t superfluous &amp;#8212; they served important, useful functions, and their removal made real-world usability worse for small, unnecessary gains.&lt;/p&gt;
+
+&lt;p&gt;MagSafe would be nice, but I don&amp;#8217;t think it&amp;#8217;s essential. MagSafe 2 wasn&amp;#8217;t universally loved because it detached with too little vertical pressure when used on laps, couches, or beds, but maybe it could be moved to a splitting module along the cable, a few inches from the laptop end, like the original Xbox&amp;#8217;s controller cables?&lt;/p&gt;
+
+&lt;p&gt;The move to a detachable, &amp;#8220;standard&amp;#8221; USB-C cable doesn&amp;#8217;t preclude any of this. It&amp;#8217;s already a specialized, dedicated power-only cable in practice (high-wattage USB PD support, but no Thunderbolt, and limited to USB 2.0 speeds). Third-party cables could still work &amp;#8212; Apple&amp;#8217;s could just be nicer.&lt;/p&gt;
+
+&lt;h3&gt;&lt;strong&gt;Keeping what&amp;#8217;s great&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;There&amp;#8217;s a lot about the current MacBook Pro that&amp;#8217;s great &amp;#8212; fast internals, quieter fans, Touch ID, P3 screens, Thunderbolt 3, USB-C PD charging, and space gray, to name a few.&lt;/p&gt;
+
+&lt;p&gt;We shouldn&amp;#8217;t have to choose between what&amp;#8217;s better about the previous generation &amp;#8212; connectivity, reliability, and versatility &amp;#8212; and what&amp;#8217;s great about this one.&lt;/p&gt;
+</description></item><item><title>The best laptop ever made</title><link>https://marco.org/2017/11/14/best-laptop-ever</link><guid isPermaLink="false">/2017/11/14/best-laptop-ever</guid><pubDate>Tue, 14 Nov 2017 16:38:50 EST</pubDate><description>&lt;p&gt;Apple has made many great laptops, but the 15-inch Retina MacBook Pro (2012–2015) is the epitome of usefulness, elegance, practicality, and power for an overall package that still hasn&amp;#8217;t been (and may never be) surpassed.&lt;/p&gt;
+
+&lt;p style="text-align: center; margin-top: 2em; margin-bottom: 2em;"&gt;&lt;img class="extrawide" src="http://www.marco.org/media/2017/11/mbp2015.jpg"/&gt;&lt;/p&gt;
+
+&lt;p&gt;Introduced in 2012, less than a year after Steve Jobs died, I see it as the peak of Jobs&amp;#8217; vision for the Mac.&lt;/p&gt;
+
+&lt;p&gt;It was the debut of high-DPI Macs, starting down the long road (which we still haven&amp;#8217;t finished) to an all-Retina lineup. And with all-SSD storage, quad-core i7 processors, and a healthy amount of RAM all standard, &lt;em&gt;every&lt;/em&gt; configuration was fast, capable, and pleasant to use.&lt;/p&gt;
+
+&lt;p&gt;At its introduction, it was criticized only for ditching the optical drive and Ethernet port, but these were defensible, well-timed removals: neither could&amp;#8217;ve even come close to physically fitting in the new design, very few MacBook Pro users were still using either on a regular basis, and almost none of us needed to buy external optical drives or Ethernet adapters to fit the new laptop into our lives. In exchange for those removals, we got substantial reductions in thickness and weight, and a huge new battery.&lt;/p&gt;
+
+&lt;p&gt;There were no other downsides. Everything else about this machine was an upgrade: thinner, lighter, faster, better battery life, quieter fans, better speakers, better microphones, a second Thunderbolt port, and a convenient new HDMI port.&lt;/p&gt;
+
+&lt;p style="text-align: center; margin-top: 2em; margin-bottom: 2em;"&gt;&lt;img class="extrawide" src="http://www.marco.org/media/2017/11/mbp2015-left.jpg"/&gt;&lt;/p&gt;
+
+&lt;p&gt;The MagSafe 2 power adapter breaks away safely if it&amp;#8217;s tripped over, and the LED on the connector quickly, clearly, and silently indicates whether it&amp;#8217;s charging and when the battery is fully charged.&lt;/p&gt;
+
+&lt;p&gt;The pair of Thunderbolt (later Thunderbolt 2) ports gave us high-end, high-speed connectivity when we needed it, and the pair of standard USB 3 ports &amp;#8212; one on each side &amp;#8212; let us connect or charge our world of standard USB devices.&lt;/p&gt;
+
+&lt;p&gt;The headphone jack was thoughtfully located on the left side, because nearly all headphones run their cables down from the left earcup. (External-mouse users also appreciate this frequently-used cable not intruding in their right-side mousing area.)&lt;/p&gt;
+
+&lt;p style="text-align: center; margin-top: 2em; margin-bottom: 2em;"&gt;&lt;img class="extrawide" src="http://www.marco.org/media/2017/11/mbp2015-right.jpg"/&gt;&lt;/p&gt;
+
+&lt;p&gt;The keyboard was completely unremarkable, in the best possible way. The crowd-pleasing design was neither fanatically loved nor widely despised. It quietly and reliably did its job, as all great tools should, and nobody ever really had to think about it.&lt;/p&gt;
+
+&lt;p&gt;The trackpad struck a great balance between size and usability. It provided ample room for multitouch gestures, but without being too large or close to the keyboard, so people&amp;#8217;s fingers wouldn&amp;#8217;t inadvertently brush against it while typing.&lt;/p&gt;
+
+&lt;p&gt;Not every owner needed the SD-card slot or HDMI port, but both were provided for times when we might. This greatly increased the versatility and convenience of this MacBook Pro, as many pro customers use A/V gear that records to SD cards or occasionally need to plug into a TV or projector. The SD-card slot could also serve as inexpensive storage expansion.&lt;/p&gt;
+
+&lt;p style="text-align: center; margin-top: 2em; margin-bottom: 2em;"&gt;&lt;img class="extrawide" src="http://www.marco.org/media/2017/11/mbp2015-travel.jpg"/&gt;&lt;/p&gt;
+
+&lt;p&gt;The power adapter&amp;#8217;s built-in cable management keeps bags tidy. And if you need a longer cable, the extension comes in the box at no additional charge.&lt;/p&gt;
+
+&lt;p&gt;Versatile USB-A ports allow travelers to standardize on just &lt;em&gt;one&lt;/em&gt; type of charging cable that can charge their iPhones and iPads from the laptop itself, multi-port wall or car chargers, portable batteries, airplanes, many outlets, and nearly all other chargers likely to be found in the world around them.&lt;/p&gt;
+
+&lt;p&gt;The 2015 revision brought the modern Force Touch trackpad and used the space savings to increase the battery to 99.5 Wh, &lt;em&gt;just&lt;/em&gt; under the 100 Wh carry-on limit for most commercial airlines. When paired with the integrated-only GPU base configuration, this offered an unparalleled option for great battery life without giving up the large Retina screen.&lt;/p&gt;
+
+&lt;p style="text-align: center; margin-top: 2em; margin-bottom: 2em;"&gt;&lt;img class="extrawide" src="http://www.marco.org/media/2017/11/mbp2015-back.jpg"/&gt;&lt;/p&gt;
+
+&lt;p&gt;And I like the backlit Apple logo on the lid. Maybe I&amp;#8217;m old-fashioned, or maybe I just miss Steve, but it &amp;#8212; along with the MagSafe LED and the startup chime &amp;#8212; reminds me of a time when Mac designs celebrated personality, humanity, and whimsy.&lt;/p&gt;
+
+&lt;p style="text-align: center; margin-top: 1.5em; margin-bottom: 1.5em; color: #aaa;"&gt;*&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;*&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;*&lt;/p&gt;
+
+&lt;p&gt;I recently returned to the 2015 15-inch MacBook Pro after a year away.&lt;/p&gt;
+
+&lt;p&gt;Apple still sells this model, brand new, just limited to the integrated-only GPU option (which I prefer as a non-gamer for its battery, heat, and longevity advantages), but I got mine lightly used for over $1000 less.&lt;/p&gt;
+
+&lt;p&gt;I thought it would feel like a downgrade, or like going back in time. I feared that it would feel thick, heavy, and cumbersome. I expected it to just look impossibly &lt;em&gt;old&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;It didn&amp;#8217;t.&lt;/p&gt;
+
+&lt;p&gt;It feels as delightful as when I first got one in 2012. It&amp;#8217;s fast, capable, and reliable. It gracefully does what I need it to do. It&amp;#8217;s &lt;em&gt;barely&lt;/em&gt; heavier or thicker, and I got to remove so many accessories from my travel bag that I think I&amp;#8217;m actually coming out ahead.&lt;/p&gt;
+
+&lt;p&gt;It feels like a professional tool, made by people who love and need computers, at the top of their game.&lt;/p&gt;
+
+&lt;p&gt;It&amp;#8217;s designed &lt;em&gt;for&lt;/em&gt; us, rather than asking us to adapt ourselves to it.&lt;/p&gt;
+
+&lt;p&gt;It helps us perform our work, rather than adding to our workload.&lt;/p&gt;
+
+&lt;p&gt;This is the peak. This is the best laptop that has ever existed.&lt;/p&gt;
+
+&lt;p&gt;I hope it&amp;#8217;s not the best laptop that &lt;em&gt;will&lt;/em&gt; ever exist.&lt;/p&gt;
+</description></item><item><title>The impossible dream of USB-C</title><link>https://marco.org/2017/10/14/impossible-dream-of-usb-c</link><guid isPermaLink="false">/2017/10/14/impossible-dream-of-usb-c</guid><pubDate>Sat, 14 Oct 2017 15:31:55 EDT</pubDate><description>&lt;p&gt;I love the idea of USB-C: one port and one cable that can replace all other ports and cables. It sounds so simple, straightforward, and unified.&lt;/p&gt;
+
+&lt;p&gt;In practice, it’s not even close.&lt;/p&gt;
+
+&lt;p&gt;USB-C normally transfers data by the USB protocol, but it also supports Thunderbolt… sometimes. The 12-inch MacBook has a USB-C port, but it doesn’t support Thunderbolt at all. All other modern MacBook models support Thunderbolt over their USB-C ports… but if you have a 13-inch model, and it has a Touch Bar, then the right-side ports don’t have full Thunderbolt bandwidth.&lt;/p&gt;
+
+&lt;p&gt;If you bought a USB-C cable, it might support Thunderbolt, or it might not. There’s no way to tell by looking at it. There’s usually no way to tell whether a given USB-C device requires Thunderbolt, either — you just need to plug it in and see if it works.&lt;/p&gt;
+
+&lt;p&gt;Much of USB-C’s awesome capability comes from Thunderbolt and other Alternate Modes. But due to their potential bandwidth demands, computers can’t have very many USB-C ports, making it especially wasteful to lose one to a laptop&amp;#8217;s own power cable. The severe port shortage, along with the need to connect to non-USB-C devices, inevitably leads many people to need annoying, inelegant, and expensive dongles and hubs.&lt;/p&gt;
+
+&lt;p&gt;While a wide variety of USB-C dongles are available, most use the same handful of unreliable, mediocre chips inside. Some USB-A dongles make Wi-Fi drop on MacBook Pros. Some USB-A devices don’t work properly when adapted to USB-C, or only work in certain ports. Some devices only work when plugged directly into a laptop’s precious few USB-C ports, rather than any hubs or dongles. And reliable HDMI output seems nearly impossible in practice.&lt;/p&gt;
+
+&lt;p&gt;Very few hubs exist to add more USB-C ports, so if you have more than a few peripherals, you can’t just replace all of their cables with USB-C versions. You’ll need a hub that provides multiple USB-A ports instead, and you’ll need to keep your USB-A cables for when you’re plugged into the hub — but also keep USB-C cables or dongles around for everything you might ever need to plug directly into the computer’s ports.&lt;/p&gt;
+
+&lt;p&gt;Hubs with additional USB-C ports might pass Thunderbolt through to them, but usually don’t. Sometimes, they add a USB-C port that can only be used for power passthrough. Many hubs with power passthrough have lower wattage limits than a 13-inch or 15-inch laptop needs.&lt;/p&gt;
+
+&lt;p&gt;Fortunately, USB-C is a great charging standard. Well, it’s more of a collection of standards. USB-C devices can charge via the slow old USB rates, but for higher-powered devices or faster charging, that’s not enough current.&lt;/p&gt;
+
+&lt;p&gt;Many Android phones support Qualcomm’s Quick Charge over USB-C, which is different — usually — from the official, better, newer USB-C Power Delivery (PD) standard. Apple products, some Android phones, and the Nintendo Switch use USB-C PD. Quick Charge devices don’t get any benefit — usually — from PD chargers, and vice versa.&lt;/p&gt;
+
+&lt;p&gt;Your charger, cable, and any standalone batteries you want to use all must support the same charging standard for it to work at full speed.&lt;/p&gt;
+
+&lt;p&gt;Some cables don’t support USB-C PD at all, and most don’t support laptop wattages. Apple’s cable supports USB-C PD charging at high wattages… unless you bought the earlier version that doesn’t. Most standalone batteries sold to date don’t support USB-C PD — there are only a handful on the market so far, and most of them can’t charge a laptop at full speed, unless it’s the 12-inch MacBook.&lt;/p&gt;
+
+&lt;p&gt;You can use USB-C PD to fast-charge an iPhone 8 or iPad Pro with a USB-C to Lightning cable. But it doesn’t work with every USB-PD battery or charger, or every USB-C to Lightning cable, or every iPad Pro.&lt;/p&gt;
+
+&lt;p&gt;And, of course, there’s usually no way to tell at a glance whether a given cable, charger, battery, or device supports USB-C PD or at what wattages.&lt;/p&gt;
+
+&lt;p&gt;It’s comforting to think that over time, this will all settle down and we’ll finally achieve the dream of a single cable and port for everything. But that’s not how technology really works.&lt;/p&gt;
+
+&lt;p&gt;Before today’s USB-C can become ubiquitous and homogeneous, the next protocol or port will come out. We’ll have new, faster USB 4.0 and Thunderbolt 4 standards over the same-looking USB-C ports. We’ll want to move to an even thinner USB-D port. The press will call it “the future” and Apple will celebrate its new laptops that only have a USB-D port — two, if we’re lucky.&lt;/p&gt;
+
+&lt;p&gt;And we’ll have to start over again, buying all new cables, dongles, hubs, chargers, batteries, and displays to adapt it to what we really need.&lt;/p&gt;
+
+&lt;p&gt;Maybe next time, we’ll get it right. But probably not.&lt;/p&gt;
+</description></item><item><title>What we need from Apple to make standalone Apple Watch podcast apps</title><link>https://marco.org/2017/09/24/what-watch-podcast-apps-need</link><guid isPermaLink="false">/2017/09/24/what-watch-podcast-apps-need</guid><pubDate>Sun, 24 Sep 2017 21:17:44 EDT</pubDate><description>&lt;p&gt;The Apple Watch desperately needs standalone podcast playback, especially with the LTE-equipped Series 3, which was designed specifically for exercising without an iPhone.&lt;/p&gt;
+
+&lt;p&gt;Believe me, &lt;a href="https://marco.org/2017/08/10/removed-send-to-watch"&gt;I&amp;#8217;ve tried&lt;/a&gt;. But limitations in watchOS 4 make it impossible to deliver standalone podcast playback with the basic functionality and quality that people expect.&lt;/p&gt;
+
+&lt;h3&gt;&lt;strong&gt;Deal-breaker: Progress sync&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;Unlike on iOS, Watch apps aren&amp;#8217;t allowed to play audio in the background and continue running.&lt;sup id="fnref:pPxoltIei1"&gt;&lt;a href="#fn:pPxoltIei1" rel="footnote"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;p&gt;The only way to continue playback in the background on watchOS 4 is to use the &lt;a href="https://developer.apple.com/documentation/watchkit/wkaudiofileplayer"&gt;&lt;code&gt;WKAudioFilePlayer&lt;/code&gt; API&lt;/a&gt;. This is unsuitable for podcast players in its current state for one big reason:&lt;/p&gt;
+
+&lt;p&gt;It takes audio playback out-of-process, suspending the host app indefinitely during playback, and does not wake up the host app to notify it of playback progress or other relevant events like pausing, seeking, or reaching the end of an episode.&lt;/p&gt;
+
+&lt;p&gt;Since most podcast listeners also listen on their iPhone, the Watch needs to sync each episode&amp;#8217;s listening progress with its iPhone app or a web service. But if you reach the end of a workout and pause playback without launching the podcast app, such as with a headphone &amp;#8220;pause&amp;#8221; button, turning off your headphones, removing your AirPods, or using the Now Playing app on the Watch, there&amp;#8217;s no guarantee that the podcast app will be notified of your progress anytime soon. So when the user later goes to the iPhone app to continue playback, progress will be lost, or episodes&amp;#8217; state (played, deleted, recommended, etc.) will be wrong.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Minimum fix:&lt;/strong&gt; During &lt;code&gt;WKAudioFilePlayer&lt;/code&gt; playback, wake the host app to let it record progress periodically (ideally at least every minute) and on state-change events, such as pausing, seeking, and reaching the end of a file.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Better fix:&lt;/strong&gt; Let apps continue running in the background indefinitely while they&amp;#8217;re playing audio with &lt;code&gt;WKAudioFilePlayer&lt;/code&gt;, just as workout apps can, so they can track their own state.&lt;sup id="fnref:pPxoltIei2"&gt;&lt;a href="#fn:pPxoltIei2" rel="footnote"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;p&gt;To achieve the minimum experience-quality level that Apple and Overcast customers expect, watchOS and &lt;code&gt;WKAudioFilePlayer&lt;/code&gt; also need a few more changes:&lt;/p&gt;
+
+&lt;h3&gt;&lt;strong&gt;Volume control API or widget&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;Overcast&amp;#8217;s top request for the Watch app by far is volume control via the Digital Crown, both for iPhone and Watch playback (when I offered it). It&amp;#8217;s especially necessary for standalone Watch playback, as there&amp;#8217;s very little access anywhere in watchOS to the concept of the system volume level.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Fix:&lt;/strong&gt; An API to set the volume level, or a system UI widget for volume control like iOS&amp;#8217; &lt;a href="https://developer.apple.com/documentation/mediaplayer/mpvolumeview"&gt;&lt;code&gt;MPVolumeView&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The lack of volume control is especially damaging with watchOS 4&amp;#8217;s great new &amp;#8220;Auto-launch Audio Apps&amp;#8221; setting. If you&amp;#8217;re playing audio from an iPhone app and have its corresponding Watch app installed, that Watch app shows by default when your Watch screen activates. If you don&amp;#8217;t have its Watch app installed, the built-in Now Playing app shows instead.&lt;/p&gt;
+
+&lt;p&gt;In the last few days since watchOS 4&amp;#8217;s launch, I&amp;#8217;ve had dozens of users tell me that they&amp;#8217;ve uninstalled Overcast&amp;#8217;s Watch app &lt;em&gt;just&lt;/em&gt; to force the Now Playing screen to auto-launch instead, &lt;em&gt;just&lt;/em&gt; so they could have quick access to volume control.&lt;/p&gt;
+
+&lt;h3&gt;&lt;strong&gt;Output-device presence, switching&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;WKAudioFilePlayer&lt;/code&gt; will not play to the Watch&amp;#8217;s built-in speaker &amp;#8212; it only plays to headphones connected to the Watch via Bluetooth. If playback is attempted without headphones connected, &lt;code&gt;WKAudioFilePlayer&lt;/code&gt; just silently fails to play, without returning any errors.&lt;/p&gt;
+
+&lt;p&gt;Making matters worse, there appears to be no way to reliably detect the presence or absence of a suitable Bluetooth output device to avoid this.&lt;/p&gt;
+
+&lt;p&gt;Another common user request for Watch audio apps is an AirPlay output control. The rise of AirPods has increased this need and exacerbated the output-device-presence issue, as their multi-device sharing behavior leads to less certainty by the user about which device they&amp;#8217;re currently connected to, and a more frequent need to manually select them on the current device.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Minimum fix:&lt;/strong&gt; Fix the error-reporting behavior of &lt;code&gt;WKAudioFilePlayer&lt;/code&gt; when suitable play conditions aren&amp;#8217;t met, and provide a way to detect the presence or absence of a suitable audio-playback device so our apps can relay this information to the user.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Better fix:&lt;/strong&gt; Also provide a standard AirPlay UI control, possibly integrated with the volume control, again like &lt;code&gt;MPVolumeView&lt;/code&gt; on iOS.&lt;/p&gt;
+
+&lt;h3&gt;&lt;strong&gt;Next/previous-track commands&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;Podcast listeners expect previous- and next-track buttons on headphones, cars, and the Now Playing app to perform 30-second seek operations instead of changing episodes completely. On iOS, &lt;a href="https://developer.apple.com/documentation/mediaplayer/mpremotecommandcenter"&gt;&lt;code&gt;MPRemoteCommandCenter&lt;/code&gt;&lt;/a&gt; lets apps respond to these commands however they want.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;WKAudioFileQueuePlayer&lt;/code&gt; provides no such customization, ignores previous-track commands, and forces next-track commands to skip to the next audio file, losing any progress in the current one &amp;#8212; and if there isn&amp;#8217;t a next file in the queue, it stops playback completely. And all of this happens without waking the host app.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Minimum fix:&lt;/strong&gt; Wake the host app whenever the current queue item changes in &lt;code&gt;WKAudioFileQueuePlayer&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Better fix:&lt;/strong&gt; Bring &lt;code&gt;MPRemoteCommandCenter&lt;/code&gt; or an equivalent to watchOS, and if the host app adds its own command handlers, disable the built-in &lt;code&gt;WKAudioFileQueuePlayer&lt;/code&gt; behavior for previous-/next-track commands.&lt;/p&gt;
+
+&lt;h3&gt;&lt;strong&gt;Data-transfer progress, speed&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;While some apps may be able to perform direct downloads of podcast episodes from the internet to the Watch, many will rely on transferring audio files from the iPhone to the Watch to ensure compatible formats, consistent timestamps, small files, or audio-processing features.&lt;/p&gt;
+
+&lt;p&gt;Transferring a podcast file to the Watch is a long-running task, often taking at least a few minutes per episode (and sometimes much longer), but the &lt;a href="https://developer.apple.com/documentation/watchconnectivity/wcsessionfiletransfer"&gt;&lt;code&gt;WCSessionFileTransfer&lt;/code&gt;&lt;/a&gt; class provides no progress information. So there&amp;#8217;s no way for apps to inform users how long the transfers may take, or if they&amp;#8217;re currently moving at all.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Minimum fix:&lt;/strong&gt; Add a progress API on &lt;code&gt;WCSessionFileTransfer&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Better fix:&lt;/strong&gt; Add a progress API on &lt;code&gt;WCSessionFileTransfer&lt;/code&gt; and provide actionable information if the transfer is currently paused or waiting for something, such as having other transfers ahead of it in a queue, or needing a different power or connectivity state.&lt;sup id="fnref:pPxoltIei3"&gt;&lt;a href="#fn:pPxoltIei3" rel="footnote"&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Additionally:&lt;/strong&gt; Wi-Fi and LTE transfers to the Watch are currently &lt;em&gt;much&lt;/em&gt; faster than Bluetooth, often by an order of magnitude, but the Watch seems to send all &lt;code&gt;WCSessionFileTransfer&lt;/code&gt; data over Bluetooth even when connected to a power source. File transfers should use Wi-Fi when power allows.&lt;/p&gt;
+
+&lt;h3&gt;Nice-to-have: Streaming audio playback&lt;/h3&gt;
+
+&lt;p&gt;One of the most compelling features of the Series 3 Watch with LTE is streaming Apple Music playback, but there&amp;#8217;s no streaming audio-playback API available to developers on watchOS today. Every method requires locally downloaded files.&lt;/p&gt;
+
+&lt;p&gt;I recognize this is a big task. That&amp;#8217;s why it&amp;#8217;s a &amp;#8220;nice-to-have&amp;#8221;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Enhancement:&lt;/strong&gt; Bring a relevant subset of &lt;a href="https://developer.apple.com/documentation/avfoundation/avplayer"&gt;&lt;code&gt;AVPlayer&lt;/code&gt;&lt;/a&gt; to watchOS, or expose streaming-audio playback via some other method.&lt;/p&gt;
+
+&lt;div class="footnotes"&gt;
+&lt;hr /&gt;
+&lt;ol&gt;
+
+&lt;li id="fn:pPxoltIei1"&gt;
+&lt;p&gt;There&amp;#8217;s one elaborate exception that we discussed in &lt;a href="https://overcast.fm/+FgnZa1ZTk"&gt;Under The Radar #98&lt;/a&gt;: workout apps, which are allowed to run in the background &lt;em&gt;and&lt;/em&gt; play audio. So this all becomes possible if you combine a standalone podcast player with a workout app, &lt;em&gt;and&lt;/em&gt; only allow podcast playback while a workout is active that was started &lt;em&gt;from that app.&lt;/em&gt; But this forces the combination of two completely different app types, and users would find the workout-during-playback requirement confusing, inexplicable, and limiting.&lt;/p&gt;
+
+&lt;p&gt;Requiring podcast apps to also be workout apps is a user- and developer-hostile hack that Apple probably doesn&amp;#8217;t intend.&amp;#160;&lt;a href="#fnref:pPxoltIei1" rev="footnote"&gt;&amp;#8617;&amp;#xFE0E;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+
+&lt;li id="fn:pPxoltIei2"&gt;
+&lt;p&gt;This could also allow the use of the more capable in-process APIs such as &lt;code&gt;AVAudioPlayer&lt;/code&gt;, which appeared to work well in watchOS 3.&amp;#160;&lt;a href="#fnref:pPxoltIei2" rev="footnote"&gt;&amp;#8617;&amp;#xFE0E;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+
+&lt;li id="fn:pPxoltIei3"&gt;
+&lt;p&gt;While I have you, please also add this reporting for paused or waiting background &lt;code&gt;NSURLSessionDownloadTask&lt;/code&gt; transfers.&amp;#160;&lt;a href="#fnref:pPxoltIei3" rev="footnote"&gt;&amp;#8617;&amp;#xFE0E;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+
+&lt;/ol&gt;
+&lt;/div&gt;
+</description></item><item><title>Overcast for iOS 11 coming soon</title><link>https://marco.org/2017/09/22/overcast-ios11-soon</link><guid isPermaLink="false">/2017/09/22/overcast-ios11-soon</guid><pubDate>Fri, 22 Sep 2017 22:32:41 EDT</pubDate><description>&lt;p&gt;I&amp;#8217;m sorry that I missed the iOS 11 launch for my fancy drag-and-drop update. It&amp;#8217;s coming soon, but it&amp;#8217;s not ready yet.&lt;/p&gt;
+
+&lt;p&gt;In &lt;a href="https://overcast.fm/+BgMW5b0oY/10:49"&gt;Hello Internet episode 4&lt;/a&gt;, &lt;a href="https://www.youtube.com/CGPGrey"&gt;CGP Grey&lt;/a&gt; introduced a metaphor for work-life balance as four light bulbs &amp;#8212; work, friends, family, and health &amp;#8212; between which one can allocate 100 watts, total. So it&amp;#8217;s possible to shine brightly in one area at significant cost to the others, or to try to have a mediocre spread between all of them.&lt;/p&gt;
+
+&lt;p&gt;Usually, I prioritize family and work, in that order, and my friends are pretty tolerant of my general neglect, but health gets left as a pretty low priority.&lt;/p&gt;
+
+&lt;p&gt;This summer, I decided I finally needed to devote significant time to health, and since my family always comes first, that mostly came at the expense of reduced work time.&lt;sup id="fnref:pgOSnb2AQ1"&gt;&lt;a href="#fn:pgOSnb2AQ1" rel="footnote"&gt;1&lt;/a&gt;&lt;/sup&gt; And iOS 11 has ended up requiring more changes and fixes than I expected.&lt;/p&gt;
+
+&lt;p&gt;So I have a great Overcast update for iOS 11 and iPhone X in progress, but it&amp;#8217;s not done yet. I appreciate your patience, and I hope you&amp;#8217;ll find it worth the wait.&lt;/p&gt;
+
+&lt;div class="footnotes"&gt;
+&lt;hr /&gt;
+&lt;ol&gt;
+
+&lt;li id="fn:pgOSnb2AQ1"&gt;
+&lt;p&gt;I&amp;#8217;m fine. I just finally realized that the correct amount of exercise for a 35-year-old was probably not zero.&amp;#160;&lt;a href="#fnref:pgOSnb2AQ1" rev="footnote"&gt;&amp;#8617;&amp;#xFE0E;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+
+&lt;/ol&gt;
+&lt;/div&gt;
+</description></item><item><title>Courage</title><link>https://marco.org/2017/09/18/courage</link><guid isPermaLink="false">/2017/09/18/courage</guid><pubDate>Mon, 18 Sep 2017 13:41:26 EDT</pubDate><description>&lt;p&gt;Many Apple fans were amused when Phil Schiller explained the removal of the headphone jack on last year&amp;#8217;s iPhone as &amp;#8220;courage&amp;#8221;. But that was nothing compared to what happened last week.&lt;/p&gt;
+
+&lt;p&gt;For ten years, the iPhone looked like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;center&gt;
+&lt;svg style="max-width: 33%; margin-top: 2em; margin-bottom: 2em;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 430 870" xml:space="preserve"&gt;
+    &lt;rect stroke="black" stroke-width="26" stroke-miterlimit="10" fill="none" x="15" y="14" width="401" height="841" rx="43" /&gt;
+    &lt;rect fill="black" x="26" y="23" width="379" height="78" /&gt;
+    &lt;rect fill="black" x="26" y="768" width="379" height="78" /&gt;
+    &lt;circle stroke="rgb(255, 255, 255)" stroke-width="4" stroke-miterlimit="10" fill="none" cx="215.5" cy="817" r="31.5" /&gt;
+    &lt;path stroke="rgb(255, 255, 255)" stroke-width="4" stroke-miterlimit="10" fill="none" d="M 183.5,51.5 L 248.5,51.5" /&gt;
+&lt;/svg&gt;
+&lt;/center&gt;&lt;/p&gt;
+
+&lt;p&gt;A rounded rectangle, bars on top and bottom, and a circle centered in the bottom bar. If you want to get fancy, put a line in the top bar, too.&lt;/p&gt;
+
+&lt;p&gt;It&amp;#8217;s so simple that even when children draw it, it&amp;#8217;s &lt;em&gt;instantly&lt;/em&gt; recognizable as an iPhone to most of the world&amp;#8217;s population. Not just any phone &amp;#8212; an iPhone, specifically.&lt;/p&gt;
+
+&lt;p&gt;As an &lt;a href="https://overcast.fm/"&gt;app developer&lt;/a&gt; and fan, I was hoping that the long-rumored edge-to-edge iPhone screen would still be a rectangle, possibly even with room for a Home button on a narrower bezel, so I wouldn&amp;#8217;t have to change my habits (or my app&amp;#8217;s layout):&lt;/p&gt;
+
+&lt;p&gt;&lt;center&gt;
+&lt;svg style="max-width: 33%; margin-top: 2em; margin-bottom: 2em;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 416 853" xml:space="preserve"&gt;
+    &lt;rect stroke="black" stroke-width="19" stroke-miterlimit="10" fill="none" x="11.5" y="10.5" width="394" height="831" rx="24" /&gt;
+    &lt;rect fill="black" x="12" y="20" width="394" height="31" /&gt;
+    &lt;rect fill="black" x="12" y="802" width="394" height="31" /&gt;
+    &lt;rect stroke="rgb(255, 255, 255)" stroke-width="4" stroke-miterlimit="10" fill="none" x="173" y="819" width="71" height="14" rx="7" /&gt;
+&lt;/svg&gt;
+&lt;/center&gt;&lt;/p&gt;
+
+&lt;p&gt;But that&amp;#8217;s the unmistakable image of an Android phone. (Or a generic smartphone &amp;#8212; same thing.)&lt;/p&gt;
+
+&lt;p&gt;Apple would&amp;#8217;ve lost what the iPhone has had since its introduction: a unique, recognizable shape that distinguishes itself from all of the other boring rectangles out there.&lt;/p&gt;
+
+&lt;p&gt;Many are now speculating that Apple will find a way to get rid of the iPhone X&amp;#8217;s top &amp;#8220;notch&amp;#8221; (officially called the &amp;#8220;sensor housing&amp;#8221;) as soon as they can, and that this is a temporary design meant only for a few years. But I don&amp;#8217;t think so.&lt;/p&gt;
+
+&lt;p&gt;Many app developers are planning to hide the notch in the UI with black bars. But Apple explicitly &lt;a href="https://developer.apple.com/ios/human-interface-guidelines/overview/iphone-x/"&gt;says not to&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;center&gt;
+&lt;svg style="max-width: 33%; margin-top: 2em; margin-bottom: 2em;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 416 853" xml:space="preserve"&gt;
+    &lt;rect stroke="black" stroke-width="19" stroke-miterlimit="10" fill="none" x="11.5" y="10.5" width="394" height="831" rx="48" /&gt;
+    &lt;path fill="black" d="M 131.56,10 L 313,10 313,31 C 313,31 313,31 313,31 L 313,32.05 C 313,40.27 307.86,47.61 300.13,50.43 295.16,52 290.54,52 281.29,52 L 140.69,52 C 126.46,52 121.84,52 117.67,50.62 L 116.87,50.43 C 109.14,47.61 104,40.27 104,32.05 104,31 104,31 104,31 L 104,31 104,10 Z M 131.56,10" /&gt;
+&lt;/svg&gt;
+&lt;/center&gt;&lt;/p&gt;
+
+&lt;p&gt;This is the new shape of the iPhone. As long as the notch is clearly present and of approximately these proportions, it&amp;#8217;s unique, simple, and recognizable.&lt;/p&gt;
+
+&lt;p&gt;It&amp;#8217;s probably not going to significantly change for a long time, and Apple needs to make sure that the entire world recognizes it as well as we could recognize previous iPhones.&lt;/p&gt;
+
+&lt;p&gt;That&amp;#8217;s why Apple has made no effort to hide the notch in software, and why app developers are being told to embrace it in our designs.&lt;/p&gt;
+
+&lt;p&gt;That&amp;#8217;s why the &lt;a href="https://techcrunch.com/2017/07/31/homepod-firmware-reveals-iphone-8-design-and-facial-recognition/"&gt;HomePod software leak&lt;/a&gt; depicted the iPhone X like this: it&amp;#8217;s the new basic, recognizable form of the iPhone.&lt;/p&gt;
+
+&lt;p&gt;Apple just completely changed the fundamental shape of the most important, most successful, and most recognizable tech product that the world has ever seen.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;That&amp;#8217;s&lt;/em&gt; courage.&lt;/p&gt;
+</description></item><item><title>Removing “Send to Watch”</title><link>https://marco.org/2017/08/10/removed-send-to-watch</link><guid isPermaLink="false">/2017/08/10/removed-send-to-watch</guid><pubDate>Thu, 10 Aug 2017 16:54:34 EDT</pubDate><description>&lt;p&gt;I’ve spent many months of development on Overcast’s Apple Watch app, especially implementing standalone “Send to Watch” playback. Unfortunately, I now need to remove the “Send to Watch” feature.&lt;/p&gt;
+
+&lt;p&gt;I’m sorry to the people who used it. While there weren’t many of you (about 0.1% of active users), I’ve heard from some who it meant quite a bit to.&lt;/p&gt;
+
+&lt;p&gt;In retrospect, “Send to Watch” wasn’t good enough to ship. I’ve paid for that in a constant stream of negative App Store reviews that have reduced the entire app’s average, but that alone wouldn’t sink the feature. Here’s what happened.&lt;/p&gt;
+
+&lt;p&gt;Many people had been asking for standalone playback since the first Apple Watch was released. I spent months of development on it last winter, but I simply wasn’t able to get a minimum acceptable quality level out of the limited watchOS audio APIs.&lt;/p&gt;
+
+&lt;p&gt;I shelved the feature until other Apple Watch podcast apps revealed a workaround that made background audio much more usable on watchOS, so I decided to use the same technique and ship the feature anyway, despite its other shortcomings. That was a mistake.&lt;/p&gt;
+
+&lt;p&gt;That workaround doesn’t work anymore in watchOS 4. Rewriting “Send to Watch” playback to use the only supported alternative would likely take at least another month of development and testing that I currently can’t spare, and due to its limitations, the resulting usability and experience wouldn’t be good enough for me to confidently ship.&lt;sup id="fnref:pLK9h4axdwphack"&gt;&lt;a href="#fn:pLK9h4axdwphack" rel="footnote"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;p&gt;Therefore, I’ve decided to remove “Send to Watch” in the latest update today, a bit ahead of watchOS 4’s expected release, before anyone else gets accustomed to it.&lt;/p&gt;
+
+&lt;p&gt;I intend to continue supporting and updating the Watch app as a convenient, lightweight, fast remote control for iPhone playback. But it’s not possible to ship a good standalone podcast player on watchOS today, and it’ll probably take a few more years of hardware and software evolution before that changes.&lt;/p&gt;
+
+&lt;p&gt;There isn’t much time left before iOS 11’s release, and I need to spend the rest of the summer working on highly requested features and updates in the main app.&lt;/p&gt;
+
+&lt;p&gt;I&amp;#8217;m sorry again for the loss of this feature to the people who used it. If it becomes possible in the future to do it right, I&amp;#8217;ll do my best to bring it back.&lt;/p&gt;
+
+&lt;div class="footnotes"&gt;
+&lt;hr /&gt;
+&lt;ol&gt;
+
+&lt;li id="fn:pLK9h4axdwphack"&gt;
+&lt;p&gt;watchOS normally doesn&amp;#8217;t let apps run continuously in the background, even if they&amp;#8217;re playing audio, unlike iOS. The &lt;code&gt;WKAudioFilePlayer&lt;/code&gt; API lets your app hand off a file or playlist to the system for playback, and then try to figure out what happened with it next time your app launches (to know whether the user listened to a certain time, reached the end, skipped to the next episode, etc.). Unfortunately, it has major shortcomings, bugs, and non-ideal behaviors for making a usable podcast app.&lt;/p&gt;
+
+&lt;p&gt;The loophole was to declare the app as a workout-monitoring app, which let it run continuously in the background on watchOS 3 if a workout was active &amp;#8212; or, for some reason, if it was playing audio. This let me use the much better &lt;code&gt;AVAudioPlayer&lt;/code&gt; to build a usable podcast player on the Watch.&lt;/p&gt;
+
+&lt;p&gt;In watchOS 4, that loophole no longer enables background audio playback, so any audio APIs other than &lt;code&gt;WKAudioFilePlayer&lt;/code&gt; pause as soon as the foreground app changes or the Watch display sleeps.&amp;#160;&lt;a href="#fnref:pLK9h4axdwphack" rev="footnote"&gt;&amp;#8617;&amp;#xFE0E;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+
+&lt;/ol&gt;
+&lt;/div&gt;
+</description></item><item><title>“MP3 is dead” missed the real, much better story</title><link>https://marco.org/2017/05/15/mp3-isnt-dead</link><guid isPermaLink="false">/2017/05/15/mp3-isnt-dead</guid><pubDate>Mon, 15 May 2017 22:45:43 EDT</pubDate><description>&lt;p&gt;If you &lt;a href="http://gizmodo.com/developers-of-the-mp3-have-officially-killed-it-1795205540"&gt;read&lt;/a&gt; &lt;a href="https://www.engadget.com/2017/05/12/mp3-is-dead-long-live-aac/"&gt;the&lt;/a&gt; &lt;a href="http://www.npr.org/sections/therecord/2017/05/11/527829909/the-mp3-is-officially-dead-according-to-its-creators"&gt;news&lt;/a&gt;, you may think the MP3 file format was recently officially &amp;#8220;killed&amp;#8221; somehow, and any remaining MP3 holdouts should all move to AAC now. These are all simple rewrites of
+&lt;a href="https://www.iis.fraunhofer.de/en/ff/amm/prod/audiocodec/audiocodecs/mp3.html"&gt;Fraunhofer IIS&amp;#8217; announcement&lt;/a&gt; that they&amp;#8217;re terminating the MP3 patent-licensing program.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="https://512pixels.net/2017/05/the-mp3-isnt-dead/"&gt;Very&lt;/a&gt; &lt;a href="https://sixcolors.com/post/2017/05/long-live-the-mp3/"&gt;few&lt;/a&gt; &lt;a href="https://motherboard.vice.com/en_us/article/mp3-is-not-dead"&gt;people&lt;/a&gt; got it right. The others missed &lt;a href="https://en.wikipedia.org/wiki/MP3#Licensing.2C_ownership_and_legislation"&gt;what happened last month&lt;/a&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;If the longest-running patent mentioned in the aforementioned references is taken as a measure, then &lt;strong&gt;the MP3 technology became patent-free in the United States on 16 April 2017&lt;/strong&gt; when U.S. Patent 6,009,399, held by and administered by Technicolor, expired.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;MP3 is no less alive now than it was last month or will be next year &amp;#8212; the last known MP3 patents have simply expired.&lt;/p&gt;
+
+&lt;p&gt;So while there&amp;#8217;s a debate to be had &amp;#8212; in a moment &amp;#8212; about whether MP3 should still be used today, Fraunhofer&amp;#8217;s announcement has nothing to do with that, and is simply the ending of its patent-licensing program (because the patents have all expired) and a suggestion that we move to a newer, &lt;a href="https://www.iis.fraunhofer.de/en/ff/amm/prod/audiocodec/audiocodecs/aaclc.html"&gt;still-patented&lt;/a&gt; format.&lt;/p&gt;
+
+&lt;h3&gt;Why still use MP3 when newer, better formats exist?&lt;/h3&gt;
+
+&lt;p&gt;MP3 is very old, but it&amp;#8217;s the same age as &lt;a href="https://en.wikipedia.org/wiki/JPEG"&gt;JPEG&lt;/a&gt;, which has also long since been surpassed in quality by &lt;a href="https://en.wikipedia.org/wiki/JPEG_2000"&gt;newer&lt;/a&gt; &lt;a href="https://en.wikipedia.org/wiki/WebP"&gt;formats&lt;/a&gt;. JPEG is still ubiquitous not because Engadget forgot to declare its death, but because it&amp;#8217;s good enough and supported everywhere, making it the most &lt;em&gt;pragmatic&lt;/em&gt; choice most of the time.&lt;sup id="fnref:pFcz0p5c0png"&gt;&lt;a href="#fn:pFcz0p5c0png" rel="footnote"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;p&gt;AAC and other newer audio codecs can produce better quality than MP3, but the difference is &lt;a href="http://opus-codec.org/comparison/"&gt;only significant at low bitrates&lt;/a&gt;. At about 128 kbps or greater, the differences between MP3 and other codecs are very unlikely to be noticed, so it isn&amp;#8217;t meaningfully better for personal music collections. For new music, get AAC if you want, but it&amp;#8217;s not worth spending any time replacing MP3s you already have.&lt;/p&gt;
+
+&lt;p&gt;AAC makes a lot of sense for low- and medium-quality applications where bandwidth is extremely limited or expensive, like phone calls and music-streaming services, or as sound for video, for which it&amp;#8217;s the most widely supported format.&lt;/p&gt;
+
+&lt;p&gt;It may seem to make sense for podcasts, but it doesn&amp;#8217;t. Podcasters need to distribute a single file type that&amp;#8217;s playable on the most players and devices possible, and though AAC is widely supported today, it&amp;#8217;s &lt;em&gt;still&lt;/em&gt; not as widely supported as MP3. So podcasters overwhelmingly choose MP3: among the 50 million podcast episodes in &lt;a href="https://overcast.fm"&gt;Overcast&amp;#8217;s&lt;/a&gt; database, 92% are MP3, and within the most popular 500 podcasts, 99% are MP3.&lt;/p&gt;
+
+&lt;p&gt;And AAC is also still patent-encumbered, which prevents innovation, hinders support, restricts potential uses, and imposes burdensome taxes on anything that goes near it.&lt;/p&gt;
+
+&lt;p&gt;So while AAC does offer some benefits, it also brings additional downsides and costs, and the benefits aren&amp;#8217;t necessary or noticeable in some major common uses. Even the file-size argument for lower bitrates is less important than ever in a world of ever-increasing bandwidth and ever-higher relative uses of it.&lt;sup id="fnref:pFcz0p5c0size"&gt;&lt;a href="#fn:pFcz0p5c0size" rel="footnote"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;p&gt;Ogg Vorbis and &lt;a href="http://opus-codec.org/comparison/"&gt;Opus&lt;/a&gt; offer similar quality advantages as AAC with (&lt;a href="http://daringfireball.net/2007/04/wee_bit_more_on_aac"&gt;probably&lt;/a&gt;) no patent issues, which was necessary to provide audio options to free, open-source software and other contexts that aren&amp;#8217;t compatible with patent licensing. But they&amp;#8217;re not widely supported, limiting their useful applications.&lt;/p&gt;
+
+&lt;p&gt;Until a few weeks ago, there had never been an audio format that was small enough to be practical, widely supported by hardware and software, &lt;em&gt;and&lt;/em&gt; unrestricted by patents, forcing &lt;a href="http://shaver.off.net/diary/2010/01/23/html5-video-and-codecs/"&gt;difficult choices&lt;/a&gt; and &lt;a href="http://stackoverflow.com/questions/4923136/why-doesnt-firefox-support-the-mp3-file-format-in-audio"&gt;needless friction&lt;/a&gt; upon the computing world. Now, at least for audio, that friction has officially ended. There&amp;#8217;s finally a great choice without asterisks.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;MP3 is supported by everything, everywhere, and is now patent-free.&lt;/strong&gt; There has never been another audio format as widely supported as MP3, it&amp;#8217;s good enough for almost anything, and now, &lt;em&gt;over twenty years&lt;/em&gt; since it took the world by storm, it&amp;#8217;s finally free.&lt;/p&gt;
+
+&lt;div class="footnotes"&gt;
+&lt;hr /&gt;
+&lt;ol&gt;
+
+&lt;li id="fn:pFcz0p5c0png"&gt;
+&lt;p&gt;For photos and other image types poorly suited to PNG, of course.&amp;#160;&lt;a href="#fnref:pFcz0p5c0png" rev="footnote"&gt;&amp;#8617;&amp;#xFE0E;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+
+&lt;li id="fn:pFcz0p5c0size"&gt;
+&lt;p&gt;Suppose a podcast debates switching from 64 kbps MP3 to 48 kbps AAC. That would only save about 7 MB per hour of content, which isn&amp;#8217;t a meaningful amount of data for most people anymore (especially for podcasts, which are typically background-downloaded on Wi-Fi). Read the &lt;a href="https://www.engadget.com/2017/05/12/mp3-is-dead-long-live-aac/"&gt;Engadget&lt;/a&gt; and &lt;a href="http://gizmodo.com/developers-of-the-mp3-have-officially-killed-it-1795205540"&gt;Gizmodo&lt;/a&gt; articles, at 3.6 and 5.2 MB, respectively, and you&amp;#8217;ve already spent more than that difference. Watch &lt;a href="https://www.youtube.com/watch?v=KW0eUrUiyxo"&gt;a 5-minute YouTube video&lt;/a&gt; at default quality, and you&amp;#8217;ll blow through about three times as much.&amp;#160;&lt;a href="#fnref:pFcz0p5c0size" rev="footnote"&gt;&amp;#8617;&amp;#xFE0E;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+
+&lt;/ol&gt;
+&lt;/div&gt;
+</description></item><item><title>The new Mac Pro: The audacity to say “Yes” in a design culture of “No”</title><link>https://marco.org/2017/04/15/mac-pro-audacity-of-yes</link><guid isPermaLink="false">/2017/04/15/mac-pro-audacity-of-yes</guid><pubDate>Sat, 15 Apr 2017 21:11:24 EDT</pubDate><description>&lt;p&gt;Much of modern Apple&amp;#8217;s design philosophy is to relentlessly strip down most products to the bare minimum in certain areas as technological progress allows, following (and largely defining) the modern design fashion of nearly-unquestioned devotion to minimalism.&lt;/p&gt;
+
+&lt;p&gt;Saying &amp;#8220;no&amp;#8221; is the easiest path to what&amp;#8217;s considered good design today: if something cannot be easily accommodated, or most people won&amp;#8217;t complain too badly in its absence, just omit it.&lt;sup id="fnref:pKZcmcvQpopenoffices"&gt;&lt;a href="#fn:pKZcmcvQpopenoffices" rel="footnote"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;p&gt;While minimalism is &lt;em&gt;one&lt;/em&gt; aspect of &lt;em&gt;one&lt;/em&gt; view of good design, it&amp;#8217;s often overused, underconsidered, and misunderstood, resulting in products with surface-level appeal that don&amp;#8217;t actually &lt;em&gt;work&lt;/em&gt; very well because they were optimized for visual design and minimalism rather than overall real-world usefulness.&lt;sup id="fnref:pKZcmcvQpjobs"&gt;&lt;a href="#fn:pKZcmcvQpjobs" rel="footnote"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;p&gt;As with every design decision, removals and omissions have major trade-offs that need to be very carefully considered. Today&amp;#8217;s design culture of &amp;#8220;no&amp;#8221; often goes unquestioned or is assumed to be the best outcome, but minimalism should not be axiomatic in all areas. Often, less is more. But sometimes, it&amp;#8217;s just less.&lt;/p&gt;
+
+&lt;p style="text-align: center; margin-top: 2em; margin-bottom: 2em; color: #bbb;"&gt;*&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;*&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;*&lt;/p&gt;
+
+&lt;p&gt;A lot went wrong with the 2013 Mac Pro. Some of the leading factors that led to its failure:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;It was more expensive than its predecessor, while also removing major features that many of its customers still needed. (The 2016 MacBook Pro has the same problem.)&lt;/li&gt;
+&lt;li&gt;It was designed to accommodate exactly two GPUs with relatively low heat output each, but CPU-heavy users didn&amp;#8217;t need the second GPU, and GPU-heavy users needed hotter-running GPUs (and often just one &lt;em&gt;really&lt;/em&gt; hot one).&lt;sup id="fnref:pKZcmcvQpnvidia"&gt;&lt;a href="#fn:pKZcmcvQpnvidia" rel="footnote"&gt;3&lt;/a&gt;&lt;/sup&gt; So the only configuration it was offered in was either overspecced (and overpriced) or underpowered for most Mac Pro customers.&lt;/li&gt;
+&lt;li&gt;Less than a year after its release, it missed the desktop Retina revolution started by the 5K iMac, and it was beaten handily in single-threaded performance by a CPU generation that Apple never updated it to use.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The last factor was poor timing that could&amp;#8217;ve been fixed with regular updates, but the first two are simply major design flaws by making the wrong choices for this product.&lt;/p&gt;
+
+&lt;p&gt;I understand why Apple went down that path, and it&amp;#8217;s all in the context that led to my favorite line ever spoken in an Apple keynote, right after the unveiling of this Mac Pro during the 2013 WWDC keynote:&lt;/p&gt;
+
+&lt;p style="text-align: center;"&gt;
+&lt;b&gt;&amp;#8220;Can&amp;#8217;t innovate anymore, my ass!&amp;#8221;&lt;/b&gt;&lt;br/&gt;&amp;mdash;Phil Schiller&lt;/p&gt;
+
+&lt;p&gt;Back then, Jobs hadn&amp;#8217;t been gone for long, Cook had a lot to prove, and the &lt;em&gt;overwhelming&lt;/em&gt; press and analyst narrative had been that Apple couldn&amp;#8217;t innovate anymore and Samsung was the king of innovation, whatever that meant. (It turned out to just mean big phones.)&lt;/p&gt;
+
+&lt;p&gt;This clearly bothered Apple, and it almost certainly influenced their overly aggressive decisions with the design of the 2013 Mac Pro.&lt;/p&gt;
+
+&lt;p&gt;But the Mac Pro is the worst place in the entire Apple product lineup to drastically remove capabilities and versatility (and then to not update it for over four years).&lt;sup id="fnref:pKZcmcvQpyearmath"&gt;&lt;a href="#fn:pKZcmcvQpyearmath" rel="footnote"&gt;4&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;p&gt;Overly aggressive minimalism fails most spectacularly when there&amp;#8217;s no clear consensus among customers on what can be removed. And if you ask Mac Pro customers what they need and want, there&amp;#8217;s very little overlap:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.youtube.com/watch?v=HRgtHE9_3KU"&gt;Video creators&lt;/a&gt; need as many CPU cores as possible, one or two very fast GPUs with support for cutting-edge video output resolutions (like 8K today), PCIe capture, massive amounts of storage, and the most external peripheral bandwidth possible.&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://atp.fm/"&gt;Audio creators&lt;/a&gt; need fast single-core CPU performance, low-latency PCIe/Thunderbolt interfaces, rock-solid USB buses, ECC RAM for stability, and reliable silence regardless of load. (Many also use the optical audio inputs and outputs, and would appreciate the return of the line-in jack.)&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://macperformanceguide.com/blog/2017/20170407_0802-Apple-MacPro-DesiredFeatures.html"&gt;Photographers&lt;/a&gt; need tons of CPU cores, tons of storage, a lot of RAM, and the biggest and best single displays.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://carpeaqua.com/2017/04/09/a-software-developers-mac-pro/"&gt;Software developers&lt;/a&gt;, which Federighi called out in the briefing this month as possibly the largest part of Apple&amp;#8217;s &amp;#8220;pro&amp;#8221; audience, need tons of CPU cores, the fastest storage possible, tons of RAM, tons of USB ports, and multiple big displays, but hardly any GPU power &amp;#8212; unless they&amp;#8217;re developing games or VR, in which case, they need the most GPU power possible.&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://hypercritical.co/"&gt;Mac gamers&lt;/a&gt; need a high-speed/low-core-count CPU, the best single gaming GPU possible, and VR hardware support.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://9to5mac.com/2017/04/14/what-the-hackintosh-community-wants-new-modular-mac-pro/"&gt;Budget-conscious PC builders&lt;/a&gt; need as many PC-standard components and interfaces as possible to maximize potential for upgrades, repairs, and expansion down the road.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://512pixels.net/2017/04/what-i-want-in-the-new-mac-pro/"&gt;And more&lt;/a&gt;, &lt;a href="https://mjtsai.com/blog/2017/04/11/what-i-want-in-the-new-mac-pro/"&gt;and more&lt;/a&gt;&amp;#8230;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The requirements are all over the map, but most pro users seem to agree on the core principles of an ideal Mac Pro, none of which include size or minimalism:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;More internal capacity is better.&lt;/li&gt;
+&lt;li&gt;Each component should have a reasonably priced base option, but offer the ability to configure up to the best technology on the market.&lt;/li&gt;
+&lt;li&gt;It needs to accommodate a wide variety of needs, some of which Apple won&amp;#8217;t offer, and some of which may require future upgrades.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Or, to distill the requirements down to a single word:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Versatility.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Just as &lt;a href="http://www.macworld.com/article/1156153/macofthefuturegruber.html"&gt;macOS&amp;#8217; versatility allows iOS to remain lightweight&lt;/a&gt;, the ability of the rest of the Mac lineup to be more aggressive, minimalist, and forward-looking depends on the Mac Pro to cover everyone whose needs don&amp;#8217;t fit into them.&lt;sup id="fnref:pKZcmcvQpbacklash"&gt;&lt;a href="#fn:pKZcmcvQpbacklash" rel="footnote"&gt;5&lt;/a&gt;&lt;/sup&gt; The Mac Pro must be the catch-all at the high end: anytime someone says the iMac or MacBook Pro isn&amp;#8217;t &lt;em&gt;something&lt;/em&gt; enough for them, the solution should be the Mac Pro.&lt;/p&gt;
+
+&lt;p&gt;Try to narrow the Mac Pro&amp;#8217;s focus any further than a big, versatile, modular box, and it stops serving the needs of big slices of its market, forcing valuable and influential pro users to either sacrifice major areas of their needs or leave the Mac platform entirely. That&amp;#8217;s why so many previous-generation Mac Pro towers are still in use today (and highly demanded on eBay), which all have components that are at least &lt;em&gt;seven&lt;/em&gt; years old: Apple hasn&amp;#8217;t made a Mac Pro since then that has addressed their owners&amp;#8217; needs.&lt;/p&gt;
+
+&lt;p&gt;The more needs you try to accommodate, the more you arrive at capabilities similar to the previous Mac Pro tower, just modernized to new components and redesigned to remove outdated options like optical-drive bays, that&amp;#8217;s easy for Apple to update every 1–2 years as new components become available.&lt;/p&gt;
+
+&lt;p&gt;The 2013 Mac Pro went in completely the wrong direction: satisfying only a narrow subset of pro users, with such tight tolerances that it couldn&amp;#8217;t be updated.&lt;/p&gt;
+
+&lt;p&gt;There is no single design, no single set of trade-offs, that addresses a large set of pro users: they all want different things, and the only way to serve that with one product line is to have it be extremely versatile and offer a wide variety of configuration options. You can&amp;#8217;t do that with a minimalist industrial-design indulgence like the 2013 Mac Pro.&lt;/p&gt;
+
+&lt;p&gt;I hope the Apple of 2017 (and beyond) has learned this, and is confident enough in its own abilities and innovation to stare down a minimalist design culture of &amp;#8220;no&amp;#8221; and ship a &lt;a href="http://www.allenpike.com/2013/maximum-viable-products/"&gt;maximum viable product&lt;/a&gt; at the top of its lineup that says &amp;#8220;yes&amp;#8221; to everything we can throw at it.&lt;/p&gt;
+
+&lt;div class="footnotes"&gt;
+&lt;hr /&gt;
+&lt;ol&gt;
+
+&lt;li id="fn:pKZcmcvQpopenoffices"&gt;
+&lt;p&gt;Like open-plan offices, minimalism is also usually cheaper, making it an easy sell to the finance people. And like open-plan offices, its profitability contributes to its ubiquity, making it seem like a better or more universally applicable idea than it really is.&amp;#160;&lt;a href="#fnref:pKZcmcvQpopenoffices" rev="footnote"&gt;&amp;#8617;&amp;#xFE0E;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+
+&lt;li id="fn:pKZcmcvQpjobs"&gt;
+&lt;p&gt;I&amp;#8217;m trying to make it through this entire post without any Steve Jobs quotes. It&amp;#8217;s not easy.&amp;#160;&lt;a href="#fnref:pKZcmcvQpjobs" rev="footnote"&gt;&amp;#8617;&amp;#xFE0E;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+
+&lt;li id="fn:pKZcmcvQpnvidia"&gt;
+&lt;p&gt;I&amp;#8217;m not well-versed in the specifics of this, but I believe they also lost the huge bet they placed on AMD GPUs and OpenCL. High-end GPU computing has largely gone to NVIDIA and CUDA, and Apple seems reluctant to offer NVIDIA GPUs in their products for unknown reasons (likely cost and old beefs, which I suggest they find a way to get past).&amp;#160;&lt;a href="#fnref:pKZcmcvQpnvidia" rev="footnote"&gt;&amp;#8617;&amp;#xFE0E;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+
+&lt;li id="fn:pKZcmcvQpyearmath"&gt;
+&lt;p&gt;It hasn&amp;#8217;t been four years yet, but by the time the next Mac Pro ships, it&amp;#8217;ll likely be about 4.5.&amp;#160;&lt;a href="#fnref:pKZcmcvQpyearmath" rev="footnote"&gt;&amp;#8617;&amp;#xFE0E;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+
+&lt;li id="fn:pKZcmcvQpbacklash"&gt;
+&lt;p&gt;I suspect that reactions to the 2016 MacBook Pro would&amp;#8217;ve been significantly more favorable if more pros were accustomed to the Mac Pro addressing their needs. Instead, the message from Apple last fall was clearly, &amp;#8220;Wedge all of your high-end needs into these laptops because the desktop is dead,&amp;#8221; putting a significantly higher burden on them that they couldn&amp;#8217;t meet.&amp;#160;&lt;a href="#fnref:pKZcmcvQpbacklash" rev="footnote"&gt;&amp;#8617;&amp;#xFE0E;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+
+&lt;/ol&gt;
+&lt;/div&gt;
+</description></item></channel></rss>
