@@ -140,7 +140,7 @@ func main() {
 
 		bucket, err := c.Bucket(ctx, bucketName)
 		if err != nil {
-			log.Printf("error getting %s bucket from b2 client", bucketName, err)
+			log.Printf("error getting %s bucket from b2 client: %v", bucketName, err)
 			os.Exit(1)
 		}
 
