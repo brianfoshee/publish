@@ -7,6 +7,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/gorilla/feeds"
+
 	blackfriday "gopkg.in/russross/blackfriday.v2"
 	yaml "gopkg.in/yaml.v2"
 )
@@ -19,6 +21,20 @@ type Post struct {
 	Draft       bool      `json:"draft"`
 	PublishedAt time.Time `json:"published-at" yaml:"published-at"`
 	Body        string    `json:"body", yaml:"-"`
+}
+
+// Item satisfies the feed.Feeder interface
+func (p Post) Item() feeds.Item {
+	fullSlug := "/blog/" + p.Slug
+	domain := "https://www.brianfoshee.com"
+	return feeds.Item{
+		Id:          fullSlug,
+		Title:       p.Title,
+		Link:        &feeds.Link{Href: domain + fullSlug},
+		Description: p.Description,
+		Created:     p.PublishedAt,
+		Content:     p.Body,
+	}
 }
 
 // TODO validate
