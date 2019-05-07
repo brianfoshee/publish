@@ -11,9 +11,12 @@ import (
 	"strings"
 
 	"github.com/brianfoshee/publish/archive"
+	"github.com/brianfoshee/publish/feed"
 )
 
-func Build(path string, drafts bool) {
+// TODO this should eventually take one channel and the main method will fan out
+// from there to feeder, archiver, etc.
+func Build(path string, drafts bool, feeder chan feed.Feeder) {
 	postsCh := make(chan Post)
 
 	go func() {
@@ -37,6 +40,11 @@ func Build(path string, drafts bool) {
 				Attributes: p,
 			}
 			posts = append(posts, d)
+
+			// Add post to feed channel for processing
+			// TODO this will eventually be one channel of Posts to be returned
+			// back to the main function.
+			feeder <- p
 
 			// create individual post file
 			f, err := os.Create("dist/posts/" + p.Slug + ".json")
