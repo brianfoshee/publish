@@ -16,6 +16,7 @@ import (
 	"sync"
 
 	"github.com/brianfoshee/publish/blog"
+	"github.com/brianfoshee/publish/feed"
 	"github.com/brianfoshee/publish/imgur"
 	"github.com/kurin/blazer/b2"
 )
@@ -96,6 +97,9 @@ func main() {
 		os.Exit(0)
 	}
 
+	// TODO make this buffered
+	feedChan := make(chan feed.Feeder)
+
 	// make sure directories are created before building
 	createDir("dist")
 	createDir("dist/archives")
@@ -108,7 +112,7 @@ func main() {
 		createDir("dist/posts/page")
 		createDir("dist/archives/posts")
 
-		blog.Build(*blogPath, *drafts)
+		blog.Build(*blogPath, *drafts, feedChan)
 	}
 
 	// Do imgur building
