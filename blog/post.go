@@ -28,13 +28,18 @@ func (p Post) Item() feeds.Item {
 	fullSlug := "/blog/" + p.Slug
 	domain := "https://www.brianfoshee.com"
 	link := domain + fullSlug
+	content := strings.ReplaceAll(
+		p.Body,
+		`<a href="/`,
+		`<a href="https://www.brianfoshee.com/`)
+
 	return feeds.Item{
 		Id:          link,
 		Title:       p.Title,
 		Link:        &feeds.Link{Href: link},
 		Description: p.Description,
 		Created:     p.PublishedAt,
-		Content:     p.Body,
+		Content:     content,
 	}
 }
 
