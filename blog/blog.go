@@ -60,6 +60,8 @@ func Build(path string, drafts bool, feeder chan feed.Feeder) {
 		}
 	}
 
+	close(feeder)
+
 	// Sort posts in reverse-chron
 	sort.Sort(sort.Reverse(posts))
 

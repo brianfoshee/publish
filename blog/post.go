@@ -27,10 +27,11 @@ type Post struct {
 func (p Post) Item() feeds.Item {
 	fullSlug := "/blog/" + p.Slug
 	domain := "https://www.brianfoshee.com"
+	link := domain + fullSlug
 	return feeds.Item{
-		Id:          fullSlug,
+		Id:          link,
 		Title:       p.Title,
-		Link:        &feeds.Link{Href: domain + fullSlug},
+		Link:        &feeds.Link{Href: link},
 		Description: p.Description,
 		Created:     p.PublishedAt,
 		Content:     p.Body,
