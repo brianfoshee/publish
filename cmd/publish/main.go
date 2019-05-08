@@ -112,6 +112,7 @@ func main() {
 		createDir("dist/posts/page")
 		createDir("dist/archives/posts")
 
+		go feed.Build(feedChan)
 		blog.Build(*blogPath, *drafts, feedChan)
 	}
 
