@@ -28,6 +28,8 @@ func Build(path string, drafts bool, feeder chan feed.Feeder) {
 		close(postsCh)
 	}()
 
+	// TODO return postsCh
+
 	var posts dataPosts
 	for p := range postsCh {
 		// add to feed if post has a Slug. If drafts flag is true, include

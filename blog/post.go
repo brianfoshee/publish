@@ -28,6 +28,8 @@ func (p Post) Item() feeds.Item {
 	fullSlug := "/blog/" + p.Slug
 	domain := "https://www.brianfoshee.com"
 	link := domain + fullSlug
+
+	// change relative paths into full URLs
 	content := strings.ReplaceAll(
 		p.Body,
 		`<a href="/`,
