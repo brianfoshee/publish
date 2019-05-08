@@ -103,6 +103,7 @@ func main() {
 	// make sure directories are created before building
 	createDir("dist")
 	createDir("dist/archives")
+	createDir("dist/feeds")
 
 	// Do blog post building
 	if *blogPath != "" {
