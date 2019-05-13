@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"math"
 	"os"
 	"path/filepath"
 	"sort"
@@ -12,23 +11,24 @@ import (
 
 	"github.com/brianfoshee/publish/archive"
 	"github.com/brianfoshee/publish/feed"
+	"github.com/brianfoshee/publish/jsonapi"
+	"github.com/brianfoshee/publish/utils"
 )
 
 // TODO this should eventually take one channel and the main method will fan out
 // from there to feeder, archiver, etc.
-func Build(path string, drafts bool, feeder chan feed.Feeder) {
+func Build(path string, drafts bool, feeder chan feed.Feeder) chan Post {
 	postsCh := make(chan Post)
 
 	go func() {
 		if err := filepath.Walk(path, postWalker(postsCh)); err != nil {
-			log.Println("error walking path: ", err)
-			return
+			log.Println("error walking blog path: ", err)
 		}
 		// this works as long as file processing isn't happening in goroutines
 		close(postsCh)
 	}()
 
-	// TODO return postsCh
+	return postsCh
 
 	var posts dataPosts
 	for p := range postsCh {
@@ -54,7 +54,7 @@ func Build(path string, drafts bool, feeder chan feed.Feeder) {
 				log.Printf("could not create file for post %q: %s", p.Slug, err)
 				continue
 			}
-			if err := json.NewEncoder(f).Encode(base{Data: d}); err != nil {
+			if err := json.NewEncoder(f).Encode(jsonapi.Base{Data: d}); err != nil {
 				// don't return here, keep going with the logged error.
 				log.Printf("error encoding post to json %s: %s", p.Slug, err)
 			}
@@ -67,47 +67,9 @@ func Build(path string, drafts bool, feeder chan feed.Feeder) {
 	// Sort posts in reverse-chron
 	sort.Sort(sort.Reverse(posts))
 
-	// write out main feed and pages if more than 10 posts
-	// main feed is index 0-9. next page should be 10-19
-	const postsPerPage = 5
-	total := len(posts)
-	pages := math.Ceil(float64(total) / postsPerPage)
-	for i := 1; i <= int(pages); i += 1 {
-		fname := fmt.Sprintf("dist/posts/page/%d.json", i)
-
-		f, err := os.Create(fname)
-		if err != nil {
-			log.Printf("could not open %s: %s", fname, err)
-			continue
-		}
-
-		low := postsPerPage*i - postsPerPage
-		high := postsPerPage * i
-		if high > total {
-			high = total
-		}
-
-		next, prev := "", ""
-		if int(pages) > i {
-			prev = fmt.Sprintf("https://www.brianfoshee.com/blog/page/%d", i+1)
-		}
-		if i > 1 {
-			next = fmt.Sprintf("https://www.brianfoshee.com/blog/page/%d", i-1)
-		}
-
-		b := base{
-			Data: posts[low:high],
-			Links: &links{
-				First: "https://www.brianfoshee.com/blog",
-				Last:  fmt.Sprintf("https://www.brianfoshee.com/blog/page/%d", int(pages)),
-				Next:  next,
-				Prev:  prev,
-			},
-		}
-		if err := json.NewEncoder(f).Encode(b); err != nil {
-			log.Printf("error encoding posts page %d: %s", i, err)
-		}
-		f.Close()
+	// write out paginated index pages
+	if err := utils.Paginate(posts); err != nil {
+		log.Println(err)
 	}
 
 	// create archives. Feed for each month of each year.
@@ -153,11 +115,13 @@ func Build(path string, drafts bool, feeder chan feed.Feeder) {
 			log.Printf("could not open %s: %s", fname, err)
 			continue
 		}
-		if err := json.NewEncoder(f).Encode(base{Data: v}); err != nil {
+		if err := json.NewEncoder(f).Encode(jsonapi.Base{Data: v}); err != nil {
 			log.Printf("error encoding archives %s: %s", fname, err)
 		}
 		f.Close()
 	}
+
+	return nil
 }
 
 // to satisfy JSONAPI
@@ -165,19 +129,6 @@ type dataPost struct {
 	Type       string `json:"type"`
 	ID         string `json:"id"`
 	Attributes Post   `json:"attributes"`
-}
-
-// base is the base JSONAPI for either arrays or individual structs
-type base struct {
-	Data  interface{} `json:"data"`
-	Links *links      `json:"links,omitempty"`
-}
-
-type links struct {
-	First string `json:"first"`
-	Last  string `json:"last"`
-	Next  string `json:"next,omitempty"`
-	Prev  string `json:"prev,omitempty"`
 }
 
 // dataPosts is a type to use with sort.Sort etc
@@ -190,3 +141,19 @@ func (d dataPosts) Less(i, j int) bool {
 }
 
 func (d dataPosts) Swap(i, j int) { d[i], d[j] = d[j], d[i] }
+
+func (d dataPosts) PerPage() int {
+	return 5
+}
+
+func (d dataPosts) Kind() string {
+	return "posts"
+}
+
+func (d dataPosts) Data() []interface{} {
+	arr := make([]interface{}, len(d))
+	for i, g := range d {
+		arr[i] = g
+	}
+	return arr
+}
