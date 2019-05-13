@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"math"
 	"os"
 	"path/filepath"
 	"sort"
@@ -12,6 +11,8 @@ import (
 	"time"
 
 	"github.com/brianfoshee/publish/archive"
+	"github.com/brianfoshee/publish/jsonapi"
+	"github.com/brianfoshee/publish/utils"
 )
 
 /* ***Galleries and Photos***
@@ -60,7 +61,7 @@ func Build(path string, drafts bool) {
 				photosIncluded[i] = pd
 
 				pd.Relationships = &galleryRelationships{
-					Gallery: base{
+					Gallery: jsonapi.Base{
 						Data: relationshipData{
 							ID:   g.Slug,
 							Type: "galleries",
@@ -68,7 +69,7 @@ func Build(path string, drafts bool) {
 					},
 				}
 
-				base := base{
+				base := jsonapi.Base{
 					Data:     pd,
 					Included: []interface{}{d},
 				}
@@ -102,12 +103,12 @@ func Build(path string, drafts bool) {
 			}
 
 			d.Relationships = &photoRelationships{
-				Photos: base{
+				Photos: jsonapi.Base{
 					Data: photos,
 				},
 			}
 
-			galleryBase := base{
+			galleryBase := jsonapi.Base{
 				Data:     d,
 				Included: pi,
 			}
@@ -133,49 +134,9 @@ func Build(path string, drafts bool) {
 	// Sort galleries in reverse-chron
 	sort.Sort(sort.Reverse(galleries))
 
-	// write out main feed, and pages if more than 10 galleries
-	// main feed is index 0-9. next page should be 10-19
-	const galleriesPerPage = 10
-	total := len(galleries)
-	pages := math.Ceil(float64(total) / galleriesPerPage)
-	for i := 1; i <= int(pages); i += 1 {
-		fname := fmt.Sprintf("dist/galleries/page/%d.json", i)
-
-		f, err := os.Create(fname)
-		if err != nil {
-			log.Printf("could not open %s: %s", fname, err)
-			continue
-		}
-
-		low := galleriesPerPage*i - galleriesPerPage
-		high := galleriesPerPage * i
-		if high > total {
-			high = total
-		}
-
-		// 'next' is the next page of galleries. So page 1's next is page 2.
-		// 'prev' is the previous page of galleries. So page 2's prev is page 1.
-		next, prev := "", ""
-		if int(pages) > i {
-			prev = fmt.Sprintf("https://www.brianfoshee.com/px/page/%d", i+1)
-		}
-		if i > 1 {
-			next = fmt.Sprintf("https://www.brianfoshee.com/px/page/%d", i-1)
-		}
-
-		b := base{
-			Data: galleries[low:high],
-			Links: &links{
-				First: "https://www.brianfoshee.com/px",
-				Last:  fmt.Sprintf("https://www.brianfoshee.com/px/page/%d", int(pages)),
-				Next:  next,
-				Prev:  prev,
-			},
-		}
-		if err := json.NewEncoder(f).Encode(b); err != nil {
-			log.Printf("error encoding posts page %d: %s", i, err)
-		}
-		f.Close()
+	// write out paginated index pages
+	if err := utils.Paginate(galleries); err != nil {
+		log.Println(err)
 	}
 
 	// create archives. Feed for each month of each year.
@@ -221,7 +182,7 @@ func Build(path string, drafts bool) {
 			log.Printf("could not open %s: %s", fname, err)
 			continue
 		}
-		if err := json.NewEncoder(f).Encode(base{Data: v}); err != nil {
+		if err := json.NewEncoder(f).Encode(jsonapi.Base{Data: v}); err != nil {
 			log.Printf("error encoding archives %s: %s", fname, err)
 		}
 		f.Close()
@@ -267,7 +228,7 @@ type dataGallery struct {
 }
 
 type photoRelationships struct {
-	Photos base `json:"photos"`
+	Photos jsonapi.Base `json:"photos"`
 }
 
 type dataPhoto struct {
@@ -278,28 +239,12 @@ type dataPhoto struct {
 }
 
 type galleryRelationships struct {
-	Gallery base `json:"gallery"`
+	Gallery jsonapi.Base `json:"gallery"`
 }
 
 type relationshipData struct {
 	ID   string `json:"id"`
 	Type string `json:"type"`
-}
-
-// base is the base JSONAPI for either arrays or individual structs
-// TODO this is duped in blog pkg
-type base struct {
-	Data     interface{}   `json:"data"`
-	Links    *links        `json:"links,omitempty"`
-	Included []interface{} `json:"included,omitempty"`
-}
-
-// TODO this is duped in blog pkg
-type links struct {
-	First string `json:"first"`
-	Last  string `json:"last"`
-	Next  string `json:"next,omitempty"`
-	Prev  string `json:"prev,omitempty"`
 }
 
 // dataGalleries is a type to use with sort.Sort
@@ -312,6 +257,22 @@ func (d dataGalleries) Less(i, j int) bool {
 }
 
 func (d dataGalleries) Swap(i, j int) { d[i], d[j] = d[j], d[i] }
+
+func (d dataGalleries) PerPage() int {
+	return 10
+}
+
+func (d dataGalleries) Kind() string {
+	return "galleries"
+}
+
+func (d dataGalleries) Data() []interface{} {
+	arr := make([]interface{}, len(d))
+	for i, g := range d {
+		arr[i] = g
+	}
+	return arr
+}
 
 // dataPhotos is a type to use with sort.Sort
 type dataPhotos []dataPhoto
