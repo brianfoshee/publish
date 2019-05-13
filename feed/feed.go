@@ -36,9 +36,13 @@ func Build(content chan Feeder) error {
 		return a.Created.After(b.Created)
 	})
 
-	if len(feed.Items) > 0 {
-		feed.Created = feed.Items[0].Created
+	// If there's nothing in the feed, don't generate it.
+	if len(feed.Items) == 0 {
+		return nil
 	}
+
+	// set the published/updated field on the feed itself
+	feed.Created = feed.Items[0].Created
 
 	atomFeed := (&feeds.Atom{Feed: feed}).AtomFeed()
 	atomFeed.Link.Href = "https://www.brianfoshee.com/feeds/atom"
