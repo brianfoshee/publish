@@ -58,7 +58,7 @@ func Paginate(p Paginater) error {
 		b := jsonapi.Base{
 			Data: data[low:high],
 			Links: &jsonapi.Links{
-				First: fmt.Sprintf("%s/%s", urlPrefix, kindMap[kind]),
+				First: fmt.Sprintf("%s/%s", domain, kindMap[kind]),
 				Last:  fmt.Sprintf("%s/%d", urlPrefix, int(pages)),
 				Next:  next,
 				Prev:  prev,
