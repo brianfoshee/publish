@@ -15,6 +15,7 @@ import (
 	"strings"
 	"sync"
 
+	"github.com/brianfoshee/publish/blog"
 	"github.com/brianfoshee/publish/feed"
 	"github.com/brianfoshee/publish/imgur"
 	"github.com/kurin/blazer/b2"
@@ -96,15 +97,12 @@ func main() {
 		os.Exit(0)
 	}
 
-	// buffered to 2 because there are 2 content type channels fanning out to
-	// this channel.
-	feedChan := make(chan feed.Feeder, 2)
-	go feed.Build(feedChan)
-
 	// make sure directories are created before building
 	createDir("dist")
 	createDir("dist/archives")
 	createDir("dist/feeds")
+
+	var feeders []feed.Feeder
 
 	// Do blog post building
 	if *blogPath != "" {
@@ -114,14 +112,13 @@ func main() {
 		createDir("dist/posts/page")
 		createDir("dist/archives/posts")
 
-		/*
-			blogs := blog.Build(*blogPath, *drafts)
-			go func() {
-				for b := range blogs {
-					feedChan <- b
-				}
-			}()
-		*/
+		blogs, err := blog.Build(*blogPath, *drafts)
+		if err != nil {
+			fmt.Println(err)
+		}
+		for _, b := range blogs {
+			feeders = append(feeders, b)
+		}
 	}
 
 	// Do imgur building
@@ -133,11 +130,20 @@ func main() {
 		createDir("dist/photos")
 		createDir("dist/archives/galleries")
 
-		imgur.Build(*imgurPath, *drafts)
+		albums, err := imgur.Build(*imgurPath, *drafts)
+		if err != nil {
+			fmt.Println(err)
+		}
+		for _, a := range albums {
+			feeders = append(feeders, a)
+		}
 	}
 
-	close(feedChan)
-	// TODO wait until feed is done
+	if len(feeders) > 0 && (*imgurPath != "" && *blogPath != "") {
+		if err := feed.Build(feeders); err != nil {
+			log.Println(err)
+		}
+	}
 
 	if *upload {
 		log.Println("Uploading...")

@@ -16,7 +16,7 @@ type Feeder interface {
 	Item() feeds.Item
 }
 
-func Build(content chan Feeder) error {
+func Build(content []Feeder) error {
 	feed := &feeds.Feed{
 		Title: "Brian Foshee",
 		Link: &feeds.Link{
@@ -27,7 +27,7 @@ func Build(content chan Feeder) error {
 		Copyright:   "Copyright 2019 Brian Foshee",
 	}
 
-	for f := range content {
+	for _, f := range content {
 		item := f.Item()
 		feed.Items = append(feed.Items, &item)
 	}
@@ -40,6 +40,8 @@ func Build(content chan Feeder) error {
 	if len(feed.Items) == 0 {
 		return nil
 	}
+
+	// TODO limit feed to n items
 
 	// set the published/updated field on the feed itself
 	feed.Created = feed.Items[0].Created

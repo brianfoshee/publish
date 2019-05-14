@@ -27,7 +27,7 @@ Parse gallery md and generate gallery pages. For every image in the gallery fold
 Validate: a md file with the name of the folder exists (08/iceland-year-off/ must contain iceland-year-off.md)
 */
 
-func Build(path string, drafts bool) {
+func Build(path string, drafts bool) ([]Gallery, error) {
 	galleryCh := make(chan Gallery)
 
 	go func() {
@@ -39,6 +39,7 @@ func Build(path string, drafts bool) {
 	}()
 
 	var galleries dataGalleries
+	var returnGalleries []Gallery
 	for g := range galleryCh {
 		// add to feed if published at is in the past
 		if time.Now().After(g.PublishedAt) || drafts {
@@ -48,6 +49,7 @@ func Build(path string, drafts bool) {
 				Attributes: g,
 			}
 			galleries = append(galleries, d)
+			returnGalleries = append(returnGalleries, g)
 
 			photosIncluded := make(dataPhotos, len(g.Photos))
 
@@ -124,10 +126,6 @@ func Build(path string, drafts bool) {
 				log.Printf("error encoding gallery to json %s: %s", g.Slug, err)
 			}
 			f.Close()
-
-			// run procesing on photos
-			// not necessary anymore - images are processed by imagemagick in a
-			// github action.
 		}
 	}
 
@@ -187,6 +185,8 @@ func Build(path string, drafts bool) {
 		}
 		f.Close()
 	}
+
+	return returnGalleries, nil
 }
 
 func imgurWalker(ch chan Gallery) filepath.WalkFunc {

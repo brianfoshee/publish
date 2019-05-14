@@ -9,6 +9,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/gorilla/feeds"
+
 	blackfriday "gopkg.in/russross/blackfriday.v2"
 	yaml "gopkg.in/yaml.v2"
 )
@@ -24,6 +26,28 @@ type Gallery struct {
 	path string // used when running retrobatch on image dir
 
 	// TODO add coverPhoto to use when sharing
+}
+
+// Item satisfies the feed.Feeder interface
+func (g Gallery) Item() feeds.Item {
+	fullSlug := "/px/" + g.Slug
+	domain := "https://www.brianfoshee.com"
+	link := domain + fullSlug
+
+	// change relative paths into full URLs
+	content := strings.ReplaceAll(
+		g.Description,
+		`<a href="/`,
+		`<a href="https://www.brianfoshee.com/`)
+
+	return feeds.Item{
+		Id:          link,
+		Title:       g.Title,
+		Link:        &feeds.Link{Href: link},
+		Description: content,
+		Created:     g.PublishedAt,
+		Content:     content,
+	}
 }
 
 func (g *Gallery) open(path string) error {
