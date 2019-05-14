@@ -10,14 +10,11 @@ import (
 	"strings"
 
 	"github.com/brianfoshee/publish/archive"
-	"github.com/brianfoshee/publish/feed"
 	"github.com/brianfoshee/publish/jsonapi"
 	"github.com/brianfoshee/publish/utils"
 )
 
-// TODO this should eventually take one channel and the main method will fan out
-// from there to feeder, archiver, etc.
-func Build(path string, drafts bool, feeder chan feed.Feeder) chan Post {
+func Build(path string, drafts bool) ([]Post, error) {
 	postsCh := make(chan Post)
 
 	go func() {
@@ -28,9 +25,8 @@ func Build(path string, drafts bool, feeder chan feed.Feeder) chan Post {
 		close(postsCh)
 	}()
 
-	return postsCh
-
 	var posts dataPosts
+	var returnPosts []Post
 	for p := range postsCh {
 		// add to feed if post has a Slug. If drafts flag is true, include
 		// drafts.
@@ -42,11 +38,7 @@ func Build(path string, drafts bool, feeder chan feed.Feeder) chan Post {
 				Attributes: p,
 			}
 			posts = append(posts, d)
-
-			// Add post to feed channel for processing
-			// TODO this will eventually be one channel of Posts to be returned
-			// back to the main function.
-			feeder <- p
+			returnPosts = append(returnPosts, p)
 
 			// create individual post file
 			f, err := os.Create("dist/posts/" + p.Slug + ".json")
@@ -62,14 +54,12 @@ func Build(path string, drafts bool, feeder chan feed.Feeder) chan Post {
 		}
 	}
 
-	close(feeder)
-
 	// Sort posts in reverse-chron
 	sort.Sort(sort.Reverse(posts))
 
 	// write out paginated index pages
 	if err := utils.Paginate(posts); err != nil {
-		log.Println(err)
+		log.Println("Paginate: ", err)
 	}
 
 	// create archives. Feed for each month of each year.
@@ -121,7 +111,7 @@ func Build(path string, drafts bool, feeder chan feed.Feeder) chan Post {
 		f.Close()
 	}
 
-	return nil
+	return returnPosts, nil
 }
 
 // to satisfy JSONAPI
