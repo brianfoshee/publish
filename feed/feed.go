@@ -41,8 +41,6 @@ func Build(content []Feeder) error {
 		return nil
 	}
 
-	// TODO limit feed to n items
-
 	// set the published/updated field on the feed itself
 	feed.Created = feed.Items[0].Created
 

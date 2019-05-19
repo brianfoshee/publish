@@ -132,6 +132,10 @@ func Build(path string, drafts bool) ([]Gallery, error) {
 	// Sort galleries in reverse-chron
 	sort.Sort(sort.Reverse(galleries))
 
+	sort.Slice(returnGalleries, func(i, j int) bool {
+		return returnGalleries[i].PublishedAt.After(returnGalleries[j].PublishedAt)
+	})
+
 	// write out paginated index pages
 	if err := utils.Paginate(galleries); err != nil {
 		log.Println(err)
