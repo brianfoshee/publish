@@ -116,7 +116,7 @@ func main() {
 		if err != nil {
 			fmt.Println(err)
 		}
-		for _, b := range blogs {
+		for _, b := range blogs[:10] {
 			feeders = append(feeders, b)
 		}
 	}
@@ -134,7 +134,7 @@ func main() {
 		if err != nil {
 			fmt.Println(err)
 		}
-		for _, a := range albums {
+		for _, a := range albums[:10] {
 			feeders = append(feeders, a)
 		}
 	}

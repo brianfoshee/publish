@@ -57,6 +57,10 @@ func Build(path string, drafts bool) ([]Post, error) {
 	// Sort posts in reverse-chron
 	sort.Sort(sort.Reverse(posts))
 
+	sort.Slice(returnPosts, func(i, j int) bool {
+		return returnPosts[i].PublishedAt.After(returnPosts[j].PublishedAt)
+	})
+
 	// write out paginated index pages
 	if err := utils.Paginate(posts); err != nil {
 		log.Println("Paginate: ", err)
