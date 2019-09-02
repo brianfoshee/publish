@@ -72,7 +72,7 @@ func (g *Gallery) open(path string) error {
 
 	// validate frontmatter contains all required fields
 	if err := g.parseYAML([]byte(fm)); err != nil {
-		return err
+		return fmt.Errorf("error parsing yaml for file %s: %s", path, err)
 	}
 	// convert markdown into html
 	if err := g.parseMarkdown([]byte(md)); err != nil {
