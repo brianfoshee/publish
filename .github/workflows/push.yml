@@ -1,0 +1,38 @@
+name: Push Workflow
+
+on: push
+
+jobs:
+  test:
+    name: Test App
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Codebase
+        uses: actions/checkout@master
+
+      - uses: actions/setup-go@v1
+        with:
+          go-version: '1.12'
+
+      # https://github.com/actions/setup-go/issues/12
+      - name: Temporarily work around setup-go GOPATH issue
+        run: |
+          export GOPATH=$HOME/go
+          export GOBIN=$(go env GOPATH)/bin
+          export PATH=$PATH:$GOPATH
+          export PATH=$PATH:$GOBIN
+          export GOPROXY=https://proxy.golang.org
+          mkdir -p $GOPATH/pkg
+          mkdir -p $GOBIN
+
+      - name: Download Go Dependencies
+        run: go mod download
+
+      - name: Test App
+        run: go test ./...
+
+      - name: Build App
+        env:
+          CGO_ENABLED: "0"
+        run: go build ./cmd/publish
