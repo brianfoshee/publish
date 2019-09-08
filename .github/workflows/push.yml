@@ -13,18 +13,7 @@ jobs:
 
       - uses: actions/setup-go@v1
         with:
-          go-version: '1.12'
-
-      # https://github.com/actions/setup-go/issues/12
-      - name: Temporarily work around setup-go GOPATH issue
-        run: |
-          export GOPATH=$HOME/go
-          export GOBIN=$(go env GOPATH)/bin
-          export PATH=$PATH:$GOPATH
-          export PATH=$PATH:$GOBIN
-          export GOPROXY=https://proxy.golang.org
-          mkdir -p $GOPATH/pkg
-          mkdir -p $GOBIN
+          go-version: '1.13'
 
       - name: Download Go Dependencies
         run: go mod download
