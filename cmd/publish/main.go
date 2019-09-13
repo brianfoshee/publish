@@ -140,6 +140,7 @@ func main() {
 	}
 
 	if len(feeders) > 0 && (*imgurPath != "" && *blogPath != "") {
+		log.Println("Building feeds")
 		if err := feed.Build(feeders); err != nil {
 			log.Println(err)
 		}
