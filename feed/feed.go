@@ -1,9 +1,11 @@
 package feed
 
 import (
+	"fmt"
 	"io"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/gorilla/feeds"
 )
@@ -17,14 +19,22 @@ type Feeder interface {
 }
 
 func Build(content []Feeder) error {
+	// If there's nothing in the feed, don't generate it.
+	if len(content) == 0 {
+		return nil
+	}
+
+	year := time.Now().Year()
+
 	feed := &feeds.Feed{
 		Title: "Brian Foshee",
 		Link: &feeds.Link{
 			Href: "https://www.brianfoshee.com/",
 			Rel:  "self",
 		},
+		Author:      &feeds.Author{Name: "Brian Foshee", Email: "brian@brianfoshee.com"},
 		Description: "Hi. I'm Brian Foshee. I write software.",
-		Copyright:   "Copyright 2019 Brian Foshee",
+		Copyright:   fmt.Sprintf("Copyright 2017 - %d Brian Foshee", year),
 	}
 
 	for _, f := range content {
@@ -36,11 +46,6 @@ func Build(content []Feeder) error {
 		return a.Created.After(b.Created)
 	})
 
-	// If there's nothing in the feed, don't generate it.
-	if len(feed.Items) == 0 {
-		return nil
-	}
-
 	// set the published/updated field on the feed itself
 	feed.Created = feed.Items[0].Created
 
@@ -51,6 +56,7 @@ func Build(content []Feeder) error {
 	if err != nil {
 		return err
 	}
+
 	rss, err := feed.ToRss()
 	if err != nil {
 		return err
