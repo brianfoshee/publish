@@ -151,8 +151,6 @@ func main() {
 			os.Exit(1)
 		}
 
-		// run uploads concurrently
-		// cpus is how many workers will be spun up
 		type files struct {
 			path string
 			info os.FileInfo
@@ -163,6 +161,7 @@ func main() {
 		if err != nil || workers == 0 {
 			workers = int64(runtime.NumCPU() * 2)
 		}
+		// run uploads concurrently
 		for i := 0; i < int(workers); i++ {
 			log.Printf("Working %d starting", i)
 			wg.Add(1)
@@ -174,6 +173,7 @@ func main() {
 					// get rid of everything before dist/ in path
 					parts := strings.Split(path, "dist/")
 
+					// Only upload images to B2
 					if strings.HasSuffix(info.Name(), ".jpg") {
 						dst := fmt.Sprintf("www/v1/%s", parts[1])
 
@@ -328,7 +328,6 @@ func publishToCloudflare() error {
 				b = by
 			}
 
-			// read in bytes from path
 			kv := cfkv{
 				Key:    dst,
 				Value:  fmt.Sprintf("%s", b),
@@ -345,6 +344,10 @@ func publishToCloudflare() error {
 
 	if len(kvs) > 10000 {
 		return fmt.Errorf("cannot have more than 10,000 kvs in bulk request")
+	}
+
+	if len(kvs) == 0 {
+		return nil
 	}
 
 	// encode kvs as json
