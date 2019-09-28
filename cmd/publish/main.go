@@ -81,10 +81,12 @@ func main() {
 		os.Exit(0)
 	}
 
-	// make sure directories are created before building
-	createDir("dist")
-	createDir("dist/archives")
-	createDir("dist/feeds")
+	if *blogPath != "" || *imgurPath != "" {
+		// make sure directories are created before building
+		createDir("dist")
+		createDir("dist/archives")
+		createDir("dist/feeds")
+	}
 
 	var feeders []feed.Feeder
 
@@ -272,6 +274,10 @@ func publishToCloudflare() error {
 	nsid := os.Getenv("CF_NAMESPACE_ID")
 	cfemail := os.Getenv("CF_AUTH_EMAIL")
 	cfkey := os.Getenv("CF_AUTH_KEY")
+	kvPrefix := os.Getenv("KV_PREFIX")
+	if kvPrefix == "" {
+		kvPrefix = "www/v1"
+	}
 
 	var kvs []cfkv
 
@@ -293,10 +299,10 @@ func publishToCloudflare() error {
 		if strings.HasSuffix(info.Name(), ".json") {
 			// destination should not have .json extension
 			cleanPath := strings.TrimSuffix(parts[1], ".json")
-			dst = fmt.Sprintf("www/v1/%s", cleanPath)
+			dst = fmt.Sprintf("%s/%s", kvPrefix, cleanPath)
 		} else if !strings.HasSuffix(info.Name(), ".jpg") {
 			// handle everything other than images. feeds, js, html etc
-			dst = fmt.Sprintf("www/v1/%s", parts[1])
+			dst = fmt.Sprintf("%s/%s", kvPrefix, parts[1])
 		}
 
 		if dst != "" {
