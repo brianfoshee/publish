@@ -1,11 +1,14 @@
 package main
 
 import (
+	"bytes"
 	"context"
 	"crypto/sha1"
+	"encoding/json"
 	"flag"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -14,34 +17,13 @@ import (
 	"strconv"
 	"strings"
 	"sync"
+	"time"
 
 	"github.com/brianfoshee/publish/blog"
 	"github.com/brianfoshee/publish/feed"
 	"github.com/brianfoshee/publish/imgur"
 	"github.com/kurin/blazer/b2"
 )
-
-/*
-dist -|
-	  posts.json
-	  posts -|
-			 im-taking-a-year-off.json
-			 page -|
-				   1.json
-				   2.json
-			 archives.json
-			 archives -|
-					2018.json
-					2018 -|
-						  february.json
-	  galleries -|
-			 iceland.json
-			 page -|
-				   1.json
-				   2.json
-	  photos -|
-			 abc123.json
-*/
 
 func main() {
 	blogPath := flag.String("blog-path", "", "Path with blog post markdown files")
@@ -50,7 +32,8 @@ func main() {
 	drafts := flag.Bool("drafts", false, "Include drafts in generated feeds")
 	clean := flag.Bool("clean", false, "Remove generated files")
 	serve := flag.Bool("serve", false, "Serve files in dist dir.")
-	upload := flag.Bool("upload", false, "Upload files in dist dir to B2.")
+	uploadB2 := flag.Bool("uploadb2", false, "Upload images in dist dir to B2.")
+	uploadCF := flag.Bool("uploadcf", false, "Upload json files in dist dir to Cloudflare.")
 	flag.Parse()
 
 	if *clean {
@@ -146,8 +129,8 @@ func main() {
 		}
 	}
 
-	if *upload {
-		log.Println("Uploading...")
+	if *uploadB2 {
+		log.Println("Uploading images to B2...")
 		// TODO extract uploading into a package
 
 		account := os.Getenv("B2_ACCOUNT_ID")
@@ -228,6 +211,13 @@ func main() {
 
 	}
 
+	if *uploadCF {
+		log.Println("Uploading to Cloudflare...")
+		if err := publishToCloudflare(); err != nil {
+			log.Printf("error publishing to cloudflare %v", err)
+		}
+	}
+
 	log.Println("Bye.")
 }
 
@@ -276,4 +266,117 @@ func createDir(dir string) {
 	if _, err := os.Stat(dir); os.IsNotExist(err) {
 		os.Mkdir(dir, os.ModeDir|os.ModePerm)
 	}
+}
+
+type cfkv struct {
+	Key   string `json:"key"`
+	Value string `json:"value"`
+}
+
+func publishToCloudflare() error {
+	account := os.Getenv("CF_ACCOUNT_ID")
+	nsid := os.Getenv("CF_NAMESPACE_ID")
+	cfemail := os.Getenv("CF_AUTH_EMAIL")
+	cfkey := os.Getenv("CF_AUTH_KEY")
+
+	var kvs []cfkv
+
+	if err := filepath.Walk("dist/", func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		if info.IsDir() {
+			return nil
+		}
+
+		// get rid of everything before dist/ in path
+		parts := strings.Split(path, "dist/")
+
+		var dst string
+		if strings.HasSuffix(info.Name(), ".json") {
+			// destination should not have .json extension
+			cleanPath := strings.TrimSuffix(parts[1], ".json")
+			dst = fmt.Sprintf("www/v1/%s", cleanPath)
+		} else if strings.Contains(path, "dist/feeds") {
+			dst = fmt.Sprintf("www/v1/%s", parts[1])
+		}
+
+		if dst != "" {
+			f, err := os.Open(path)
+			if err != nil {
+				return err
+			}
+			defer f.Close()
+
+			b, err := ioutil.ReadAll(f)
+			if err != nil {
+				return err
+			}
+
+			// read in bytes from path
+			kv := cfkv{
+				Key:   dst,
+				Value: fmt.Sprintf("%s", b),
+			}
+			kvs = append(kvs, kv)
+		}
+
+		return nil
+	}); err != nil {
+		log.Println("error walking dist path:", err)
+		os.Exit(1)
+	}
+
+	if len(kvs) > 10000 {
+		return fmt.Errorf("cannot have more than 10,000 kvs in bulk request")
+	}
+
+	// encode kvs as json
+	var buf bytes.Buffer
+	if err := json.NewEncoder(&buf).Encode(kvs); err != nil {
+		return err
+	}
+
+	// make request to cf
+	hc := &http.Client{
+		Timeout: 10 * time.Second,
+	}
+
+	cfURL := fmt.Sprintf("https://api.cloudflare.com/client/v4/accounts/%s/storage/kv/namespaces/%s/bulk", account, nsid)
+	req, err := http.NewRequest(http.MethodPut, cfURL, &buf)
+	if err != nil {
+		return err
+	}
+	req.Header.Add("X-Auth-Key", cfkey)
+	req.Header.Add("X-Auth-Email", cfemail)
+	req.Header.Add("Content-Type", "application/json")
+
+	res, err := hc.Do(req)
+	if err != nil {
+		return err
+	}
+	defer res.Body.Close()
+
+	var cfres cloudflareResponse
+	if err := json.NewDecoder(res.Body).Decode(&cfres); err != nil {
+		return fmt.Errorf("could not decode cloudflare response")
+	}
+
+	if !cfres.Success || res.StatusCode != http.StatusOK {
+		return fmt.Errorf("cloudflare response not ok %d, %v", res.StatusCode, cfres.Errors)
+	}
+
+	return nil
+}
+
+type cloudflareError struct {
+	Code    int    `json:code"`
+	Message string `json:"message"`
+}
+
+type cloudflareResponse struct {
+	Result   interface{}       `json:"result"`
+	Success  bool              `json:"success"`
+	Errors   []cloudflareError `json:"errors"`
+	Messages []string          `json:"messages"`
 }
