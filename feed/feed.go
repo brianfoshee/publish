@@ -57,6 +57,8 @@ func Build(content []Feeder) error {
 		return err
 	}
 
+	rssFeed := (&feeds.Rss{Feed: feed}).RssFeed()
+	rssFeed.Link.Href = "https://www.brianfoshee.com/feeds/rss"
 	rss, err := feed.ToRss()
 	if err != nil {
 		return err
