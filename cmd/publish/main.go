@@ -173,15 +173,7 @@ func main() {
 					// get rid of everything before dist/ in path
 					parts := strings.Split(path, "dist/")
 
-					if strings.HasSuffix(info.Name(), ".json") {
-						// destination should not have .json extension
-						cleanPath := strings.TrimSuffix(parts[1], ".json")
-						dst := fmt.Sprintf("www/v1/%s", cleanPath)
-
-						if err := copyFile(ctx, bucket, path, dst, "application/vnd.api+json"); err != nil {
-							log.Printf("error copying %s to %s: %s", path, dst, err)
-						}
-					} else if strings.HasSuffix(info.Name(), ".jpg") {
+					if strings.HasSuffix(info.Name(), ".jpg") {
 						dst := fmt.Sprintf("www/v1/%s", parts[1])
 
 						if err := copyFile(ctx, bucket, path, dst, "image/jpeg"); err != nil {
