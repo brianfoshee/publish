@@ -73,19 +73,25 @@ func Build(content []Feeder) error {
 	if err != nil {
 		return err
 	}
-	io.Copy(rssf, strings.NewReader(rss))
+	if _, err := io.Copy(rssf, strings.NewReader(rss)); err != nil {
+		return err
+	}
 
 	atomf, err := os.Create("dist/feeds/atom")
 	if err != nil {
 		return err
 	}
-	io.Copy(atomf, strings.NewReader(atom))
+	if _, err := io.Copy(atomf, strings.NewReader(atom)); err != nil {
+		return err
+	}
 
 	jsonf, err := os.Create("dist/feeds/json")
 	if err != nil {
 		return err
 	}
-	io.Copy(jsonf, strings.NewReader(js))
+	if _, err := io.Copy(jsonf, strings.NewReader(js)); err != nil {
+		return err
+	}
 
 	return nil
 }
