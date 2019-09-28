@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"crypto/sha1"
+	"encoding/base64"
 	"encoding/json"
 	"flag"
 	"fmt"
@@ -261,8 +262,9 @@ func createDir(dir string) {
 }
 
 type cfkv struct {
-	Key   string `json:"key"`
-	Value string `json:"value"`
+	Key    string `json:"key"`
+	Value  string `json:"value"`
+	Base64 bool   `json:"base64"`
 }
 
 func publishToCloudflare() error {
@@ -280,6 +282,9 @@ func publishToCloudflare() error {
 		if info.IsDir() {
 			return nil
 		}
+		if info.Size() == 0 {
+			return nil
+		}
 
 		// get rid of everything before dist/ in path
 		parts := strings.Split(path, "dist/")
@@ -289,7 +294,8 @@ func publishToCloudflare() error {
 			// destination should not have .json extension
 			cleanPath := strings.TrimSuffix(parts[1], ".json")
 			dst = fmt.Sprintf("www/v1/%s", cleanPath)
-		} else if strings.Contains(path, "dist/feeds") {
+		} else if !strings.HasSuffix(info.Name(), ".jpg") {
+			// handle everything other than images. feeds, js, html etc
 			dst = fmt.Sprintf("www/v1/%s", parts[1])
 		}
 
@@ -300,15 +306,33 @@ func publishToCloudflare() error {
 			}
 			defer f.Close()
 
-			b, err := ioutil.ReadAll(f)
-			if err != nil {
-				return err
+			var b []byte
+			var b64 bool
+			// base64 encode image files
+			if strings.HasSuffix(info.Name(), ".png") || strings.HasSuffix(info.Name(), ".ico") {
+				var buf bytes.Buffer
+				encoder := base64.NewEncoder(base64.StdEncoding, &buf)
+				if _, err := io.Copy(encoder, f); err != nil {
+					return err
+				}
+				encoder.Close()
+
+				b = buf.Bytes()
+				b64 = true
+			} else {
+				by, err := ioutil.ReadAll(f)
+				if err != nil {
+					return err
+				}
+
+				b = by
 			}
 
 			// read in bytes from path
 			kv := cfkv{
-				Key:   dst,
-				Value: fmt.Sprintf("%s", b),
+				Key:    dst,
+				Value:  fmt.Sprintf("%s", b),
+				Base64: b64,
 			}
 			kvs = append(kvs, kv)
 		}
