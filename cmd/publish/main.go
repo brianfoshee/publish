@@ -303,8 +303,10 @@ func publishToCloudflare() error {
 		parts := strings.Split(path, "dist/")
 
 		var dst string
-		if strings.HasSuffix(info.Name(), ".json") {
-			// destination should not have .json extension
+		if info.Name() == "manifest.json" {
+			dst = "manifest.json"
+		} else if strings.HasSuffix(info.Name(), ".json") {
+			// destination should not have .json extension for jsonapi files
 			cleanPath := strings.TrimSuffix(parts[1], ".json")
 			dst = fmt.Sprintf("%s/%s", kvPrefix, cleanPath)
 		} else if !strings.HasSuffix(info.Name(), ".jpg") {
