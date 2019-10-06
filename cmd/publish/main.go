@@ -23,6 +23,7 @@ import (
 	"github.com/brianfoshee/publish/blog"
 	"github.com/brianfoshee/publish/feed"
 	"github.com/brianfoshee/publish/imgur"
+	"github.com/brianfoshee/publish/manifest"
 	"github.com/kurin/blazer/b2"
 )
 
@@ -128,6 +129,15 @@ func main() {
 	if len(feeders) > 0 && (*imgurPath != "" && *blogPath != "") {
 		log.Println("Building feeds")
 		if err := feed.Build(feeders); err != nil {
+			log.Println(err)
+		}
+
+		log.Println("Generating Manifest File")
+		prefix := os.Getenv("KV_PREFIX")
+		if prefix == "" {
+			prefix = "www/v1"
+		}
+		if err := manifest.Generate(prefix); err != nil {
 			log.Println(err)
 		}
 	}
@@ -285,10 +295,7 @@ func publishToCloudflare() error {
 		if err != nil {
 			return err
 		}
-		if info.IsDir() {
-			return nil
-		}
-		if info.Size() == 0 {
+		if info.IsDir() || info.Size() == 0 {
 			return nil
 		}
 
