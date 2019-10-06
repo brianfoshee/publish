@@ -159,11 +159,7 @@ func main() {
 			os.Exit(1)
 		}
 
-		type files struct {
-			path string
-			info os.FileInfo
-		}
-		fileChan := make(chan files)
+		fileChan := make(chan string)
 		wg := sync.WaitGroup{}
 		workers, err := strconv.ParseInt(os.Getenv("UPLOAD_WORKERS"), 10, 64)
 		if err != nil || workers == 0 {
@@ -174,20 +170,17 @@ func main() {
 			log.Printf("Working %d starting", i)
 			wg.Add(1)
 			go func() {
-				for f := range fileChan {
-					path := f.path
-					info := f.info
+				for path := range fileChan {
 
 					// get rid of everything before dist/ in path
 					parts := strings.Split(path, "dist/")
 
-					// Only upload images to B2
-					if strings.HasSuffix(info.Name(), ".jpg") {
-						dst := fmt.Sprintf("www/v1/%s", parts[1])
+					dst := fmt.Sprintf("www/v1/%s", parts[1])
 
-						if err := copyFile(ctx, bucket, path, dst, "image/jpeg"); err != nil {
-							log.Printf("error copying %s to %s: %s", path, dst, err)
-						}
+					// only images make it into this channel to go to B2. See
+					// the Walk func.
+					if err := copyFile(ctx, bucket, path, dst, "image/jpeg"); err != nil {
+						log.Printf("error copying %s to %s: %s", path, dst, err)
 					}
 				}
 				wg.Done()
@@ -198,8 +191,12 @@ func main() {
 			if err != nil {
 				return err
 			}
+			// Only upload images to B2
+			if !strings.HasSuffix(info.Name(), ".jpg") {
+				return nil
+			}
 
-			fileChan <- files{path, info}
+			fileChan <- path
 
 			return nil
 		}); err != nil {
