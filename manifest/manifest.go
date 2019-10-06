@@ -71,6 +71,7 @@ func Generate(prefix string) error {
 	if err != nil {
 		return fmt.Errorf("error writing manifest file: %v", err)
 	}
+	defer f.Close()
 	if err := json.NewEncoder(f).Encode(mf); err != nil {
 		return fmt.Errorf("error encoding json to manifest file: %v", err)
 	}
