@@ -10,7 +10,7 @@ import (
 	"strings"
 )
 
-type Manifest []map[string]string
+type Manifest map[string]string
 
 type manifestFile struct {
 	Manifest Manifest `json:"manifest"`
@@ -22,7 +22,7 @@ func Generate() error {
 		prefix = "www/v1"
 	}
 
-	var manifest Manifest
+	manifest := Manifest{}
 
 	if err := filepath.Walk("dist/", func(path string, info os.FileInfo, err error) error {
 		if err != nil {
@@ -61,8 +61,7 @@ func Generate() error {
 			sha := fmt.Sprintf("%x", sum) // convert to string
 
 			// add file to manifest
-			m := map[string]string{dst: sha}
-			manifest = append(manifest, m)
+			manifest[dst] = sha
 		}
 
 		return nil
