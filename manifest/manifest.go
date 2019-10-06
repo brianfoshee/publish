@@ -8,12 +8,14 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"time"
 )
 
 type Manifest map[string]string
 
 type manifestFile struct {
-	Manifest Manifest `json:"manifest"`
+	Manifest  Manifest  `json:"manifest"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
 func Generate() error {
@@ -70,7 +72,7 @@ func Generate() error {
 	}
 
 	// write manifest file
-	mf := manifestFile{Manifest: manifest}
+	mf := manifestFile{Manifest: manifest, UpdatedAt: time.Now()}
 	f, err := os.Create("dist/manifest.json")
 	if err != nil {
 		return fmt.Errorf("error writing manifest file: %v", err)
