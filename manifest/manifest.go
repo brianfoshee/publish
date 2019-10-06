@@ -16,7 +16,12 @@ type manifestFile struct {
 	Manifest Manifest `json:"manifest"`
 }
 
-func Generate(prefix string) error {
+func Generate() error {
+	prefix := os.Getenv("KV_PREFIX")
+	if prefix == "" {
+		prefix = "www/v1"
+	}
+
 	var manifest Manifest
 
 	if err := filepath.Walk("dist/", func(path string, info os.FileInfo, err error) error {

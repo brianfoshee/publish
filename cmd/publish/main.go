@@ -133,11 +133,7 @@ func main() {
 		}
 
 		log.Println("Generating Manifest File")
-		prefix := os.Getenv("KV_PREFIX")
-		if prefix == "" {
-			prefix = "www/v1"
-		}
-		if err := manifest.Generate(prefix); err != nil {
+		if err := manifest.Generate(); err != nil {
 			log.Println(err)
 		}
 	}
