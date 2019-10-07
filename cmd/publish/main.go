@@ -282,6 +282,9 @@ func publishToCloudflare() error {
 		kvPrefix = kvPrefix + "/"
 	}
 	source := os.Getenv("UPLOAD_SOURCE")
+	if source == "" {
+		source = "dist/"
+	}
 
 	var kvs []cfkv
 
