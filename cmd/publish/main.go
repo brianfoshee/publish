@@ -278,13 +278,14 @@ func publishToCloudflare() error {
 	cfemail := os.Getenv("CF_AUTH_EMAIL")
 	cfkey := os.Getenv("CF_AUTH_KEY")
 	kvPrefix := os.Getenv("KV_PREFIX")
-	if kvPrefix == "" {
-		kvPrefix = "www/v1"
+	if !strings.HasSuffix(kvPrefix, "/") && kvPrefix != "" {
+		kvPrefix = kvPrefix + "/"
 	}
+	source := os.Getenv("UPLOAD_SOURCE")
 
 	var kvs []cfkv
 
-	if err := filepath.Walk("dist/", func(path string, info os.FileInfo, err error) error {
+	if err := filepath.Walk(source, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
@@ -293,6 +294,7 @@ func publishToCloudflare() error {
 		}
 
 		// get rid of everything before dist/ in path
+		// this works no matter the source - they all have dist/ in the
 		parts := strings.Split(path, "dist/")
 
 		var dst string
@@ -301,10 +303,10 @@ func publishToCloudflare() error {
 		} else if strings.HasSuffix(info.Name(), ".json") {
 			// destination should not have .json extension for jsonapi files
 			cleanPath := strings.TrimSuffix(parts[1], ".json")
-			dst = fmt.Sprintf("%s/%s", kvPrefix, cleanPath)
+			dst = fmt.Sprintf("%s%s", kvPrefix, cleanPath)
 		} else if !strings.HasSuffix(info.Name(), ".jpg") {
 			// handle everything other than images. feeds, js, html etc
-			dst = fmt.Sprintf("%s/%s", kvPrefix, parts[1])
+			dst = fmt.Sprintf("%s%s", kvPrefix, parts[1])
 		}
 
 		if dst != "" {
