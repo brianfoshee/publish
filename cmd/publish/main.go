@@ -20,123 +20,32 @@ import (
 	"sync"
 	"time"
 
-	"github.com/brianfoshee/publish/blog"
-	"github.com/brianfoshee/publish/feed"
 	"github.com/brianfoshee/publish/imgur"
-	"github.com/brianfoshee/publish/manifest"
 	"github.com/kurin/blazer/b2"
 )
 
 func main() {
-	blogPath := flag.String("blog-path", "", "Path with blog post markdown files")
-	imgurPath := flag.String("imgur-path", "", "Path with photo gallery markdown files and images")
 	preparePics := flag.String("prepare-pics", "", "Path to a gallery of photos to prepare")
-	drafts := flag.Bool("drafts", false, "Include drafts in generated feeds")
-	clean := flag.Bool("clean", false, "Remove generated files")
-	serve := flag.Bool("serve", false, "Serve files in dist dir.")
 	uploadB2 := flag.Bool("uploadb2", false, "Upload images in dist dir to B2.")
 	uploadCF := flag.Bool("uploadcf", false, "Upload json files in dist dir to Cloudflare.")
 	flag.Parse()
 
-	if *clean {
-		if err := os.RemoveAll("./dist"); err != nil {
-			log.Println("error deleting dist directory", err)
-			os.Exit(1)
-		}
-		os.Exit(0)
-	}
-
-	if *serve {
-		vnd := "application/vnd.api+json"
-		mw := func(w http.ResponseWriter, r *http.Request) {
-			// TODO test which of these are required to reflect in CDN
-			w.Header().Set("Access-Control-Allow-Origin", "http://localhost:4200")
-			w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
-			w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-			if r.Method == http.MethodOptions {
-				return
-			}
-
-			log.Println(r.URL.Path)
-
-			if r.Header.Get("Accept") == vnd {
-				w.Header().Set("Content-Type", vnd)
-				r.URL.Path = r.URL.Path + ".json"
-			}
-
-			http.
-				StripPrefix("/www/v1/", http.FileServer(http.Dir("dist/"))).
-				ServeHTTP(w, r)
-		}
-
-		http.HandleFunc("/www/v1/", mw)
-		http.ListenAndServe("localhost:8080", nil)
-	}
-
 	if *preparePics != "" {
 		log.Println("Preparing imgur")
 		if err := imgur.Prepare(*preparePics); err != nil {
-			log.Printf("error preparing path %s: %q", *preparePics, err)
-			os.Exit(1)
+			log.Fatalf("error preparing path %s: %q", *preparePics, err)
 		}
-		os.Exit(0)
+		return
 	}
 
-	if *blogPath != "" || *imgurPath != "" {
-		// make sure directories are created before building
-		createDir("dist")
-		createDir("dist/archives")
-		createDir("dist/feeds")
-	}
-
-	var feeders []feed.Feeder
-
-	// Do blog post building
-	if *blogPath != "" {
-		log.Println("Building blog")
-
-		createDir("dist/posts")
-		createDir("dist/posts/page")
-		createDir("dist/archives/posts")
-
-		blogs, err := blog.Build(*blogPath, *drafts)
-		if err != nil {
-			fmt.Println(err)
+	/*
+		if len(feeders) > 0 && (*imgurPath != "" && *blogPath != "") {
+			log.Println("Generating Manifest File")
+			if err := manifest.Generate(); err != nil {
+				log.Println(err)
+			}
 		}
-		for _, b := range blogs[:10] {
-			feeders = append(feeders, b)
-		}
-	}
-
-	// Do imgur building
-	if *imgurPath != "" {
-		log.Println("Building imgur")
-
-		createDir("dist/galleries")
-		createDir("dist/galleries/page")
-		createDir("dist/photos")
-		createDir("dist/archives/galleries")
-
-		albums, err := imgur.Build(*imgurPath, *drafts)
-		if err != nil {
-			fmt.Println(err)
-		}
-		for _, a := range albums[:10] {
-			feeders = append(feeders, a)
-		}
-	}
-
-	if len(feeders) > 0 && (*imgurPath != "" && *blogPath != "") {
-		log.Println("Building feeds")
-		if err := feed.Build(feeders); err != nil {
-			log.Println(err)
-		}
-
-		log.Println("Generating Manifest File")
-		if err := manifest.Generate(); err != nil {
-			log.Println(err)
-		}
-	}
+	*/
 
 	if *uploadB2 {
 		log.Println("Uploading images to B2...")
