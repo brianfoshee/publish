@@ -21,6 +21,7 @@ import (
 	"time"
 
 	"github.com/brianfoshee/publish/imgur"
+	"github.com/brianfoshee/publish/manifest"
 	"github.com/kurin/blazer/b2"
 )
 
@@ -28,6 +29,7 @@ func main() {
 	preparePics := flag.String("prepare-pics", "", "Path to a gallery of photos to prepare")
 	uploadB2 := flag.Bool("uploadb2", false, "Upload images in dist dir to B2.")
 	uploadCF := flag.Bool("uploadcf", false, "Upload json files in dist dir to Cloudflare.")
+	generateManifest := flag.Bool("generate-manifest", false, "Generate a manifest.json file")
 	flag.Parse()
 
 	if *preparePics != "" {
@@ -38,14 +40,12 @@ func main() {
 		return
 	}
 
-	/*
-		if len(feeders) > 0 && (*imgurPath != "" && *blogPath != "") {
-			log.Println("Generating Manifest File")
-			if err := manifest.Generate(); err != nil {
-				log.Println(err)
-			}
+	if *generateManifest {
+		log.Println("Generating Manifest File")
+		if err := manifest.Generate(); err != nil {
+			log.Println(err)
 		}
-	*/
+	}
 
 	if *uploadB2 {
 		log.Println("Uploading images to B2...")
