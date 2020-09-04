@@ -21,6 +21,7 @@ import (
 	"time"
 
 	"github.com/brianfoshee/publish/imgur"
+	"github.com/brianfoshee/publish/manifest"
 	"github.com/kurin/blazer/b2"
 )
 
@@ -28,7 +29,7 @@ func main() {
 	preparePics := flag.String("prepare-pics", "", "Path to a gallery of photos to prepare")
 	uploadB2 := flag.Bool("uploadb2", false, "Upload images in dist dir to B2.")
 	uploadCF := flag.Bool("uploadcf", false, "Upload json files in dist dir to Cloudflare.")
-	// generateManifest := flag.Bool("generate-manifest", false, "Generate a manifest.json file")
+	generateManifest := flag.Bool("manifest", false, "Generate a manifest.json file")
 	flag.Parse()
 
 	if *preparePics != "" {
@@ -39,15 +40,12 @@ func main() {
 		return
 	}
 
-	/*
-		if *generateManifest {
-			// TODO generate separate manifests for images and static assets
-			log.Println("Generating Manifest File")
-			if err := manifest.Generate(); err != nil {
-				log.Println(err)
-			}
+	if *generateManifest {
+		log.Println("Generating Manifest File")
+		if err := manifest.Generate(); err != nil {
+			log.Println(err)
 		}
-	*/
+	}
 
 	if *uploadB2 {
 		log.Println("Uploading images to B2...")
@@ -177,21 +175,23 @@ func createDir(dir string) {
 	}
 }
 
+type cfkvMetadata struct {
+	ContentType string `json:"content-type"`
+	SHA1        string `json:"sha1"`
+}
+
+// https://api.cloudflare.com/#workers-kv-namespace-write-key-value-pair-with-metadata
 type cfkv struct {
-	Key    string `json:"key"`
-	Value  string `json:"value"`
-	Base64 bool   `json:"base64"`
+	Key      string       `json:"key"`
+	Value    string       `json:"value"`
+	Base64   bool         `json:"base64"`
+	Metadata cfkvMetadata `json:"metadata"`
 }
 
 func publishToCloudflare() error {
 	account := os.Getenv("CF_ACCOUNT_ID")
 	nsid := os.Getenv("CF_NAMESPACE_ID")
-	cfemail := os.Getenv("CF_AUTH_EMAIL")
-	cfkey := os.Getenv("CF_AUTH_KEY")
-	kvPrefix := os.Getenv("KV_PREFIX")
-	if !strings.HasSuffix(kvPrefix, "/") && kvPrefix != "" {
-		kvPrefix = kvPrefix + "/"
-	}
+	cfToken := os.Getenv("CF_API_TOKEN")
 	source := os.Getenv("UPLOAD_SOURCE")
 	if source == "" {
 		source = "dist/"
@@ -211,16 +211,9 @@ func publishToCloudflare() error {
 		// this works no matter the source - they all have dist/ in the
 		parts := strings.Split(path, "dist/")
 
-		var dst string
+		dst := parts[1]
 		if info.Name() == "manifest.json" {
 			dst = "manifest.json"
-		} else if strings.HasSuffix(info.Name(), ".json") {
-			// destination should not have .json extension for jsonapi files
-			cleanPath := strings.TrimSuffix(parts[1], ".json")
-			dst = fmt.Sprintf("%s%s", kvPrefix, cleanPath)
-		} else if !strings.HasSuffix(info.Name(), ".jpg") {
-			// handle everything other than images. feeds, js, html etc
-			dst = fmt.Sprintf("%s%s", kvPrefix, parts[1])
 		}
 
 		if dst != "" {
@@ -232,15 +225,21 @@ func publishToCloudflare() error {
 
 			var b []byte
 			var b64 bool
+			var contentType string
 			// base64 encode image files
 			if strings.HasSuffix(info.Name(), ".png") || strings.HasSuffix(info.Name(), ".ico") {
+				// need to read to both buffers to determine content type
+				var ctbuf bytes.Buffer
+				r := io.TeeReader(f, &ctbuf)
+
 				var buf bytes.Buffer
 				encoder := base64.NewEncoder(base64.StdEncoding, &buf)
-				if _, err := io.Copy(encoder, f); err != nil {
+				if _, err := io.Copy(encoder, r); err != nil {
 					return err
 				}
 				encoder.Close()
 
+				contentType = http.DetectContentType(ctbuf.Bytes())
 				b = buf.Bytes()
 				b64 = true
 			} else {
@@ -250,12 +249,28 @@ func publishToCloudflare() error {
 				}
 
 				b = by
+				contentType = http.DetectContentType(b)
+				// http.DetectContentType doesn't handle css files properly
+				if strings.HasSuffix(info.Name(), ".css") {
+					contentType = "text/css; charset=utf-8"
+				}
 			}
+
+			h := sha1.New()
+			if _, err := io.Copy(h, f); err != nil {
+				return fmt.Errorf("could not copy from file to hash: %v", err)
+			}
+			sum := h.Sum(nil)
+			sha := fmt.Sprintf("%x", sum) // convert to string
 
 			kv := cfkv{
 				Key:    dst,
 				Value:  fmt.Sprintf("%s", b),
 				Base64: b64,
+				Metadata: cfkvMetadata{
+					ContentType: contentType,
+					SHA1:        sha,
+				},
 			}
 			kvs = append(kvs, kv)
 		}
@@ -290,8 +305,7 @@ func publishToCloudflare() error {
 	if err != nil {
 		return err
 	}
-	req.Header.Add("X-Auth-Key", cfkey)
-	req.Header.Add("X-Auth-Email", cfemail)
+	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", cfToken))
 	req.Header.Add("Content-Type", "application/json")
 
 	res, err := hc.Do(req)
@@ -313,7 +327,7 @@ func publishToCloudflare() error {
 }
 
 type cloudflareError struct {
-	Code    int    `json:code"`
+	Code    int    `json:"code"`
 	Message string `json:"message"`
 }
 
