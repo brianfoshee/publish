@@ -13,8 +13,13 @@ import (
 
 type Manifest map[string]string
 
+type NewManifest struct {
+	ContentType string
+	SHA1        string
+}
+
 type manifestFile struct {
-	Manifest  Manifest  `json:"manifest"`
+	Files     Manifest  `json:"files"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
@@ -72,7 +77,7 @@ func Generate() error {
 	}
 
 	// write manifest file
-	mf := manifestFile{Manifest: manifest, UpdatedAt: time.Now()}
+	mf := manifestFile{Files: manifest, UpdatedAt: time.Now().UTC()}
 	f, err := os.Create("dist/manifest.json")
 	if err != nil {
 		return fmt.Errorf("error writing manifest file: %v", err)
