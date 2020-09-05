@@ -1,4 +1,4 @@
-FROM golang:1.13-alpine
+FROM golang:1.15-alpine
 
 LABEL "com.github.actions.name"="Publish"
 LABEL "com.github.actions.description"="Build this project so others can use it in actions"
