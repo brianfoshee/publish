@@ -15,11 +15,22 @@ import (
 	"github.com/teris-io/shortid"
 )
 
+type Gallery struct {
+	Title string
+	Date  string
+}
+
+func (g *Gallery) parseYAML(b []byte) error {
+	return yaml.Unmarshal(b, g)
+}
+
 type Photo struct {
-	Slug        string    `json:"id"`
-	Title       string    `json:"title"`
-	Description string    `json:"description" yaml:"-"`
-	CreatedAt   time.Time `json:"created-at" yaml:"date"`
+	Title       string
+	Album       string
+	URL         string
+	Description string    `yaml:"-"`
+	CreatedAt   time.Time `yaml:"date"`
+	// TODO add camera/lens/settings details
 }
 
 func (p *Photo) parseYAML(b []byte) error {
@@ -32,15 +43,43 @@ func (p *Photo) parseMarkdown(b []byte) error {
 	return nil
 }
 
-func Prepare(galleryPath string) error {
+// gallery file goes in hugoPath/content/px/GALLERY.md
+// img md files go in hugoPath/content/img/GALLERY/IMG.md
+// img files go in hugoPath/imgur/GALLERY/IMG.jpg
+func Prepare(galleryPath string, hugoPath string) error {
 	// gallery name is taken from last element of path when separated by "/"
 	gallery := strings.Replace(galleryPath, filepath.Dir(galleryPath)+"/", "", 1)
 
-	galleryMD := filepath.Dir(galleryPath) + "/" + gallery + ".md"
+	galleryMD := hugoPath + "/content/px/" + gallery + ".md"
+	// create gallery file if it doesn't exist
 	if !fileExists(galleryMD) {
-		// TODO: check if gallery.md file exists. If not, create it.
+		f, err := os.Create(galleryMD)
+		if err != nil {
+			return fmt.Errorf("error creating galleryMD file %s: %v", galleryMD, err)
+		}
+		defer f.Close()
+
+		g := Gallery{
+			Title: gallery,
+			Date:  time.Now().Format("2006-01-02"),
+		}
+
+		f.Write([]byte("---"))
+		f.Write([]byte("\n"))
+
+		if err := yaml.NewEncoder(f).Encode(g); err != nil {
+			return err
+		}
+
+		f.Write([]byte("---"))
+		f.Write([]byte("\n"))
 	}
 
+	// check to see if hugoPath/content/img/GALLERY exists. if not, create it
+	createDir(hugoPath + "/content/img/" + gallery)
+
+	// img md files go in hugoPath/content/img/GALLERY/IMG.md
+	// img files go in hugoPath/imgur/GALLERY/IMG.jpg
 	err := filepath.Walk(galleryPath,
 		func(path string, info os.FileInfo, err error) error {
 			if err != nil {
@@ -54,16 +93,17 @@ func Prepare(galleryPath string) error {
 
 			// only work on jpg files
 			ext := filepath.Ext(path)
-			if strings.ToLower(ext) != ".jpg" {
+			if strings.ToLower(ext) != ".jpeg" {
 				return nil
 			}
 
 			// some base variables.
-			dir, fileName := filepath.Split(path)
+			_, fileName := filepath.Split(path)
 			imgName := strings.Split(fileName, ".")[0]
+			mdOutDir := hugoPath + "/content/img/" + gallery + "/"
 
 			// no need to process if a md file exists for this jpg file
-			mdName := dir + imgName + ".md"
+			mdName := mdOutDir + imgName + ".md"
 			if fileExists(mdName) {
 				return nil
 			}
@@ -76,7 +116,8 @@ func Prepare(galleryPath string) error {
 
 			// rename path. new filename will have sid instead of original name
 			nfName := strings.Replace(path, imgName, sid, 1)
-			nfName = strings.Replace(nfName, ext, strings.ToLower(ext), 1)
+			// output should be jpg
+			nfName = strings.Replace(nfName, ext, ".jpg", 1)
 			if err := os.Rename(path, nfName); err != nil {
 				return err
 			}
@@ -101,11 +142,12 @@ func Prepare(galleryPath string) error {
 
 			// Create sid.md file with some default contents
 			p := &Photo{
-				CreatedAt: tm,
-				Slug:      sid,
+				CreatedAt: tm.UTC(),
+				URL:       "/img/" + sid,
+				Album:     gallery,
 			}
 
-			fname := filepath.Dir(path) + "/" + p.Slug + ".md"
+			fname := mdOutDir + sid + ".md"
 			f, err := os.Create(fname)
 			if err != nil {
 				return err
@@ -173,4 +215,10 @@ func fileExists(name string) bool {
 		return true
 	}
 	return false
+}
+
+func createDir(dir string) {
+	if _, err := os.Stat(dir); os.IsNotExist(err) {
+		os.Mkdir(dir, os.ModeDir|os.ModePerm)
+	}
 }
