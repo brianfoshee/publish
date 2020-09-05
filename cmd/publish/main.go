@@ -223,6 +223,11 @@ func publishToCloudflare() error {
 			}
 			defer f.Close()
 
+			// need to read to this sha hasher too
+			h := sha1.New()
+			// create a new reader based on the file object
+			r := io.TeeReader(f, h)
+
 			var b []byte
 			var b64 bool
 			var contentType string
@@ -230,7 +235,7 @@ func publishToCloudflare() error {
 			if strings.HasSuffix(info.Name(), ".png") || strings.HasSuffix(info.Name(), ".ico") {
 				// need to read to both buffers to determine content type
 				var ctbuf bytes.Buffer
-				r := io.TeeReader(f, &ctbuf)
+				r = io.TeeReader(f, &ctbuf)
 
 				var buf bytes.Buffer
 				encoder := base64.NewEncoder(base64.StdEncoding, &buf)
@@ -243,7 +248,7 @@ func publishToCloudflare() error {
 				b = buf.Bytes()
 				b64 = true
 			} else {
-				by, err := ioutil.ReadAll(f)
+				by, err := ioutil.ReadAll(r)
 				if err != nil {
 					return err
 				}
@@ -256,10 +261,6 @@ func publishToCloudflare() error {
 				}
 			}
 
-			h := sha1.New()
-			if _, err := io.Copy(h, f); err != nil {
-				return fmt.Errorf("could not copy from file to hash: %v", err)
-			}
 			sum := h.Sum(nil)
 			sha := fmt.Sprintf("%x", sum) // convert to string
 
