@@ -27,14 +27,19 @@ import (
 
 func main() {
 	preparePics := flag.String("prepare-pics", "", "Path to a gallery of photos to prepare")
+	hugoPath := flag.String("hugo-path", "", "Path to hugo folder")
 	uploadB2 := flag.Bool("uploadb2", false, "Upload images in dist dir to B2.")
 	uploadCF := flag.Bool("uploadcf", false, "Upload json files in dist dir to Cloudflare.")
 	generateManifest := flag.Bool("manifest", false, "Generate a manifest.json file")
 	flag.Parse()
 
 	if *preparePics != "" {
+		if *hugoPath == "" {
+			log.Println("Preparing imgur requires --hugo-path")
+			os.Exit(1)
+		}
 		log.Println("Preparing imgur")
-		if err := imgur.Prepare(*preparePics); err != nil {
+		if err := imgur.Prepare(*preparePics, *hugoPath); err != nil {
 			log.Fatalf("error preparing path %s: %q", *preparePics, err)
 		}
 		return
@@ -236,6 +241,7 @@ func publishToCloudflare() error {
 				// need to read to both buffers to determine content type
 				var ctbuf bytes.Buffer
 				r = io.TeeReader(f, &ctbuf)
+				// TODO somewhere here the sha is getting messed up
 
 				var buf bytes.Buffer
 				encoder := base64.NewEncoder(base64.StdEncoding, &buf)
