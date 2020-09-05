@@ -24,11 +24,6 @@ type manifestFile struct {
 }
 
 func Generate() error {
-	prefix := os.Getenv("KV_PREFIX")
-	if prefix == "" {
-		prefix = "www/v1"
-	}
-
 	manifest := Manifest{}
 
 	if err := filepath.Walk("dist/", func(path string, info os.FileInfo, err error) error {
@@ -42,16 +37,7 @@ func Generate() error {
 		// get rid of everything before dist/ in path
 		parts := strings.Split(path, "dist/")
 
-		var dst string
-		if strings.HasSuffix(info.Name(), ".json") {
-			// destination should not have .json extension
-			cleanPath := strings.TrimSuffix(parts[1], ".json")
-			dst = fmt.Sprintf("%s/%s", prefix, cleanPath)
-		} else if !strings.HasSuffix(info.Name(), ".jpg") {
-			// handle everything other than images. feeds, js, html etc
-			dst = fmt.Sprintf("%s/%s", prefix, parts[1])
-		}
-
+		dst := parts[1]
 		if dst != "" {
 			f, err := os.Open(path)
 			if err != nil {
